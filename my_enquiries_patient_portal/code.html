@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#f8feff",
+                    "tertiary-container": "#008091",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#9eefff",
+                    "tertiary-fixed-dim": "#55d7ed",
+                    "on-secondary-fixed": "#0e2000",
+                    "on-primary-fixed": "#001c39",
+                    "inverse-on-surface": "#eff1f2",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-container-low": "#f2f4f5",
+                    "outline": "#717783",
+                    "surface-tint": "#0060ac",
+                    "secondary": "#3c6a00",
+                    "on-background": "#191c1d",
+                    "surface-container-high": "#e6e8e9",
+                    "secondary-fixed": "#b8f47a",
+                    "primary-fixed-dim": "#a4c9ff",
+                    "on-secondary-container": "#407100",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#006673",
+                    "primary": "#005da7",
+                    "secondary-fixed-dim": "#9dd761",
+                    "outline-variant": "#c1c7d3",
+                    "on-primary": "#ffffff",
+                    "background": "#f8fafb",
+                    "surface-bright": "#f8fafb",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d8dadb",
+                    "surface-container": "#eceeef",
+                    "on-tertiary-fixed-variant": "#004e59",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#a4c9ff",
+                    "primary-fixed": "#d4e3ff",
+                    "on-surface": "#191c1d",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#2c5000",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#414751",
+                    "on-tertiary-fixed": "#001f24",
+                    "inverse-surface": "#2e3132",
+                    "secondary-container": "#b8f47a",
+                    "surface": "#f8fafb",
+                    "primary-container": "#2976c7",
+                    "surface-variant": "#e1e3e4",
+                    "on-primary-fixed-variant": "#004883",
+                    "on-primary-container": "#fdfcff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafb; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-header { backdrop-filter: blur(12px); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar (Authority: Shared Components JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-950 flex flex-col h-full p-4 space-y-2 border-r border-slate-200 dark:border-slate-800 transition-all duration-300 ease-in-out z-40 hidden md:flex">
+<div class="mb-8 px-2">
+<h1 class="text-lg font-black text-blue-900 dark:text-blue-200">Clinical Sanctuary</h1>
+<p class="text-xs text-slate-500 font-medium tracking-wide uppercase">Patient Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">calendar_add_on</span>
+<span class="text-sm font-medium">Book a Consultation</span>
+</a>
+<!-- ACTIVE STATE: My Enquiries -->
+<a class="flex items-center gap-3 px-3 py-2 text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 rounded-lg shadow-sm transition-all duration-300" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="text-sm font-medium">My Enquiries</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">clinical_notes</span>
+<span class="text-sm font-medium">Second Opinion</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">folder_managed</span>
+<span class="text-sm font-medium">Medical Records</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-sm font-medium">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:ml-64 min-h-screen bg-surface">
+<!-- TopAppBar (Authority: Shared Components JSON) -->
+<header class="fixed top-0 right-0 left-0 md:left-64 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 py-3 border-b border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-1.5 rounded-full ring-1 ring-outline-variant/20">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
+<input class="bg-transparent border-none text-sm focus:ring-0 placeholder:text-on-surface-variant/60 w-64" placeholder="Search inquiries..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3 pl-2 border-l border-slate-100">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-blue-800">Alexander Thorne</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Premium Patient</p>
+</div>
+<img alt="Patient Profile" class="w-8 h-8 rounded-full bg-primary-container object-cover" data-alt="professional portrait of a middle-aged man with short dark hair and a kind expression in a bright clinical setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjwnhurMkHQLbHiRXskpjWi_11rvTaHrkZi586jeflDg8armj2Bd_h0JQICf07h9zZsKisKS9oWqI92xs2crARd4w2YasXYJ5mXDJJ0TgA9GrbJTSwgdYRnIKvTSieY8CqYv9BPMg6ccXTNoSDl2RVJXkxOFsb6Cqb6K2tco4Ack73jtgvbBuDr3W6dtxT-WMGrUGKQkby6qv3_UnYH1XeC1bf3uRSg0BQ-mGXO0HPbutgPYaqHHz5-BXnHrLEuor8HQ8wdrfgkd0"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<section class="pt-24 pb-12 px-6 md:px-10 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="mb-10">
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">My Enquiries</h2>
+<p class="text-on-surface-variant max-w-2xl">Track and manage your medical consultations, quotes, and hospital coordination requests from our clinical network.</p>
+</div>
+<!-- Bento Grid Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="col-span-1 md:col-span-2 bg-primary text-on-primary p-6 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-sm font-medium opacity-80 mb-1">Active Coordination</p>
+<h3 class="text-3xl font-bold">2 Enquiries</h3>
+<p class="text-xs mt-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                            Average response time: 4 hours
+                        </p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-9xl">clinical_notes</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="text-2xl font-bold text-on-surface">12</span>
+</div>
+<p class="text-sm font-semibold text-on-surface-variant">Closed Cases</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-tertiary">request_quote</span>
+<span class="text-2xl font-bold text-on-surface">1</span>
+</div>
+<p class="text-sm font-semibold text-on-surface-variant">Pending Quotes</p>
+</div>
+</div>
+<!-- Enquiry Filters -->
+<div class="flex items-center gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-5 py-2 bg-secondary text-on-secondary rounded-full text-sm font-medium">All Enquiries</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full text-sm font-medium">In Progress</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full text-sm font-medium">Awaiting Quote</button>
+<button class="px-5 py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full text-sm font-medium">Completed</button>
+</div>
+<!-- Enquiries List (Asymmetric High-End Cards) -->
+<div class="space-y-4">
+<!-- Inquiry 1: Active -->
+<div class="bg-surface-container-lowest rounded-xl p-1 shadow-sm transition-all hover:shadow-md border border-outline-variant/5">
+<div class="flex flex-col lg:flex-row lg:items-center">
+<div class="p-6 lg:w-1/4 bg-surface-container-low rounded-lg lg:rounded-r-none flex flex-col justify-between">
+<div>
+<p class="text-[10px] font-bold text-primary tracking-widest uppercase mb-1">ID: ENQ-2024-8891</p>
+<h4 class="text-lg font-bold text-on-surface leading-tight">Cardiac Consultation Review</h4>
+</div>
+<p class="text-xs text-on-surface-variant mt-4">Submitted: Oct 24, 2023</p>
+</div>
+<div class="p-6 flex-1 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="bg-secondary/10 p-2.5 rounded-lg">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-tighter">Status</p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="text-sm font-bold text-secondary">Awaiting Hospital Response</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Case Manager" class="w-10 h-10 rounded-full object-cover grayscale" data-alt="close up headshot of a female medical coordinator wearing a stethoscope and professional blue scrubs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxoMX30JlL2IDZL1mfv8H0rRLMMStifeJyiYaqCcJKEEvkT_vEHKXyzmH7ioL0HEW66ulU1ss3g6kHklpLn6fvpfUbV3DIR5ILIFA-i_CJ0B5IqHGvN6ArviArLVZeMXH-sxVXGd1umY7hM6sh0KQgbXWNwLCXOFsAIztOrbUN8KAxZVmrePFPdO8SAFx2WE5QzfBOdlCqEo2exiwTcsky_NniUGGd7R7O3CEJK537HZSnkBdioX6VOzppzeDEiCMM-WP4EAP7knE"/>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-tighter">Case Manager</p>
+<p class="text-sm font-bold text-on-surface">Sarah Mitchell</p>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full text-sm font-bold transition-all hover:bg-primary-container active:scale-95">View Timeline</button>
+</div>
+</div>
+</div>
+<!-- Inquiry 2: Quote Received -->
+<div class="bg-surface-container-lowest rounded-xl p-1 shadow-sm transition-all hover:shadow-md border border-outline-variant/5">
+<div class="flex flex-col lg:flex-row lg:items-center">
+<div class="p-6 lg:w-1/4 bg-surface-container-low rounded-lg lg:rounded-r-none flex flex-col justify-between">
+<div>
+<p class="text-[10px] font-bold text-primary tracking-widest uppercase mb-1">ID: ENQ-2024-7742</p>
+<h4 class="text-lg font-bold text-on-surface leading-tight">Orthopedic Surgery Inquiry</h4>
+</div>
+<p class="text-xs text-on-surface-variant mt-4">Submitted: Oct 18, 2023</p>
+</div>
+<div class="p-6 flex-1 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="bg-tertiary/10 p-2.5 rounded-lg">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-tighter">Status</p>
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold text-tertiary">Quote Received</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Case Manager" class="w-10 h-10 rounded-full object-cover grayscale" data-alt="professional headshot of a male case manager in a white coat with a friendly smile, studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZBQ3vwfHFbFszRXP-sn-fbkArI3clOGFlSaaaQDopQSdLP590lEH-bF31lGtpdHNKUf0Bd94uJsD8AKeEJtOKfvMUli1Dhi_yQe6N5yuIBGMQw5eUbP4hIWyB8ZwxWSLSOKg1vfXyUH5Pfyx0uSP9lL1BZWmOngpLtUPyE2Yt86x_AM48A-FTeGdgIbx3jUEp-y7Yo2cK8ftV1V3ukFlZE1jE8cHuV_v0OHm3ra6rpEtavIPY4POUUcNBaIVxSHu3b6ziX0NPUkA"/>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-tighter">Case Manager</p>
+<p class="text-sm font-bold text-on-surface">John Davies</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="bg-tertiary text-on-tertiary px-6 py-2.5 rounded-full text-sm font-bold transition-all active:scale-95">Review Quote</button>
+<button class="p-2.5 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Inquiry 3: Closed -->
+<div class="bg-surface-container-lowest/60 rounded-xl p-1 border border-outline-variant/10 opacity-75">
+<div class="flex flex-col lg:flex-row lg:items-center">
+<div class="p-6 lg:w-1/4 bg-surface-container-low/40 rounded-lg lg:rounded-r-none flex flex-col justify-between">
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase mb-1">ID: ENQ-2023-1029</p>
+<h4 class="text-lg font-bold text-on-surface leading-tight">Dermatology Assessment</h4>
+</div>
+<p class="text-xs text-on-surface-variant mt-4">Completed: Sep 12, 2023</p>
+</div>
+<div class="p-6 flex-1 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="bg-on-surface-variant/10 p-2.5 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant">archive</span>
+</div>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-tighter">Status</p>
+<span class="text-sm font-bold text-on-surface-variant">Closed</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Case Manager" class="w-10 h-10 rounded-full object-cover grayscale opacity-50" data-alt="smiling female medical staff member profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkotWCwSO98ZIwR84FoS8j7Bfu0oCC7TsEZ5SPz2oFYfthgGVpXep8nz2URlMVrSzAPISGOwc0gF7bC5jK6f65kGx4hyx6q2sa8YLhIP4-r1xyIgddVVoOzfMOZhBsim2xns9VXCQCo9hXljR5s5qqjOSYP_vlkltYoDjbHPQDsl50j7Vo5E69HWATlQbr2DSHp1rP9imrAu31XSrAr5evUYjrt40yNWhcIGNZ0IVtcbL3qK-4YN3DJyX-NwMKE1yloi5vVJqO64w"/>
+<div>
+<p class="text-[11px] font-medium text-on-surface-variant uppercase tracking-tighter">Case Manager</p>
+<p class="text-sm font-bold text-on-surface">Sarah Mitchell</p>
+</div>
+</div>
+<button class="bg-surface-container-high text-on-surface px-6 py-2.5 rounded-full text-sm font-bold transition-all active:scale-95">View Archive</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Suggestion / Helpful Hint -->
+<div class="mt-12 p-8 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center gap-8">
+<div class="p-4 bg-white rounded-2xl shadow-sm rotate-3">
+<span class="material-symbols-outlined text-4xl text-primary">psychology_alt</span>
+</div>
+<div>
+<h5 class="text-lg font-bold text-on-surface">Looking for something else?</h5>
+<p class="text-on-surface-variant text-sm mt-1 max-w-xl">If you need to start a new enquiry or request a second opinion from our international network of medical specialists, please use the button in the dashboard or contact your dedicated advisor.</p>
+</div>
+<button class="ml-auto bg-white text-primary border border-primary/20 px-6 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow transition-all whitespace-nowrap">Contact Support</button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-100 px-6 py-3 flex justify-between items-center z-50">
+<button class="flex flex-col items-center text-slate-500">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center text-blue-700">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="text-[10px] mt-1 font-bold">Enquiries</span>
+</button>
+<button class="flex flex-col items-center text-slate-500">
+<span class="material-symbols-outlined">folder_managed</span>
+<span class="text-[10px] mt-1">Records</span>
+</button>
+<button class="flex flex-col items-center text-slate-500">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] mt-1">Profile</span>
+</button>
+</nav>
+</body></html>

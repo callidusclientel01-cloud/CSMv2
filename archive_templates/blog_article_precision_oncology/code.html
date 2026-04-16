@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=800, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8fafb",
+                        "error": "#ba1a1a",
+                        "primary": "#005da7",
+                        "on-secondary-fixed-variant": "#2c5000",
+                        "on-primary-container": "#fdfcff",
+                        "inverse-surface": "#2e3132",
+                        "surface-bright": "#f8fafb",
+                        "secondary-fixed-dim": "#9dd761",
+                        "inverse-on-surface": "#eff1f2",
+                        "surface-container-low": "#f2f4f5",
+                        "surface-container-high": "#e6e8e9",
+                        "on-secondary-fixed": "#0e2000",
+                        "secondary": "#3c6a00",
+                        "primary-fixed-dim": "#a4c9ff",
+                        "tertiary": "#006673",
+                        "on-surface": "#191c1d",
+                        "background": "#f8fafb",
+                        "tertiary-fixed": "#9eefff",
+                        "tertiary-container": "#008091",
+                        "on-tertiary-fixed-variant": "#004e59",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#a4c9ff",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-container": "#407100",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c1c7d3",
+                        "on-primary-fixed-variant": "#004883",
+                        "on-error": "#ffffff",
+                        "on-background": "#191c1d",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-tint": "#0060ac",
+                        "on-tertiary-fixed": "#001f24",
+                        "primary-container": "#2976c7",
+                        "surface-dim": "#d8dadb",
+                        "primary-fixed": "#d4e3ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eceeef",
+                        "outline": "#717783",
+                        "on-surface-variant": "#414751",
+                        "secondary-fixed": "#b8f47a",
+                        "on-primary-fixed": "#001c39",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#55d7ed",
+                        "on-tertiary-container": "#f8feff",
+                        "secondary-container": "#b8f47a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafb; color: #191c1d; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+        .article-content p { margin-bottom: 1.5rem; line-height: 1.75; color: #414751; font-size: 1.125rem; }
+        .article-content h2 { font-size: 1.875rem; font-weight: 700; color: #005da7; margin-top: 2.5rem; margin-bottom: 1rem; letter-spacing: -0.02em; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl dark:bg-slate-900/80 shadow-sm shadow-blue-900/5 transition-colors duration-200">
+<div class="flex justify-between items-center px-6 py-4 max-w-screen-2xl mx-auto font-['Inter'] antialiased tracking-tight">
+<div class="flex items-center gap-4">
+<a class="active:scale-95 transform transition-transform flex items-center gap-2 text-slate-500 hover:text-blue-600" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+<span class="font-medium">Back to Blog</span>
+</a>
+<span class="h-6 w-px bg-slate-200"></span>
+<div class="text-xl font-bold tracking-tighter text-blue-900 dark:text-blue-100">The Clinical Sanctuary</div>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-blue-700 dark:text-blue-400 border-b-2 border-blue-700 dark:border-blue-400 pb-1 font-medium" href="#">Blog</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full text-slate-500 hover:bg-slate-50/50 active:scale-95 transform transition-transform">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="p-2 rounded-full text-slate-500 hover:bg-slate-50/50 active:scale-95 transform transition-transform">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 ml-2">
+<img alt="Medical Professional Profile" data-alt="professional headshot of a female doctor in a white coat with a stethoscope around her neck smiling warmly against a clinical background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2UfEKRQBVdl_Ih1a2TKPL2x-lvrlwdHJ1hOR2QI8aE9jzqcwixKrxDv0Oh30kI9FqKN60pwtWT7EBmYo9IBTMRS1ZjJJPwUJbwRA1SDS5ynx06o5BO_bok0X5yKk18KugmP-xPyJEzUtIBNDpeMJpV-HQnEVnCfmwc91Op_ka_qzjEkIliYgYA1qLp02AHERCPNMcHRi3cPLoRy7KRWScKwkeUak5lJwUKXxtvVxmwTI-qSt_yi-ylDeH0EpnTTt0x-eGCENicWg"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-20">
+<!-- Article Header -->
+<div class="max-w-screen-xl mx-auto px-6">
+<div class="relative rounded-2xl overflow-hidden mb-12 h-[500px] group">
+<img alt="African Medical Professional" class="w-full h-full object-cover" data-alt="confident African female doctor in surgical scrubs looking thoughtfully at a medical display in a bright modern oncology lab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsgKpx0a2NF1HpqzomkBIiAiTrHKr1w7xsczYhBWoAjpMjeAYq1pSLRk0rc8WQlH0PRculW3L0cpLPUNVM-OMg2qP6MzBjef62SCQKXAAWq73Ku7mt-kDVibyUlLzhBeJ2lyMZ4ea34oYD5FOaGE_e3P_D3bBx1oeT1NUOlwE1aaj6RBD8Ar-BMrTsL61X6Slrd09Kn8ADqIblA5m4jtzUTC-Cm4msOfvtQ11iu0DzotpWaCFJu77tHU8nGPq_rhksSHvzePvb_hA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-10 text-white">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-sm font-bold tracking-wide mb-4">Treatment Breakthroughs</span>
+<h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-6 max-w-4xl">Navigating Precision Oncology: New Hope for Patients in Nairobi and Beyond</h1>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed">person</span>
+<span class="font-medium text-lg">Dr. Amara Okoro</span>
+</div>
+<span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed">calendar_today</span>
+<span class="font-medium text-lg">October 24, 2023</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Content Layout with Sticky Sidebar -->
+<div class="max-w-screen-xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left: Social Sharing (Sticky) -->
+<aside class="lg:col-span-1">
+<div class="sticky top-32 flex flex-col items-center gap-6">
+<span class="text-[10px] uppercase tracking-widest font-bold text-outline">Share</span>
+<button class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined">chat</span>
+</button>
+<button class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined">work</span>
+</button>
+<button class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined">public</span>
+</button>
+<button class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined">alternate_email</span>
+</button>
+</div>
+</aside>
+<!-- Middle: Article Body -->
+<article class="lg:col-span-8 article-content">
+<p class="text-xl font-medium text-primary mb-8 leading-relaxed">The landscape of cancer treatment in East Africa is undergoing a profound transformation. As we move away from 'one-size-fits-all' therapies, precision oncology is emerging as a beacon of hope for patients in Nairobi, providing tailored treatments based on genetic profiles.</p>
+<p>For decades, oncology focused on the location of the tumor—breast, lung, or colon. Today, we look at the molecular signature of the cancer itself. At CureSureMedico, we are seeing how precision medicine bridges the gap between global innovations and local patient care, ensuring that every individual receives the most effective therapy with the fewest side effects.</p>
+<div class="my-12 p-8 bg-surface-container-low rounded-xl border-l-4 border-secondary relative">
+<span class="material-symbols-outlined absolute top-4 left-4 text-secondary/20 text-5xl" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<blockquote class="text-2xl italic font-medium text-on-surface leading-snug relative z-10 pl-6">
+                        "Precision medicine is not just about the science; it's about giving a father his strength back to play with his children, and a teacher the clarity to return to her classroom."
+                    </blockquote>
+<p class="mt-4 text-secondary font-bold text-right">— Dr. Amara Okoro, Lead Oncologist</p>
+</div>
+<h2>Breakthroughs in Genetic Mapping</h2>
+<p>Recent partnerships with labs in Europe and the US have enabled us to perform advanced genomic sequencing right here in Nairobi. This process involves analyzing the DNA of a patient’s tumor to identify specific mutations that are driving the cancer’s growth.</p>
+<div class="grid grid-cols-2 gap-4 my-10">
+<div class="rounded-xl overflow-hidden h-64">
+<img alt="Laboratory Research" class="w-full h-full object-cover" data-alt="close-up of a scientist in blue gloves using a precision pipette in a clean high-tech medical laboratory setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTj5UO77sVknla96B9LJ-OorRzG9UmHunAuOOdhVh6VKGtnr36NYz8v_Ggg0tdcLrvq9BXBIyIb4EDoi2g15EfA_6z4VU23uQk_zbsDY7_4s_s-IMrvorhGJW0sfQLD_V3HsXXywdYefVPVIskhOibC3D7gFZSnaYDm8uqZJeuLxGYr7n_efnKfw7py_MjLrdBDTReuJ_rGDUsielG1NfJpWKGrse68qc2ASqjfIGIdyTCPPFiB58ojdvyTNuEaZwFmIXgbsSxYGE"/>
+</div>
+<div class="rounded-xl overflow-hidden h-64">
+<img alt="Medical Technology" class="w-full h-full object-cover" data-alt="abstract view of blue genetic code data streaming on a dark digital screen symbolizing precision medicine technology" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIJ8YPbS_hzSkKNR5f_is4jklWW6O_9syKMMLd0K9tW6eNhGUWJQcyQth7pD6JRkWmkyHQYBC_Pkr-a8Ps--1GF54LdSWFPh62wHKzFADAewYpL7FAdE2Yqz94nfnSaB028UWk-S2JJgcbksE7WsMF0ERNtyNB3W2bMQu_gU3njuytxQ6T396e2_HWs2Zv_NoiHOMkVemA8mN0WPsjmsm_6tFfzC4z3vzZm2Uyjlo5BAf3yBodNJwPgkeoL3nEf_lIyHvr2-T9RA0"/>
+</div>
+</div>
+<p>Once identified, we can often match these mutations with "targeted therapies"—drugs specifically designed to attack those vulnerabilities. This approach has drastically improved survival rates for late-stage patients who previously had limited options.</p>
+<h2>A Nairobi Success Story</h2>
+<p>Take the case of Samuel, a 54-year-old architect who was diagnosed with advanced lung cancer last year. Standard chemotherapy was proving taxing with little progress. Through genomic testing, we discovered a rare ALK mutation. By switching to a targeted tablet therapy, Samuel's tumors shrank by 60% in three months, and he remains active in his firm today.</p>
+<!-- Comments Section -->
+<section class="mt-20 pt-12 border-t border-outline-variant">
+<h3 class="text-3xl font-bold tracking-tight text-primary mb-8">Join the Conversation</h3>
+<div class="space-y-8 mb-12">
+<div class="flex gap-4 p-6 bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center flex-shrink-0">
+<span class="text-on-primary-fixed font-bold">MK</span>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<span class="font-bold">Musa Kamau</span>
+<span class="text-xs text-outline">2 days ago</span>
+</div>
+<p class="text-on-surface-variant">Incredible to see this level of technology available in Kenya. How can one find out if their specific case is eligible for this type of mapping?</p>
+<button class="mt-2 text-primary text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">reply</span> Reply
+                                </button>
+</div>
+</div>
+</div>
+<form class="bg-surface-container-low p-8 rounded-2xl">
+<div class="grid md:grid-cols-2 gap-6 mb-6">
+<div>
+<label class="block text-sm font-bold text-on-surface-variant mb-2">Name</label>
+<input class="w-full bg-white border-none rounded-lg focus:ring-2 focus:ring-primary/40 py-3 px-4 shadow-sm" placeholder="Your Name" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-bold text-on-surface-variant mb-2">Email</label>
+<input class="w-full bg-white border-none rounded-lg focus:ring-2 focus:ring-primary/40 py-3 px-4 shadow-sm" placeholder="your@email.com" type="email"/>
+</div>
+</div>
+<div class="mb-6">
+<label class="block text-sm font-bold text-on-surface-variant mb-2">Comment</label>
+<textarea class="w-full bg-white border-none rounded-lg focus:ring-2 focus:ring-primary/40 py-3 px-4 shadow-sm" placeholder="Share your thoughts..." rows="4"></textarea>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:bg-primary-container transition-colors shadow-lg shadow-primary/20">Post Comment</button>
+</form>
+</section>
+</article>
+<!-- Right: Related Articles -->
+<aside class="lg:col-span-3">
+<div class="sticky top-32">
+<h4 class="text-sm uppercase tracking-widest font-bold text-primary mb-6">Further Reading</h4>
+<div class="space-y-6">
+<a class="group block" href="#">
+<div class="rounded-xl overflow-hidden mb-3 h-32">
+<img alt="Preventative Health" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="modern medical clinic interior with soft natural light and clean white surfaces and blue accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJfZAKm05nX_liN1OJtWvL5X3vhEOJEX65QJ4vXrrdyZ597u03wkF2TMQmd2WytYxRARMwfjPK_SAfFK5RCjTceCse2ZuT6bUtSm55VWeub0yFYiSOyIlXkoGSL3_Y0w5ke6hsnDXSBPCbSdKNUcM25MIoBszlNmRh57GsVQ7t4Nd1j8kfCGcyZ6s_T-Bn0Cic282Jklr2GL7iyWrzBC9tct47yHgy2FyOnpPUzqS4OYNXKSCZQauX6OTtijqsZV_UFK_C9kx6u0I"/>
+</div>
+<h5 class="font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2">5 Ways to Support Immunity During Treatment</h5>
+<span class="text-xs text-outline mt-2 block">Nov 12, 2023 • 4 min read</span>
+</a>
+<a class="group block" href="#">
+<div class="rounded-xl overflow-hidden mb-3 h-32">
+<img alt="Hospital Technology" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="clean medical imaging device with blue light indicators in a high-end hospital room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtJ6Z_h58BA4mnSu-fkqN2DaeMzAnKrkSJnIAv6ccA7DmNbvoUrJl8_PbBK-d7tM_3x7DP_WJoFqENMPcDQlc-QOIy1jTULEHb0PXz8N4I1Y1pHS-tCd0x6mihKc3aMQ-t6KURZZpJvISHjOaiu3JEnnyuUhh7AKPzOgmB3V58WynU0X76XVjaQ3JC8Ta0PqlWA5wnYlfed5t_3QmUZKkj_Pw4ncgu0Zimm5qQSuaSMXAJUMJUPddb-1PTZNGOCuXMh0j259obeis"/>
+</div>
+<h5 class="font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2">New Imaging Center Opens in Westlands</h5>
+<span class="text-xs text-outline mt-2 block">Oct 30, 2023 • 3 min read</span>
+</a>
+</div>
+<div class="mt-12 p-6 bg-tertiary-container text-on-tertiary-container rounded-2xl">
+<h5 class="font-bold mb-2">Need a consultation?</h5>
+<p class="text-sm opacity-90 mb-4">Our oncology team is ready to discuss precision mapping for your journey.</p>
+<button class="w-full py-2 bg-white text-tertiary font-bold rounded-lg hover:bg-surface-container-low transition-colors">Book Now</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>
