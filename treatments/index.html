@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Treatments &amp; Global Care | GlobalMed Africa</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#b8f47a",
+                    "inverse-surface": "#2e3132",
+                    "surface-dim": "#d8dadb",
+                    "primary-fixed-dim": "#a4c9ff",
+                    "primary-container": "#2976c7",
+                    "on-primary-fixed-variant": "#004883",
+                    "on-tertiary-fixed-variant": "#004e59",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e6e8e9",
+                    "primary-fixed": "#d4e3ff",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#008091",
+                    "error": "#ba1a1a",
+                    "outline": "#717783",
+                    "on-primary-container": "#fdfcff",
+                    "surface-bright": "#f8fafb",
+                    "background": "#f8fafb",
+                    "surface-container": "#eceeef",
+                    "secondary": "#3c6a00",
+                    "on-secondary-container": "#407100",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e1e3e4",
+                    "outline-variant": "#c1c7d3",
+                    "on-surface": "#191c1d",
+                    "tertiary": "#006673",
+                    "surface-tint": "#0060ac",
+                    "on-tertiary-fixed": "#001f24",
+                    "tertiary-fixed": "#9eefff",
+                    "surface": "#f8fafb",
+                    "secondary-fixed": "#b8f47a",
+                    "inverse-on-surface": "#eff1f2",
+                    "on-primary-fixed": "#001c39",
+                    "on-secondary": "#ffffff",
+                    "primary": "#005da7",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#f8feff",
+                    "on-secondary-fixed-variant": "#2c5000",
+                    "on-surface-variant": "#414751",
+                    "surface-container-low": "#f2f4f5",
+                    "on-background": "#191c1d",
+                    "inverse-primary": "#a4c9ff",
+                    "surface-variant": "#e1e3e4",
+                    "on-secondary-fixed": "#0e2000",
+                    "secondary-fixed-dim": "#9dd761"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0, 93, 167, 0.9) 0%, rgba(41, 118, 199, 0.7) 100%);
+        }
+    </style>
+
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm">
+<!-- Top Utility Bar -->
+<div class="bg-primary px-8 border-b border-primary-container">
+    <div class="max-w-screen-2xl mx-auto h-10 flex justify-between items-center text-xs font-semibold text-white/90">
+        <div class="flex items-center gap-4">
+            <a href="#" class="hover:text-white flex items-center gap-1 transition-colors"><span class="material-symbols-outlined text-[14px]">login</span> Login</a>
+            <span class="text-white/30">|</span>
+            <a href="#" class="hover:text-white flex items-center gap-1 transition-colors"><span class="material-symbols-outlined text-[14px]">person_add</span> Create Account</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-secondary-fixed">language</span>
+                <select class="bg-transparent text-white border-none py-1 pr-6 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold">
+                    <option class="text-on-surface" value="en">English</option>
+                    <option class="text-on-surface" value="fr">Français</option>
+                </select>
+            </div>
+            <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-secondary-fixed">payments</span>
+                <select class="bg-transparent text-white border-none py-1 pr-6 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold">
+                    <option class="text-on-surface" value="usd">USD ($)</option>
+                    <option class="text-on-surface" value="eur">EUR (€)</option>
+                    <option class="text-on-surface" value="xof">FCFA (CFA)</option>
+                    <option class="text-on-surface" value="inr">INR (₹)</option>
+                    <option class="text-on-surface" value="cny">CNY (¥)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="flex justify-between items-center h-20 px-8 max-w-screen-2xl mx-auto">
+<a href="../index.html" class="flex items-center gap-2">
+    <img src="../logo.png" alt="CureSureMedico Logo" class="h-10 object-contain" />
+    <div class="text-2xl font-bold tracking-tighter text-blue-800 dark:text-blue-300"><span class="text-blue-800 dark:text-blue-400">Cure</span><span class="text-emerald-600 dark:text-emerald-400">Sure</span><span class="text-blue-800 dark:text-blue-400">Medico</span></div>
+</a>
+<div class="hidden md:flex items-center space-x-8"><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../index.html">Home</a><a class="text-blue-700 dark:text-blue-300 font-bold hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../treatments/index.html">Treatments</a><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../hospitals/index.html">Hospitals</a><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../destinations/index.html">Destinations</a><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../blog/index.html">Blog</a></div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container-highest rounded-full px-4 py-2">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm placeholder:text-on-surface-variant w-40" placeholder="Search insights..." type="text"/>
+</div>
+<button onclick="window.location.href='../quote/index.html'" class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 active:scale-95 transition-all">
+                    Get a Quote
+                </button>
+</div>
+</nav>
+</header>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+
+<main class="pt-36">
+<!-- Hero Section -->
+<section class="relative min-h-[870px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover object-center" data-alt="professional male African doctor in a white coat smiling warmly in a bright modern hospital corridor with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2Lay85eV3GaIWbr5Jt4hOcybqbHu0znPNDf3KkqWRWY9Ou8S6FoPpvBv1KwPdUp8Uq1bfFOQY8WkUkgnSiWy9y9kRyDXEjuKv1RpRCZWSFTIsY_Q_c6yp4wVI_KwEElGNW_cg85DgkVK827JaOVXJnU-t-DFTyT8ThooNTxADbhmrpyA7w4-A1eYgUqH0VtG55XssmYRBiyR2I8ASWu268xlL5bgEeXI6YQhx3MRQZWpZXnDgSLE1TDgSX-hzDrOSjOZRUt_uv-w"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<div class="relative z-10 max-w-screen-2xl mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="text-on-primary">
+<h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6 leading-[1.1]">
+                    World-Class Treatments at <span class="text-secondary-container">Transparent Prices</span>
+</h1>
+<p class="text-lg md:text-xl opacity-90 max-w-xl mb-8 leading-relaxed font-light">
+                    Access top-tier medical care across our global network of accredited hospitals. High-quality outcomes, curated for the African patient.
+                </p>
+<div class="flex flex-wrap gap-4">
+<div class="flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined mr-2">verified_user</span>
+<span class="text-sm font-medium">JCI Accredited</span>
+</div>
+<div class="flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined mr-2">payments</span>
+<span class="text-sm font-medium">Up to 70% Savings</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 md:p-10 rounded-xl shadow-2xl max-w-md ml-auto">
+<h3 class="text-2xl font-bold text-primary mb-2">Request a Consultation</h3>
+<p class="text-on-surface-variant text-sm mb-6">Get a personalized medical quote within 24 hours.</p>
+<form class="space-y-4">
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Full Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="John Doe" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Country</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm">
+<option>Nigeria</option>
+<option>Kenya</option>
+<option>South Africa</option>
+<option>Ghana</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Condition</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="e.g. Cardiology" type="text"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">WhatsApp Number</label>
+<div class="flex gap-2">
+<span class="bg-surface-container-high px-3 flex items-center rounded-lg text-sm font-medium">+234</span>
+<input class="flex-1 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="800 000 0000" type="tel"/>
+</div>
+</div>
+<button onclick="window.location.href='../quote/index.html'" class="w-full bg-primary text-on-primary py-4 rounded-full font-bold text-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 mt-4">
+                        Get Quote <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</form>
+</div>
+</div>
+</section>
+<!-- Global Search & Filter Bar -->
+<section class="bg-surface py-12 -mt-10 relative z-20 px-8">
+<div class="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-full shadow-lg border border-outline-variant/10 p-2 flex flex-col md:flex-row items-center gap-2">
+<div class="flex-1 flex items-center px-6 w-full border-r border-outline-variant/20">
+<span class="material-symbols-outlined text-primary mr-3">stethoscope</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium" placeholder="Search by Treatment (e.g. Hip Replacement)" type="text"/>
+</div>
+<div class="flex-1 flex items-center px-6 w-full">
+<span class="material-symbols-outlined text-tertiary mr-3">public</span>
+<select class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer">
+<option value="">Filter by Destination</option>
+<option>India</option>
+<option>UAE (Dubai)</option>
+<option>Turkey</option>
+<option>Thailand</option>
+<option>South Africa</option>
+</select>
+</div>
+<button class="bg-secondary text-on-secondary px-10 py-3.5 rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto">
+                Find Hospital
+            </button>
+</div>
+</section>
+<!-- Specialty Grid -->
+<section class="py-24 px-8 max-w-screen-2xl mx-auto">
+<div class="mb-16">
+<h2 class="text-4xl font-bold tracking-tighter text-on-surface mb-4">Medical Specialties</h2>
+<p class="text-on-surface-variant max-w-2xl text-lg">Specialized care paths designed for complex medical needs, delivered by globally recognized specialists.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Cardiology -->
+<div class="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300">
+<div class="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white" data-weight="fill">cardiology</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Cardiology</h3>
+<p class="opacity-80 mb-8 line-clamp-2">Heart valve replacement, Bypass surgery, and minimally invasive cardiac procedures.</p>
+<button class="flex items-center font-bold text-sm uppercase tracking-widest gap-2 group-hover:text-secondary-container">
+                    View Costs <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<!-- Orthopedics -->
+<div class="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300">
+<div class="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white" data-weight="fill">orthopedics</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Orthopedics</h3>
+<p class="opacity-80 mb-8 line-clamp-2">Precision robotic knee and hip replacements using the latest biocompatible materials.</p>
+<button class="flex items-center font-bold text-sm uppercase tracking-widest gap-2 group-hover:text-secondary-container">
+                    View Costs <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<!-- Oncology -->
+<div class="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300">
+<div class="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white" data-weight="fill">oncology</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Oncology</h3>
+<p class="opacity-80 mb-8 line-clamp-2">Comprehensive cancer care including CyberKnife, Proton therapy, and advanced immunotherapy.</p>
+<button class="flex items-center font-bold text-sm uppercase tracking-widest gap-2 group-hover:text-secondary-container">
+                    View Costs <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<!-- Fertility/IVF -->
+<div class="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300">
+<div class="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white" data-weight="fill">child_care</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Fertility/IVF</h3>
+<p class="opacity-80 mb-8 line-clamp-2">High-success rate IVF, ICSI, and egg donation programs in world-class clinics.</p>
+<button class="flex items-center font-bold text-sm uppercase tracking-widest gap-2 group-hover:text-secondary-container">
+                    View Costs <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<!-- Neurology -->
+<div class="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300">
+<div class="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white" data-weight="fill">neurology</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Neurology</h3>
+<p class="opacity-80 mb-8 line-clamp-2">Expert neurosurgery for brain and spine conditions using navigation-guided systems.</p>
+<button class="flex items-center font-bold text-sm uppercase tracking-widest gap-2 group-hover:text-secondary-container">
+                    View Costs <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<!-- Bariatric Surgery -->
+<div class="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300">
+<div class="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white" data-weight="fill">monitor_weight</span>
+</div>
+<h3 class="text-2xl font-bold mb-3">Bariatric Surgery</h3>
+<p class="opacity-80 mb-8 line-clamp-2">Advanced metabolic surgeries and gastric sleeve procedures for long-term health.</p>
+<button class="flex items-center font-bold text-sm uppercase tracking-widest gap-2 group-hover:text-secondary-container">
+                    View Costs <span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Promotional Medical Packages Section -->
+<section class="py-24 bg-surface-container-low/30 px-8">
+<div class="max-w-screen-2xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div>
+<h2 class="text-4xl font-bold tracking-tighter text-on-surface mb-4">Promotional Medical Packages</h2>
+<p class="text-on-surface-variant max-w-2xl text-lg">Carefully curated all-inclusive medical experiences with significant value for international patients.</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 hover:underline">
+                    View All Offers <span class="material-symbols-outlined">arrow_right_alt</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Package 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Senior African couple smiling together in a bright wellness clinic setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt-M-PbLDQArKrmT1S0nDrS-OCfB_pnSE3Y94_yvvtwXe2C5zWPrlzs7ifj6wniyO-QeETc79lfDIwi3qBrZVKmvbddznWVVwEncjMNIkQvLNH1dSWU6c_w91ICsI9ARvCtz12brJPPAdOoo_iQM8PMqsC4Hn0TdirOIpn5FnirbkJOsEJBwzwC7w6W7ICJffWxxKDbWwJv02aocAyYCJIX-6_sj19PxJEnPKWi4wfJnsTfAcvvrwP2LTrD4ILuo3Fve0WIeyzDKM"/>
+<div class="absolute top-4 right-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Most Popular</div>
+</div>
+<div class="p-8 flex-1 flex flex-col">
+<h3 class="text-2xl font-bold mb-3 text-on-surface">Full Executive Check-up</h3>
+<p class="text-on-surface-variant mb-8 line-clamp-3">Comprehensive 2-day screening including advanced cardiac imaging, metabolic profile, and cancer marker screening at a premium facility.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/10 pt-6">
+<div>
+<span class="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Starts from</span>
+<div class="text-2xl font-bold text-primary">$1,200</div>
+</div>
+<button class="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Package 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full border-2 border-primary/10">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern operating theater with blue lighting and high-tech heart monitoring screens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9GvupbFXOLPnff-BWCeW_OTFSuf2uOdLE7ro803jro7tDl_J3-F7Tgb6N2jr11gxntIZJu-2xLJAmhLy69kSp3MB5AYbBnQK0ZbU4uM668WgoyquazwmI30gMlNQp99ckEgInsg6js6a2X6WaLU_otEyaKoTwrmsC6zdVjJUf0HGaDuYmXjCTbJcxEanSTv7aJ87khZQXkb-CBmKTyboY8yX9wL6grlGuVfB7Tez4uiiFAaT45MPNqCmtKWDJYjb9KWA2nYXcOGA"/>
+<div class="absolute top-4 right-4 bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Exclusive Suite</div>
+</div>
+<div class="p-8 flex-1 flex flex-col">
+<h3 class="text-2xl font-bold mb-3 text-on-surface">Cardiac Excellence Suite</h3>
+<p class="text-on-surface-variant mb-8 line-clamp-3">All-inclusive cardiac intervention package including premium hospital stay, specialist fees, and dedicated recovery concierge.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/10 pt-6">
+<div>
+<span class="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Starts from</span>
+<div class="text-2xl font-bold text-primary">$8,500</div>
+</div>
+<button class="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Package 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Young African mother holding a baby in a sunlit clinic setting with warmth and joy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsx_x_IJNt7zANd24MQ22fGxxSI0SnjLd5Wl8K4HoDdjscIO2GZCEEMbyW0MbhDvP25y_xnPFq17Sgo-bGbedObDIxUeszS74EEwi-rXYqe0zPR1V5q9hBShlabQ2sucQxud2SAmFyzlMHo7VO3-pnj9l1Qgeb9UEnvkxjR-rDYeK1l_epxxiq_jWqGYq9iR5P5fHNQoiV7c2SAJElbbXJukpWlJ0Kbnke8pDJRqhJNToFo7AdWQHT6QpbHr48t1Hn0fQOHlaKneM"/>
+<div class="absolute top-4 right-4 bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Family Path</div>
+</div>
+<div class="p-8 flex-1 flex flex-col">
+<h3 class="text-2xl font-bold mb-3 text-on-surface">IVF Foundation Package</h3>
+<p class="text-on-surface-variant mb-8 line-clamp-3">One full cycle of IVF including medications, egg retrieval, and embryo transfer at a top fertility center in South Africa or India.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/10 pt-6">
+<div>
+<span class="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Starts from</span>
+<div class="text-2xl font-bold text-primary">$4,500</div>
+</div>
+<button class="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Comparative Pricing Table -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-screen-xl mx-auto px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold tracking-tighter text-on-surface mb-4">Estimated Treatment Costs</h2>
+<p class="text-on-surface-variant max-w-xl mx-auto">See how much you can save by choosing our partner hospitals in premium medical destinations.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-primary text-on-primary">
+<th class="py-6 px-8 font-bold">Procedure</th>
+<th class="py-6 px-8 font-bold">UK / USA Cost</th>
+<th class="py-6 px-8 font-bold">GlobalMed Avg.</th>
+<th class="py-6 px-8 font-bold text-secondary-container">Your Savings</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-6 px-8 font-semibold">Knee Replacement (Single)</td>
+<td class="py-6 px-8 text-on-surface-variant line-through">$35,000</td>
+<td class="py-6 px-8 font-bold text-primary">$6,500</td>
+<td class="py-6 px-8"><span class="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 81%</span></td>
+</tr>
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-6 px-8 font-semibold">Heart Bypass (CABG)</td>
+<td class="py-6 px-8 text-on-surface-variant line-through">$120,000</td>
+<td class="py-6 px-8 font-bold text-primary">$9,800</td>
+<td class="py-6 px-8"><span class="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 92%</span></td>
+</tr>
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-6 px-8 font-semibold">IVF Treatment Cycle</td>
+<td class="py-6 px-8 text-on-surface-variant line-through">$15,000</td>
+<td class="py-6 px-8 font-bold text-primary">$4,200</td>
+<td class="py-6 px-8"><span class="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 72%</span></td>
+</tr>
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-6 px-8 font-semibold">Spine Fusion (Single Level)</td>
+<td class="py-6 px-8 text-on-surface-variant line-through">$45,000</td>
+<td class="py-6 px-8 font-bold text-primary">$7,900</td>
+<td class="py-6 px-8"><span class="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 82%</span></td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-high/30 text-xs text-on-surface-variant text-center">
+                    *Prices are indicative and include hospital stay and surgery. Final quote depends on specific medical condition.
+                </div>
+</div>
+</div>
+</section>
+<!-- Why Us - Global Reach -->
+<section class="py-24 px-8 max-w-screen-2xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="relative">
+<img class="rounded-2xl shadow-xl w-full h-[500px] object-cover" data-alt="Modern high-tech hospital room with large windows and state-of-the-art medical monitors and a comfortable patient bed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdTJDmqm8TO2rQFfaSejebqb6Hlu0S1s2LymNun7lki5_WzCQJUGbPISab0V86zTgzHbwtxKVwhuFHiF-ZcC9N7KbLnw8mA-xxWfg-KvxPCT64ra_SMzm-8yVzWQfAavHmMrKj3R8sbYhwOGd6xLRZQQ9i8PJ9IOLRs0Fa0j8CFYHYj5GygnCOHFRwkoEhTZ83LC_0e5Bu-mdlZ_-_qEQDOFY-ezGesPrAz7rmeAVSEG0Z2kkycDtVZUpLg69ZwPu1eaAo4yUO__Y"/>
+<div class="absolute -bottom-10 -right-10 bg-white p-8 rounded-2xl shadow-2xl hidden md:block max-w-xs">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">verified</span>
+</div>
+<h4 class="font-bold text-primary leading-tight">Verified JCI Accredited</h4>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Every hospital in our network undergoes a 50-point quality verification process.</p>
+</div>
+</div>
+<div>
+<h2 class="text-4xl font-bold tracking-tighter text-on-surface mb-8">The GlobalMed Advantage</h2>
+<div class="space-y-10">
+<div class="flex gap-6">
+<div class="shrink-0 w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">location_on</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Africa Support Network</h4>
+<p class="text-on-surface-variant">Local presence in Lagos, Nairobi, and Johannesburg. Speak to our team face-to-face before you travel.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="shrink-0 w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">support_agent</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Dedicated Case Managers</h4>
+<p class="text-on-surface-variant">A personal concierge to handle your visas, flights, and hospital coordination from start to finish.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="shrink-0 w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">account_balance_wallet</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Flexible Payment Plans</h4>
+<p class="text-on-surface-variant">Partnering with local financial institutions to provide medical financing options for your care.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Signals -->
+<section class="py-16 border-t border-outline-variant/20">
+<div class="max-w-screen-xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+<div class="text-center md:text-left">
+<p class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4">Our Global Partners are Accredited by</p>
+</div>
+<div class="flex flex-wrap justify-center gap-12 items-center">
+<img class="h-16 w-auto object-contain" data-alt="JCI accreditation logo symbol" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi8IhcuyKjYAT8unifecKG18_e7hfe8r4ae-b84GSNvlnYmf2h1DHKyKaen3DsMgscVqexF1c68R2BdDWyuhHBUCtMgixAijAb7CummV0aFZEQfppm_YslgZ2rRcDHEM9TobFGVpzUbIFf8ob1skUG2GVIfSf6CwSuSviNPdb3fYhKGSXGfQ6ENAf3uFikEF_EtumXbXDTFDic0CXMqg8YotKe-xI74MnoZdxTVOPG6cAi3y7p0BKAjhhiTe45SqEOjMWm7e4e01Q"/>
+<img class="h-16 w-auto object-contain" data-alt="NABH healthcare quality accreditation seal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1-krF7lDiBcXKNUwVgQeyaF6a8ze1LmvIrNHMY69qEe3QXAgx0xpLsuhVigddnqLRMxsu0WCwrnvU2GfM0mhN-nnQgoxoviJS2hPHDjHdwMlJM9LuINExI4gV_4n9LphuWLcifbGDLK8iWUJqyxKHfw3NaCrJTjVeM9GHNSTQUYYtCX8z5UmR7w-2aG1xGPIuge6oHXncui8naqmiF4H74GbTiKtr8x-Sp-ddDYhWnnLR0clT6qV7RXZ-kmTzQKg0CorQfYGFe7I"/>
+<img class="h-12 w-auto object-contain" data-alt="ISO certification badge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWIzpKudiM8-g2TlLMl-C_h8pbQHhOTEMV7ZUN64s6-tl1jkjbDpZyUNMdAQJUv6g0lUd3XASmgsHkIZrmdH3gBi6wsPPViqwKLmbCFzLFAdLUpdZyWq8AVCKMFOwYvh3TEtCjd0D13Js3eOgFxLInsDnOTnkNESkZ70Xc9jkdhs4ZEHvTrEPlfYjPT9g8BpRI0QbICXVt9_z3O67PMAcCyJI0IRk8V4ILG8zO5wcibHgYYPtEwzeliX8_Mvm7LdHtRD8u8cfbAss"/>
+<img class="h-10 w-auto object-contain" data-alt="TUV healthcare standard certification logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLBKzNA-CGF2UA0fpoPl_6IKm00QL6td2cnHtTdaGagrJXDX_RhxSeQhENusximshJYqIx80U6dpVZdO-y17yEw-2lEJVPaDy5l6JXP8Mdpa924s8U6kGwBeQJGtwfAE4jUwVzh8lJfwH89oYxeImWLiRIY97n7jhexXcNZwXIHxvqsNXIIUxmA91DZIlctsO-h2-O72F2cOuOCKVdixg55AljtR1BND45NQuCM1IzZ3GO78eqnHctPEMj6C9GYUwc9BnfB4X_Bxg"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+
+
+<!-- Footer Section -->
+<footer class="w-full bg-slate-50 border-t border-slate-200 font-inter text-sm leading-relaxed">
+<div class="max-w-7xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+<!-- Brand & Description -->
+<div class="space-y-6">
+<div class="flex items-center gap-2">
+<img alt="CureSureMedico Logo" class="h-10 object-contain" src="../logo.png"/>
+<span class="text-xl font-bold text-blue-800 tracking-tighter"><span class="text-blue-800 dark:text-blue-400">Cure</span><span class="text-emerald-600 dark:text-emerald-400">Sure</span><span class="text-blue-800 dark:text-blue-400">Medico</span></span>
+</div>
+<p class="text-slate-500 leading-relaxed max-w-xs">
+                    Your trusted bridge to global clinical excellence. We coordinate world-class healthcare with precision, compassion, and unwavering integrity for patients worldwide.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">chat</span></a>
+</div>
+</div>
+<!-- Quick Links -->
+<div>
+<h4 class="font-bold text-blue-900 mb-6 uppercase tracking-widest text-xs">Quick Links</h4>
+<ul class="space-y-4 text-slate-600 font-medium">
+<li><a class="hover:text-blue-700 transition-colors" href="../treatments/index.html">Treatments</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="../hospitals/index.html">Hospitals</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="../destinations/index.html">Destinations</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Partner Hospitals</a></li>
+</ul>
+</div>
+<!-- Legal & Support -->
+<div>
+<h4 class="font-bold text-blue-900 mb-6 uppercase tracking-widest text-xs">Legal &amp; Support</h4>
+<ul class="space-y-4 text-slate-600 font-medium">
+<li><a class="hover:text-blue-700 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Africa Support Network</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Sitemap</a></li>
+</ul>
+</div>
+<!-- Our Offices -->
+<div>
+<h4 class="font-bold text-blue-900 mb-6 uppercase tracking-widest text-xs">Our Offices &amp; Contact</h4>
+<div class="space-y-4 text-slate-600 text-xs leading-relaxed">
+    <div class="flex gap-3">
+        <span class="material-symbols-outlined text-blue-700 text-base">location_on</span>
+        <div>
+            <strong class="text-slate-800">C&ocirc;te d'Ivoire</strong><br/>
+            Angr&eacute; 8&egrave;me Tranche, Lot 365, llot 025, Appartement C101<br/>
+            Cocody, Abidjan
+        </div>
+    </div>
+    <div class="flex gap-3">
+        <span class="material-symbols-outlined text-blue-700 text-base">location_on</span>
+        <div>
+            <strong class="text-slate-800">Madagascar</strong><br/>
+            Lot IIG 20K Bis A, Ambatomaro<br/>
+            Antananarivo 101
+        </div>
+    </div>
+    <div class="flex gap-3">
+        <span class="material-symbols-outlined text-blue-700 text-base">location_on</span>
+        <div>
+            <strong class="text-slate-800">India</strong><br/>
+            No.16 Raj Mahal, Extension Gadikoppa<br/>
+            Shivamogga, Karnataka, 577205
+        </div>
+    </div>
+    <div class="flex gap-3 pt-2">
+        <span class="material-symbols-outlined text-blue-700 text-base mt-0.5">call</span>
+        <div>
+            +91 81089 70640<br/>
+            +261 38 25 819 47
+        </div>
+    </div>
+    <div class="flex gap-3 items-center">
+        <span class="material-symbols-outlined text-blue-700 text-base">mail</span>
+        <a href="mailto:contact@cureSureMedico.com" class="hover:text-blue-700 transition-colors">contact@cureSureMedico.com</a>
+    </div>
+</div>
+</div>
+</div>
+<!-- Bottom Bar -->
+<div class="max-w-7xl mx-auto px-8 py-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-400 text-xs">&copy; 2024 CureSureMedico - Medical Tourism Agency. All Rights Reserved.</p>
+<div class="flex items-center gap-6">
+<img alt="JCI Accreditation" class="h-8 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-help" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZX0dhQiKJbTeKabBthrd87utqo-oFW8MR4bwbe-3Kl_4qZLauHS2NiZ9-5in5jE70lsFQwYcfCzXBEIoZUG-vYzaqoWu-wRCqBjy9CvURYwdj8nOvKP4ZgC8wsbKmFZ7-yODlxCtovxDDH8roPP40fxhORONYuA7Sn_TFqnwsbNpfODxHUVKo6Au8-0QxneoMYc_lVWWnTkBoUjBmgBs26BK5N2VKdhtIBkyansHEm13ejAfePom8FLA4UjLwVXd0FL7eFOfY188"/>
+<div class="flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-sm">language</span>
+<span class="text-xs font-bold">English (International)</span>
+</div>
+</div>
+</div>
+</footer>
+<script src="../js/country-selector.js"></script>
+</body></html>
+
+
+
+
+
+
+
+
+

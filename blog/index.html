@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Medical Insights Blog | CureSureMedico</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#b8f47a",
+                        "tertiary": "#006673",
+                        "surface-variant": "#e1e3e4",
+                        "tertiary-container": "#008091",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#9dd761",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8e9",
+                        "on-tertiary-fixed": "#001f24",
+                        "surface-container-low": "#f2f4f5",
+                        "surface-dim": "#d8dadb",
+                        "surface-container": "#eceeef",
+                        "on-surface": "#191c1d",
+                        "on-primary-fixed": "#001c39",
+                        "on-primary-container": "#fdfcff",
+                        "on-tertiary-container": "#f8feff",
+                        "tertiary-fixed": "#9eefff",
+                        "secondary": "#3c6a00",
+                        "on-secondary-fixed": "#0e2000",
+                        "on-tertiary-fixed-variant": "#004e59",
+                        "on-background": "#191c1d",
+                        "inverse-on-surface": "#eff1f2",
+                        "background": "#f8fafb",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#d4e3ff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#b8f47a",
+                        "primary-fixed-dim": "#a4c9ff",
+                        "tertiary-fixed-dim": "#55d7ed",
+                        "outline": "#717783",
+                        "on-surface-variant": "#414751",
+                        "on-secondary-container": "#407100",
+                        "primary-container": "#2976c7",
+                        "surface-tint": "#0060ac",
+                        "inverse-primary": "#a4c9ff",
+                        "primary": "#005da7",
+                        "surface": "#f8fafb",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c1c7d3",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#2c5000",
+                        "surface-bright": "#f8fafb",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#004883"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .clinical-glass {
+            background: rgba(248, 250, 251, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafb; color: #191c1d; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm">
+<!-- Top Utility Bar -->
+<div class="bg-primary px-8 border-b border-primary-container">
+    <div class="max-w-screen-2xl mx-auto h-10 flex justify-between items-center text-xs font-semibold text-white/90">
+        <div class="flex items-center gap-4">
+            <a href="#" class="hover:text-white flex items-center gap-1 transition-colors"><span class="material-symbols-outlined text-[14px]">login</span> Login</a>
+            <span class="text-white/30">|</span>
+            <a href="#" class="hover:text-white flex items-center gap-1 transition-colors"><span class="material-symbols-outlined text-[14px]">person_add</span> Create Account</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-secondary-fixed">language</span>
+                <select class="bg-transparent text-white border-none py-1 pr-6 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold">
+                    <option class="text-on-surface" value="en">English</option>
+                    <option class="text-on-surface" value="fr">Français</option>
+                </select>
+            </div>
+            <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-secondary-fixed">payments</span>
+                <select class="bg-transparent text-white border-none py-1 pr-6 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold">
+                    <option class="text-on-surface" value="usd">USD ($)</option>
+                    <option class="text-on-surface" value="eur">EUR (€)</option>
+                    <option class="text-on-surface" value="xof">FCFA (CFA)</option>
+                    <option class="text-on-surface" value="inr">INR (₹)</option>
+                    <option class="text-on-surface" value="cny">CNY (¥)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="flex justify-between items-center h-20 px-8 max-w-screen-2xl mx-auto">
+<a href="../index.html" class="flex items-center gap-2">
+    <img src="../logo.png" alt="CureSureMedico Logo" class="h-10 object-contain" />
+    <div class="text-2xl font-bold tracking-tighter text-blue-800 dark:text-blue-300"><span class="text-blue-800 dark:text-blue-400">Cure</span><span class="text-emerald-600 dark:text-emerald-400">Sure</span><span class="text-blue-800 dark:text-blue-400">Medico</span></div>
+</a>
+<div class="hidden md:flex items-center space-x-8"><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../index.html">Home</a><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../treatments/index.html">Treatments</a><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../hospitals/index.html">Hospitals</a><a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../destinations/index.html">Destinations</a><a class="text-blue-700 dark:text-blue-300 font-bold hover:text-blue-600 dark:hover:text-blue-300 transition-colors duration-200" href="../blog/index.html">Blog</a></div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container-highest rounded-full px-4 py-2">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm placeholder:text-on-surface-variant w-40" placeholder="Search insights..." type="text"/>
+</div>
+<button onclick="window.location.href='../quote/index.html'" class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 active:scale-95 transition-all">
+                    Get a Quote
+                </button>
+</div>
+</nav>
+</header>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-16">
+<div class="max-w-3xl">
+<h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-primary mb-6 leading-tight">
+                    Medical Insights &amp; <span class="text-secondary">Patient Guides</span>
+</h1>
+<p class="text-xl text-on-surface-variant font-medium leading-relaxed max-w-2xl">
+                    Expert advice on global healthcare, treatment breakthroughs, and medical travel tips curated specifically for the African community.
+                </p>
+</div>
+</section>
+<!-- Featured Article Bento Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20">
+<div class="lg:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="relative h-[400px] md:h-[500px]">
+<img alt="Featured Medical Professional" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Dignified African female doctor in a crisp white coat smiling warmly in a modern high-tech clinical environment with soft bokeh highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbINngkspDFP3sh8jnV33cN0tC0RpN5ZmrD9-RWRjiOSMgeltBK4Qm1ogJPArcgOEsQUsqgbM8C4EZhncps9SkbDJWGMJWPbKB1YmvbEdf_sj7pJwsa-aq6YK20GHcxJRWnAoe32WFOTJfPqopP8ZFNSnEuupJDX6c-3qspQm8KZ9-4nLqfkCZyJmtIykSOQ8wFfXCIpbW20NUQ53zrQ5CKTgTha_Hz8vzsg-JbpXuOh9SXpRrhv4AxmN21pggbpjJKe1EwbjD1J0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 p-8 md:p-12 text-white">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-secondary text-white text-xs font-bold tracking-wider uppercase mb-4">
+                            Featured Article
+                        </div>
+<h2 class="text-3xl md:text-4xl font-bold mb-4 max-w-2xl leading-tight">Navigating Precision Oncology: New Hope for Patients in Nairobi and Beyond</h2>
+<p class="text-white/90 text-lg mb-6 max-w-xl hidden md:block">How genomic testing is revolutionizing personalized cancer care and making international treatments more accessible than ever.</p>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-white overflow-hidden">
+<img alt="Author" data-alt="Professional headshot of a medical expert with a friendly and trustworthy expression, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFhFa8nvePBdVukk-9mtqC1HODM0ZDIHY2hP9z5oln0dZS0l-gtIDCyQTpS6yJuW7m_nBhYpbTQ-N4CYSYxQmWy0hA8c_0RZBDUbVHwkaWuV8FRUYjP71WFr03W6sS3UYnSNDw5NgHLgEE_xP9l65Q3EM0aFU151Jm6tQvCjQ3GfOmx08OvwNj6OiA-ZnbBcwgIPCeN6SezzNZcQ_ReqqEvXH0DOYqc0YJ284B99Fg7cSY8RxdDQ5dqYGd0T0OP32TfX0I5QPFnIU"/>
+</div>
+<div class="text-sm">
+<p class="font-bold">Dr. Amara Okoro</p>
+<p class="text-white/70">Chief Medical Officer</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Newsletter & Categories -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Newsletter -->
+<div class="bg-primary text-on-primary p-8 rounded-xl flex flex-col justify-center relative overflow-hidden">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-4xl mb-4 text-secondary-fixed">mail</span>
+<h3 class="text-2xl font-bold mb-2">Stay Informed</h3>
+<p class="text-primary-fixed text-sm mb-6 leading-relaxed">Join 15,000+ patients receiving monthly updates on healthcare breakthroughs and travel safety.</p>
+<form class="space-y-4">
+<input class="w-full bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all outline-none" placeholder="Email address" type="email"/>
+<button class="w-full bg-secondary-container text-on-secondary-container font-bold py-3 rounded-full hover:brightness-105 transition-all" type="submit">Subscribe Now</button>
+</form>
+</div>
+<!-- Abstract decoration -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Top Categories -->
+<div class="bg-surface-container-low p-8 rounded-xl">
+<h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-weight="fill">category</span>
+                        Top Categories
+                    </h3>
+<div class="space-y-3">
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-white transition-colors group" href="#">
+<span class="text-on-surface-variant font-medium group-hover:text-primary">Treatment Breakthroughs</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-on-surface-variant">24</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-white transition-colors group" href="#">
+<span class="text-on-surface-variant font-medium group-hover:text-primary">Patient Success Stories</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-on-surface-variant">18</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-white transition-colors group" href="#">
+<span class="text-on-surface-variant font-medium group-hover:text-primary">Medical Travel Tips</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-on-surface-variant">31</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-white transition-colors group" href="#">
+<span class="text-on-surface-variant font-medium group-hover:text-primary">Hospital Spotlights</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-on-surface-variant">12</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Blog Grid -->
+<section class="space-y-12">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-4">
+<h2 class="text-3xl font-bold tracking-tight text-primary">Latest Perspectives</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined">view_list</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- Card 1: Medical Travel -->
+<article class="flex flex-col h-full bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="relative h-56 overflow-hidden">
+<img alt="Airport travel" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An African family standing in a brightly lit modern airport terminal, looking hopeful and ready for their journey, soft atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjwhBievID-Dmqe_gorOw2Iv0on9lW5gZe12o8Ua7kHxqmTIDf8ti-SNtrJj2hCA3TIUg_P5hPRxNff5qDW8dQBZId1mKsSEhu8_iUAZlEnTuSafuRLPqHz-lbKHQSVkVkmy0qCYDgXhhTGwd0HJaZ5zggbUARiFazqbb7laFNxdO5ecB8z0vpEqRkPk6s4HmiwTfwQo4RJpfwMCrz4SlWgQ45pk1RAUX04M3BcW5F-WDbDsFzYyUFodAS-MXKVfYNq9VjwSvwyY0"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Medical Travel Tips</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-on-surface-variant text-xs font-medium mb-3">November 12, 2024 • 6 min read</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors leading-snug">The Ultimate Checklist for Medical Visa Applications</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">Ensure your journey is smooth. From medical documentation to financial proof, here's everything you need for India and UAE travel.</p>
+<a class="inline-flex items-center text-primary font-bold text-sm group/link" href="#">
+                            Read More 
+                            <span class="material-symbols-outlined ml-1 text-lg transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 2: Treatment Breakthrough -->
+<article class="flex flex-col h-full bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="relative h-56 overflow-hidden">
+<img alt="Lab research" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Macro close-up of medical research equipment with vibrant teal and blue lighting, suggesting advanced medical technology and precision" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcvHgrQaOpVb6-0W8ayeYgOXdnXXV0Rz_E9eXR04tCjOn_hK6-wAGeP3WL8fkm69fCvoyBoChqpRQIJGkeQJ3694g31h3foqakqRdAydsDDNCFjlJCullDlOz7souXaOKAI-GnkkgmNC8Dc5omNfVEiOnFfzFBZSMAh3BDlF-F430-MGwXzUjKPJlOFva4iICwOc3OyPr5RoOpimRgZ_mmebV7MhMw-oU5SODcsMygC2wEndHX7lBR0AmYeFIJZVqhFuLIB4UpPtU"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Treatment Breakthroughs</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-on-surface-variant text-xs font-medium mb-3">November 08, 2024 • 8 min read</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors leading-snug">Robotic-Assisted Cardiac Surgery: Minimizing Recovery Time</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">Discover how minimally invasive robotics are helping patients return home in half the time compared to traditional methods.</p>
+<a class="inline-flex items-center text-primary font-bold text-sm group/link" href="#">
+                            Read More 
+                            <span class="material-symbols-outlined ml-1 text-lg transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 3: Success Story -->
+<article class="flex flex-col h-full bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="relative h-56 overflow-hidden">
+<img alt="Happy patient" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Joyful African man outdoors in a park, arms open wide, symbolizing recovery and health, warm sunlight filtering through trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwnFA8T6MsUc7bnPWGey9XrV1iTcy2rl0oa80rfiRXx4XdsV7khUqlaoHOjC4R7Vx5_n24PGHDG1kFHJxvFU8AusoxnIgonnCwoq1MuX6Lkw_Fa9c2ZyeJKoImG_AoD6-3sACj97NHo346mwcBu84j_vVOZh7JeK9iJqlMoqCBguC_L6kJOE0ac4XvMV5teeM1ku_ZToN1RzBzwsGOvLRlJgSl52Z54tMjUG4p6m0yVOKWTyKBm7pzdJHwLsanrTumY8vFOc7E0Ic"/>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Patient Success Stories</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-on-surface-variant text-xs font-medium mb-3">November 05, 2024 • 5 min read</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors leading-snug">From Lagos to Recovery: Kofi's Hip Replacement Journey</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">"I can play with my grandchildren again." A personal look into the emotional and physical journey of medical travel.</p>
+<a class="inline-flex items-center text-primary font-bold text-sm group/link" href="#">
+                            Read More 
+                            <span class="material-symbols-outlined ml-1 text-lg transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 4: Hospital Spotlight -->
+<article class="flex flex-col h-full bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="relative h-56 overflow-hidden">
+<img alt="Modern hospital" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Wide shot of a luxury modern hospital lobby with floor-to-ceiling glass, white marble floors, and lush interior greenery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC1T1blxW2lIcPBs9qi1jse-x0aazUPMpiHXoJ7QHkMGhgSpn0n8VvSlMFymjJBP61kvOwdyDgwudZSzbj1yk1h1d8Q1ckoag_7YPSAsBhkqZtv3jlNEHuNoiAA_Ww_iwxzrwg1S_E6tltqq8mHSCnCWVYcNFRBakJeQuqxFAihvpoo8yI8d9suYv4o93YuONHnQu5DBYAxb4R5tPt7RbV-ydOc90tuDXX6CErmQuqq4Yj_pVXAerukCXMZhUpOtV_z4aqtPRFTSE"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-container-highest text-on-surface text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Hospital Spotlights</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-on-surface-variant text-xs font-medium mb-3">October 29, 2024 • 7 min read</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors leading-snug">Clinic Royale: Luxury Meets World-Class Medical Care</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">A tour inside the Middle East's most technologically advanced facility, specialized in neurosurgery and rehab.</p>
+<a class="inline-flex items-center text-primary font-bold text-sm group/link" href="#">
+                            Read More 
+                            <span class="material-symbols-outlined ml-1 text-lg transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 5: Medical Tech -->
+<article class="flex flex-col h-full bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="relative h-56 overflow-hidden">
+<img alt="Health monitoring" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Close up of a hand holding a sleek smartphone showing a medical dashboard with heart rate and vital signs, high tech feel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW8RYXOGdPgmtTZ4_ekScfzqpi1R_q4UMSOLeVEI2jvV6l37lLPWx3c00bivPkXrFlA0GWFgjYiyMs4VzxpCr5sliCM_MNXD_ysclQDrSeXhQ4fYapn4VnxGheFP_clpTBaQFH3-icX-gkIkZIn1HLUyY0EOPHqQG_AJhvhpTKqpCgjOGMLKSQUzrtswJbVl761t4e272JEilRylZlxBcqvzB_cBqRWJ8DhF7ni-J6A6CnDwvXpF20BUHOiHRjaDJIKo27knPLxTk"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Treatment Breakthroughs</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-on-surface-variant text-xs font-medium mb-3">October 25, 2024 • 4 min read</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors leading-snug">Telemedicine: The Bridge to Post-Surgery Care</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">How CureSureMedico uses remote monitoring to ensure patient safety long after they return home from treatment.</p>
+<a class="inline-flex items-center text-primary font-bold text-sm group/link" href="#">
+                            Read More 
+                            <span class="material-symbols-outlined ml-1 text-lg transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 6: Health Guide -->
+<article class="flex flex-col h-full bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="relative h-56 overflow-hidden">
+<img alt="Healthy living" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Top down view of a healthy salad bowl with vibrant colors on a clean white background, clinical and fresh aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzjNMzfwMT01PQQkBQcKcJpxgiU0VPyDB3MGxN9dbJ4bWlUpbG8sjZ5i1Fe9JfFBUBbmO1nzGCpSYRF9KZCOZsBULXy6KX837yS_dGJ_pYzR6Hso_5d5qV2Sx1XLOwswwlYTlpwXo076khaieY7SJt3aL76Xpfy0dvya3GuVbmrOrwoYXnP2iLWUevc3MF4DfSenik8M9n_e4IV7qpXuGBeiGpIaBpPPL-2KlsbeSJpl9KJXKla6ktw8nnD02hZesC_h9UhGWgKvM"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Medical Travel Tips</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-on-surface-variant text-xs font-medium mb-3">October 21, 2024 • 9 min read</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors leading-snug">Preparing Your Body for Long-Haul Travel Post-Surgery</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">Nutrition and exercise tips to manage inflammation and fatigue when traveling back to Africa after your procedure.</p>
+<a class="inline-flex items-center text-primary font-bold text-sm group/link" href="#">
+                            Read More 
+                            <span class="material-symbols-outlined ml-1 text-lg transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center pt-8">
+<nav class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant font-medium">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant font-medium">3</button>
+<span class="px-2 text-on-surface-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant font-medium">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</section>
+</main>
+<!-- Footer -->
+
+
+<!-- Footer Section -->
+<footer class="w-full bg-slate-50 border-t border-slate-200 font-inter text-sm leading-relaxed">
+<div class="max-w-7xl mx-auto px-8 pt-36 pb-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+<!-- Brand & Description -->
+<div class="space-y-6">
+<div class="flex items-center gap-2">
+<img alt="CureSureMedico Logo" class="h-10 object-contain" src="../logo.png"/>
+<span class="text-xl font-bold text-blue-800 tracking-tighter"><span class="text-blue-800 dark:text-blue-400">Cure</span><span class="text-emerald-600 dark:text-emerald-400">Sure</span><span class="text-blue-800 dark:text-blue-400">Medico</span></span>
+</div>
+<p class="text-slate-500 leading-relaxed max-w-xs">
+                    Your trusted bridge to global clinical excellence. We coordinate world-class healthcare with precision, compassion, and unwavering integrity for patients worldwide.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">chat</span></a>
+</div>
+</div>
+<!-- Quick Links -->
+<div>
+<h4 class="font-bold text-blue-900 mb-6 uppercase tracking-widest text-xs">Quick Links</h4>
+<ul class="space-y-4 text-slate-600 font-medium">
+<li><a class="hover:text-blue-700 transition-colors" href="../treatments/index.html">Treatments</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="../hospitals/index.html">Hospitals</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="../destinations/index.html">Destinations</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Partner Hospitals</a></li>
+</ul>
+</div>
+<!-- Legal & Support -->
+<div>
+<h4 class="font-bold text-blue-900 mb-6 uppercase tracking-widest text-xs">Legal &amp; Support</h4>
+<ul class="space-y-4 text-slate-600 font-medium">
+<li><a class="hover:text-blue-700 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Africa Support Network</a></li>
+<li><a class="hover:text-blue-700 transition-colors" href="#">Sitemap</a></li>
+</ul>
+</div>
+<!-- Our Offices -->
+<div>
+<h4 class="font-bold text-blue-900 mb-6 uppercase tracking-widest text-xs">Our Offices &amp; Contact</h4>
+<div class="space-y-4 text-slate-600 text-xs leading-relaxed">
+    <div class="flex gap-3">
+        <span class="material-symbols-outlined text-blue-700 text-base">location_on</span>
+        <div>
+            <strong class="text-slate-800">C&ocirc;te d'Ivoire</strong><br/>
+            Angr&eacute; 8&egrave;me Tranche, Lot 365, llot 025, Appartement C101<br/>
+            Cocody, Abidjan
+        </div>
+    </div>
+    <div class="flex gap-3">
+        <span class="material-symbols-outlined text-blue-700 text-base">location_on</span>
+        <div>
+            <strong class="text-slate-800">Madagascar</strong><br/>
+            Lot IIG 20K Bis A, Ambatomaro<br/>
+            Antananarivo 101
+        </div>
+    </div>
+    <div class="flex gap-3">
+        <span class="material-symbols-outlined text-blue-700 text-base">location_on</span>
+        <div>
+            <strong class="text-slate-800">India</strong><br/>
+            No.16 Raj Mahal, Extension Gadikoppa<br/>
+            Shivamogga, Karnataka, 577205
+        </div>
+    </div>
+    <div class="flex gap-3 pt-2">
+        <span class="material-symbols-outlined text-blue-700 text-base mt-0.5">call</span>
+        <div>
+            +91 81089 70640<br/>
+            +261 38 25 819 47
+        </div>
+    </div>
+    <div class="flex gap-3 items-center">
+        <span class="material-symbols-outlined text-blue-700 text-base">mail</span>
+        <a href="mailto:contact@cureSureMedico.com" class="hover:text-blue-700 transition-colors">contact@cureSureMedico.com</a>
+    </div>
+</div>
+</div>
+</div>
+<!-- Bottom Bar -->
+<div class="max-w-7xl mx-auto px-8 py-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-400 text-xs">&copy; 2024 CureSureMedico - Medical Tourism Agency. All Rights Reserved.</p>
+<div class="flex items-center gap-6">
+<img alt="JCI Accreditation" class="h-8 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-help" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZX0dhQiKJbTeKabBthrd87utqo-oFW8MR4bwbe-3Kl_4qZLauHS2NiZ9-5in5jE70lsFQwYcfCzXBEIoZUG-vYzaqoWu-wRCqBjy9CvURYwdj8nOvKP4ZgC8wsbKmFZ7-yODlxCtovxDDH8roPP40fxhORONYuA7Sn_TFqnwsbNpfODxHUVKo6Au8-0QxneoMYc_lVWWnTkBoUjBmgBs26BK5N2VKdhtIBkyansHEm13ejAfePom8FLA4UjLwVXd0FL7eFOfY188"/>
+<div class="flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-sm">language</span>
+<span class="text-xs font-bold">English (International)</span>
+</div>
+</div>
+</div>
+</footer>
+<script src="../js/country-selector.js"></script>
+</body></html>
+
+
+
+
+
+
+
+

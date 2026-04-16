@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CureSureMedico | The Clinical Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#004e59",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#414751",
+                    "tertiary": "#006673",
+                    "tertiary-container": "#008091",
+                    "primary-container": "#2976c7",
+                    "surface-container-low": "#f2f4f5",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "outline": "#717783",
+                    "surface-tint": "#0060ac",
+                    "outline-variant": "#c1c7d3",
+                    "on-background": "#191c1d",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#eceeef",
+                    "secondary": "#3c6a00",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f8fafb",
+                    "inverse-surface": "#2e3132",
+                    "tertiary-fixed": "#9eefff",
+                    "primary-fixed-dim": "#a4c9ff",
+                    "on-primary-fixed-variant": "#004883",
+                    "primary-fixed": "#d4e3ff",
+                    "primary": "#005da7",
+                    "on-secondary-fixed-variant": "#2c5000",
+                    "tertiary-fixed-dim": "#55d7ed",
+                    "surface-container-high": "#e6e8e9",
+                    "on-tertiary-fixed": "#001f24",
+                    "inverse-primary": "#a4c9ff",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#b8f47a",
+                    "surface": "#f8fafb",
+                    "secondary-container": "#b8f47a",
+                    "on-surface": "#191c1d",
+                    "background": "#f8fafb",
+                    "on-primary-fixed": "#001c39",
+                    "on-primary-container": "#fdfcff",
+                    "on-secondary-container": "#407100",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eff1f2",
+                    "on-tertiary-container": "#f8feff",
+                    "surface-variant": "#e1e3e4",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-secondary-fixed": "#0e2000",
+                    "surface-dim": "#d8dadb",
+                    "secondary-fixed-dim": "#9dd761"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-container::-webkit-scrollbar {
+            display: none;
+        }
+        .auth-tab-active {
+            color: #005da7;
+            border-bottom: 2px solid #005da7;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex items-stretch">
+<!-- Authentication Container -->
+<main class="flex w-full min-h-screen">
+<!-- Left Side: Visual Anchor (Medical Imagery) -->
+<section class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-primary">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-80 mix-blend-overlay" data-alt="A compassionate female African doctor in a white lab coat holding the hand of an elderly patient in a sunlit clinical room, soft warm lighting, professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7SqwWuCNxD_FrtArBSrTbJGMcZqNSAEM7SlPljHvzFK9crJjTKV-Iamy_3jfityfm1s8iITtSNqXe3Y57N12cgiuZrCXqUap8gs5GlHVLHV6Q9oIBuCYPqel1iES5yX21qjQHKsx8b19oc28sd4gZwsSHIqiDvVNWGNQ5z2GNSr2mqaOX8URQnnT9AfCheJTkgbeVVUHfjy9v9kjf9-I3CZQCx-3vjEiQCTA8uhrdK9mZn6t5AzQBVAvqEB-gIDgpZ4BBmcgQx4A"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/60 via-transparent to-transparent z-10"></div>
+<div class="relative z-20 flex flex-col justify-end p-16 w-full text-on-primary">
+<div class="mb-8">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary text-on-secondary font-semibold text-xs tracking-wider uppercase mb-6">
+                        Luminous Precision
+                    </span>
+<h1 class="text-5xl font-extrabold tracking-tighter leading-tight mb-4">Welcome to the <br/> Healthcare Sanctuary.</h1>
+<p class="text-lg opacity-90 max-w-md font-light leading-relaxed">A unified platform for compassionate healthcare management and personalized patient wellness, powered by clinical precision.</p>
+</div>
+<div class="flex items-center gap-4 text-sm font-medium">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img data-alt="Portrait of a young African male doctor smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyKCfZyiSX7SUFH63QlPVgh2Kt31ZFpMyf1gEjriRf__tf7PpF7_-SRnIgVZqsuXpc9zymyzXcl2N2FACnaY_lNLxuqyXdaTIhKOfkFAbT6V0MZWXeZJdzRzgVsM7hcxSKNymXYKl5xXVwwFfU67z99XaF0AcU8seA9cOY3-T2CuE9Jvub6wgv9jsQ9aPvQE2Q8z5rBSEhsYYtI7m-rVFo_qkj7txBfVjEcGoCB9Sr88aR0WK2dAMWEIc02o5hTh0yzTmn7OVybYU"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img data-alt="Portrait of a female African nurse in scrubs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdjhY6OrB3FZavIYdRvgoCdaezPzADs1s1wQ8KjJlxaK1PIu7UYg3Faa8oigRLlK_ax0et6Lg3KG5TVsNA6lJQknRUm6Lcy079LRdtR02YZ2FioeQZPfKMK4y3o4qUP7soRM7vnVpIPbnQK-OCvudUl7-TTOkG01jzUishmldyEgzOLJEqoYO1L5vP_rjWG6jD74WzBOudpjI_z10Ix7pjpzi-XpRl84PczAuiJ0yQ0i_r4AKmaEk1Uk_KCn0DXTzZkP_5mQSVJlg"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img data-alt="Portrait of a mature African specialist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALTt8n2H6PI2W60_5oSsDMZKzeQFCFGxZKTDzOHas9ktOUR7lTopFTbRIJNRDgW1gZTA5SU1K4SnkZN87KOqmweFskjHVfgd03E_3WZl-tDyqpGvy8dmBjfKZUvYy8d3IcQe0gW9FNwjd9n79K3o5i1yfYJRXc6JnkDk5iItdJpaJ0K_yrIGBWEE7vz2IeEWc8-H1FGeqIWkjy9pyymcqBh5f7nbzgaeUOVsMzFYoFJSvvL3wwwWcUxjJ6PyQ6bvWYWAd1MULe1pM"/>
+</div>
+</div>
+<span class="opacity-80">Patient &amp; Doctor Portal</span>
+</div>
+</div>
+</section>
+<!-- Right Side: Authentication Forms -->
+<section class="w-full lg:w-1/2 bg-surface flex flex-col px-6 md:px-12 py-8 overflow-y-auto form-container">
+<!-- Brand Anchor -->
+<header class="flex justify-between items-center mb-12">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+<span class="text-xl font-bold tracking-tighter text-on-surface">CureSureMedico</span>
+</div>
+</header>
+<div class="max-w-md mx-auto w-full">
+<!-- Form Header -->
+<div class="mb-10">
+<h2 class="text-3xl font-bold tracking-tight text-on-surface mb-2">Get Started</h2>
+<p class="text-on-surface-variant">Access your clinical dashboard or manage your health journey seamlessly.</p>
+</div>
+<!-- Tabs Logic -->
+<div class="flex border-b border-outline-variant/30 mb-8">
+<button class="flex-1 py-4 text-sm font-bold tracking-wide transition-all auth-tab-active">
+                        Login
+                    </button>
+<button class="flex-1 py-4 text-sm font-medium text-on-surface-variant hover:text-primary transition-all">
+                        Create Account
+                    </button>
+</div>
+<!-- Login Form (Visible by Default) -->
+<form class="space-y-5">
+<div class="space-y-1.5">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-xl">mail</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline/60 transition-all" placeholder="dr.smith@curesure.com" type="email"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-center px-1">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Password</label>
+<a class="text-xs font-semibold text-primary hover:underline" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-xl">lock</span>
+<input class="w-full pl-12 pr-12 py-3.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline/60 transition-all" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-3 px-1 py-2">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/40 bg-surface-container-lowest" id="remember" type="checkbox"/>
+<label class="text-sm text-on-surface-variant select-none" for="remember">Remember this device for 30 days</label>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-base shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform flex justify-center items-center gap-2">
+                        Login to Sanctuary
+                        <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</form>
+<!-- Social Authentication -->
+<div class="relative my-10">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/30"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase tracking-widest font-bold">
+<span class="bg-surface px-4 text-outline">Or continue with</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 py-3.5 px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-xl hover:bg-surface-container-low transition-colors text-sm font-semibold text-on-surface">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPeMmouv2SySgXy5bf_mXINGi3CzOmEvyaqGG7YRy8PVC4ymU2sNPGOsG0WxGDhRjNyiHADcT1PsAvd2iQ4Jrd7kOqIaR4zHVDziHn2hIp54hCuDEenLN_F2s2h1XBPR5o8XFQ__C9ZDvtdtHSU_wJy-LuVpjjP5PNyQpqEs5Ve7QRERreGVSMPrgLD7RRvclKRDeA_hQAl1zoPZd1w6D-T7rFfgRHBf-nT_2pprwJhFWPM9WemVt7b5YXm3shSwKNfFO3nzuh0Zk"/>
+                        Google
+                    </button>
+<button class="flex items-center justify-center gap-3 py-3.5 px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-xl hover:bg-surface-container-low transition-colors text-sm font-semibold text-on-surface">
+<img alt="Facebook" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-MSF4aZcJpSLKmSU2sgGmhlWDhbIgws8eeJBTwPFwhfViReGj9JpLgpa1Hzx3iiPFg6LyiNBUItcJMMp7FM7JOidpgChEMYbHpUd5PGJFnsm4DEHSor6Gq4MSuJOdZqGRhwzTozprT99HtMqIEHL2Hpv5qIsKToXfW-vLZB3b7ojbHtBk41aMmlVnw-dRL-6zAxgugPdiHCr79fiKk6KaHn8Kj7LK3-bxcJ9TA1_97U0McDf70ebZQNv_dPU5fr4mIDr54PmtSpE"/>
+                        Facebook
+                    </button>
+</div>
+<!-- Footer Disclaimer -->
+<div class="mt-12 text-center">
+<p class="text-xs text-on-surface-variant leading-relaxed">Access your clinical dashboard or manage your health journey seamlessly.</p>
+</div>
+</div>
+<!-- Redesigned Registration Section (Hidden contextually, shown for logic) -->
+<!-- This part of the UI would toggle visibility in a real application -->
+<div class="hidden max-w-md mx-auto w-full mt-10">
+<form class="space-y-4">
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Full Name</label>
+<input class="w-full px-4 py-3 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40" placeholder="Dr. Chinua Achebe" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">WhatsApp Number</label>
+<div class="flex gap-2">
+<div class="w-24 px-4 py-3 bg-surface-container-highest rounded-xl text-sm flex items-center justify-center font-medium">+234</div>
+<input class="flex-1 px-4 py-3 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40" placeholder="8012345678" type="tel"/>
+</div>
+</div>
+<!-- Other registration fields... -->
+<button class="w-full py-4 bg-secondary text-on-secondary rounded-full font-bold text-base shadow-lg shadow-secondary/20 transition-transform active:scale-95">
+                        Create My Account
+                    </button>
+</form>
+</div>
+<!-- Sticky Footer Bottom (Optional) -->
+<footer class="mt-auto pt-10 text-center">
+<p class="text-[10px] uppercase tracking-widest font-black text-outline/40">
+                    © 2024 CureSureMedico • African Clinical Excellence
+                 </p>
+</footer>
+</section>
+</main>
+<!-- UI Interaction Tip (Mockup only) -->
+<div class="fixed bottom-6 right-6 z-50 lg:hidden">
+<button class="w-14 h-14 bg-tertiary text-on-tertiary rounded-full shadow-2xl flex items-center justify-center">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</body></html>
