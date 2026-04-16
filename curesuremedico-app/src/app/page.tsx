@@ -86,6 +86,8 @@ export default function Home() {
     if (searchQuery) params.append("q", searchQuery);
     if (selectedDest) params.append("dest", selectedDest);
     router.push(`/hospitals?${params.toString()}`);
+    setSearchQuery("");
+    setSelectedDest("");
   };
 
   const handleLeadSubmit = (e: React.FormEvent) => {
