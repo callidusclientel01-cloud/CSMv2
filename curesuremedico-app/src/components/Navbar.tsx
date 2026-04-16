@@ -9,9 +9,22 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    async function loadUser() {
+      const { supabase } = await import('@/utils/supabaseClient');
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+
+      const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+        setUser(session?.user ?? null);
+      });
+      return () => authListener.subscription.unsubscribe();
+    }
+    loadUser();
+
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsProfileOpen(false);
@@ -117,22 +130,48 @@ export default function Navbar() {
 
             {isProfileOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-outline-variant/20 py-2 z-50 transform opacity-100 scale-100 transition-all origin-top-right">
-                <Link 
-                  href="/login" 
-                  onClick={() => setIsProfileOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
-                >
-                  <span className="material-symbols-outlined text-[18px]">login</span> 
-                  <span className="font-medium">Se connecter</span>
-                </Link>
-                <Link 
-                  href="/login" 
-                  onClick={() => setIsProfileOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
-                >
-                  <span className="material-symbols-outlined text-[18px]">person_add</span> 
-                  <span className="font-medium">Créer compte</span>
-                </Link>
+                {user ? (
+                  <>
+                    <Link 
+                      href="/dashboard" 
+                      onClick={() => setIsProfileOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">dashboard</span> 
+                      <span className="font-medium">Tableau de bord</span>
+                    </Link>
+                    <button 
+                      onClick={async () => {
+                        const { supabase } = await import('@/utils/supabaseClient');
+                        await supabase.auth.signOut();
+                        setIsProfileOpen(false);
+                      }}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-left w-full text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">logout</span> 
+                      <span className="font-medium">Déconnexion</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link 
+                      href="/login" 
+                      onClick={() => setIsProfileOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">login</span> 
+                      <span className="font-medium">Se connecter</span>
+                    </Link>
+                    <Link 
+                      href="/login" 
+                      onClick={() => setIsProfileOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">person_add</span> 
+                      <span className="font-medium">Créer compte</span>
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>

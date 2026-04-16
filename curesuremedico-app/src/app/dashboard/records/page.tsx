@@ -63,18 +63,13 @@ export default function MedicalRecordsPage() {
         throw new Error(`Storage Error (Did you create the bucket?): ${uploadError.message}`);
       }
 
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('patient-documents')
-        .getPublicUrl(filePath);
-
       // Insert into database
       const { error: dbError } = await supabase
         .from('patient_documents')
         .insert({
           user_id: user.id,
           file_name: file.name,
-          storage_path: publicUrl,
+          storage_path: filePath, // Storing internal path instead of public URL for privacy
           category: file.type.includes('pdf') ? 'Report' : 'Imaging'
         });
 
@@ -95,6 +90,45 @@ export default function MedicalRecordsPage() {
     if (filename.toLowerCase().endsWith('.pdf')) return 'picture_as_pdf';
     if (filename.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) return 'image';
     return 'description';
+  };
+
+  const handleView = async (doc: PatientDocument) => {
+    let path = doc.storage_path;
+    // Extract path if it was previously stored as an absolute public URL
+    if (path.includes('/patient-documents/')) {
+      path = path.split('/patient-documents/')[1];
+    }
+    
+    // Request a signed URL from Supabase that works even if the bucket is private
+    const { data, error } = await supabase.storage.from('patient-documents').createSignedUrl(path, 3600);
+    if (error) {
+      alert("Error generating preview URL: " + error.message);
+      return;
+    }
+    setPreviewUrl(data.signedUrl);
+  };
+
+  const handleDownload = async (doc: PatientDocument) => {
+    let path = doc.storage_path;
+    if (path.includes('/patient-documents/')) {
+      path = path.split('/patient-documents/')[1];
+    }
+    
+    const { data, error } = await supabase.storage.from('patient-documents').download(path);
+    if (error) {
+      alert("Error downloading file: " + error.message);
+      return;
+    }
+    
+    // Create a local blob URL for downloading
+    const url = URL.createObjectURL(data);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = doc.file_name;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   };
 
   return (
@@ -216,12 +250,12 @@ export default function MedicalRecordsPage() {
                     {new Date(doc.uploaded_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-5 text-right space-x-2">
-                    <button onClick={() => setPreviewUrl(doc.storage_path)} className="text-primary hover:bg-primary/5 px-3 py-1 rounded-full text-sm font-bold transition-colors inline-block cursor-pointer">
+                    <button onClick={() => handleView(doc)} className="text-primary hover:bg-primary/5 px-3 py-1 rounded-full text-sm font-bold transition-colors inline-block cursor-pointer">
                       View
                     </button>
-                    <a href={`${doc.storage_path}?download=`} download={doc.file_name} className="text-on-surface-variant hover:text-primary transition-colors inline-block">
+                    <button onClick={() => handleDownload(doc)} className="text-on-surface-variant hover:text-primary transition-colors inline-block cursor-pointer">
                       <span className="material-symbols-outlined align-middle">download</span>
-                    </a>
+                    </button>
                   </td>
                 </tr>
               ))

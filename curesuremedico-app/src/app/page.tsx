@@ -136,27 +136,25 @@ export default function Home() {
                   <label className="block text-xs font-bold text-outline uppercase mb-1">Full Name</label>
                   <input required className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Your Name" type="text" />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-outline uppercase mb-1">Country</label>
-                    <select 
-                      value={selectedCountryName}
-                      onChange={handleCountryChange}
-                      className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4"
-                    >
-                      {countries.map(c => (
-                        <option key={c.name} value={c.name}>{c.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-outline uppercase mb-1">WhatsApp</label>
-                    <div className="flex gap-2">
-                       <span className="bg-surface-container border-none rounded-xl flex items-center justify-center px-4 text-sm font-bold w-24 shrink-0 text-on-surface-variant">
-                         {phoneCode}
-                       </span>
-                      <input required className="flex-1 w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="800 000..." type="tel" />
-                    </div>
+                <div>
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">Country</label>
+                  <select 
+                    value={selectedCountryName}
+                    onChange={handleCountryChange}
+                    className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4"
+                  >
+                    {countries.map(c => (
+                      <option key={c.name} value={c.name}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">WhatsApp</label>
+                  <div className="flex gap-2">
+                     <span className="bg-surface-container border-none rounded-xl flex items-center justify-center px-4 text-sm font-bold w-24 shrink-0 text-on-surface-variant">
+                       {phoneCode}
+                     </span>
+                    <input required className="flex-1 w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Phone Number..." type="tel" />
                   </div>
                 </div>
                 <div>
