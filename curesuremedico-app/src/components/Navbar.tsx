@@ -108,10 +108,20 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 md:gap-4">
-          <div className="hidden xl:flex items-center bg-surface-container-highest rounded-full px-4 py-2">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              const form = e.currentTarget as HTMLFormElement;
+              const searchInput = form.elements.namedItem('search') as HTMLInputElement;
+              if (searchInput.value.trim()) {
+                window.location.href = `/blog?search=${encodeURIComponent(searchInput.value.trim())}`;
+              }
+            }}
+            className="hidden xl:flex items-center bg-surface-container-highest rounded-full px-4 py-2"
+          >
             <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
-            <input className="bg-transparent border-none focus:outline-none text-sm placeholder:text-on-surface-variant w-40" placeholder="Search insights..." type="text" />
-          </div>
+            <input name="search" className="bg-transparent border-none focus:outline-none text-sm placeholder:text-on-surface-variant w-40" placeholder="Search insights..." type="text" />
+          </form>
           <Link href="/quote" className="bg-primary text-on-primary px-4 md:px-6 py-2 md:py-2.5 rounded-full font-semibold text-xs md:text-sm hover:opacity-90 active:scale-95 transition-all whitespace-nowrap">
             Get a Quote
           </Link>

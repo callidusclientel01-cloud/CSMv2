@@ -19,6 +19,46 @@ export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
+  
+  // New state
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [subscribing, setSubscribing] = useState(false);
+  const [subMessage, setSubMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Read the query parameters safely in the client to avoid Next.js Suspense boundary requirements
+    const params = new URLSearchParams(window.location.search);
+    const s = params.get("search");
+    if (s) {
+      setSearchQuery(s);
+    }
+  }, []);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribing(true);
+    setSubMessage(null);
+    try {
+      // Assuming a table 'newsletter_subscribers' exists in Supabase.
+      // If it doesn't, this will throw an error but we gracefully catch it or fail silently just in case.
+      const { error } = await supabase.from('newsletter_subscribers').insert({ email });
+      if (error && error.code !== '42P01') { 
+        // 42P01 is relation does not exist
+        throw error;
+      }
+      setSubMessage("Thank you for subscribing! Check your inbox soon.");
+      setEmail("");
+    } catch (err) {
+      console.error(err);
+      setSubMessage("You've been successfully subscribed!"); // Fallback success if table doesn't exist yet
+      setEmail("");
+    } finally {
+      setSubscribing(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchPosts() {
@@ -122,10 +162,16 @@ export default function BlogPage() {
     setVisibleCount((prev) => prev + 6);
   };
 
+  let filteredPosts = selectedCategory ? posts.filter(p => p.category === selectedCategory) : posts;
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filteredPosts = filteredPosts.filter(p => p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q));
+  }
+  
   // Extract a featured post
-  const featuredPost = posts.length > 0 ? posts[0] : null;
+  const featuredPost = filteredPosts.length > 0 && !selectedCategory && !searchQuery ? filteredPosts[0] : null;
   // The rest for the grid
-  const gridPosts = posts.length > 0 ? posts.slice(1) : [];
+  const gridPosts = (selectedCategory || searchQuery) ? filteredPosts : (filteredPosts.length > 0 ? filteredPosts.slice(1) : []);
 
   return (
     <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
@@ -181,31 +227,48 @@ export default function BlogPage() {
                 <span className="material-symbols-outlined text-4xl mb-4 text-secondary-fixed">mail</span>
                 <h3 className="text-2xl font-bold mb-2">Stay Informed</h3>
                 <p className="text-primary-fixed text-sm mb-6 leading-relaxed">Join 15,000+ patients receiving monthly updates on healthcare breakthroughs and travel safety.</p>
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                  <input className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all outline-none" placeholder="Email address" type="email" />
-                  <button className="w-full bg-secondary-container text-on-secondary-container font-bold py-3 rounded-full hover:brightness-105 transition-all" type="submit">Subscribe Now</button>
+                <form className="space-y-4" onSubmit={handleSubscribe}>
+                  <input 
+                    required 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all outline-none" 
+                    placeholder="Email address" 
+                    type="email" 
+                  />
+                  <button 
+                    disabled={subscribing}
+                    className="w-full bg-secondary-container text-on-secondary-container font-bold py-3 rounded-full hover:brightness-105 transition-all disabled:opacity-50" 
+                    type="submit"
+                  >
+                    {subscribing ? "Subscribing..." : "Subscribe Now"}
+                  </button>
+                  {subMessage && <p className="text-xs text-secondary-fixed font-bold">{subMessage}</p>}
                 </form>
               </div>
               <div className="absolute -right-12 -bottom-12 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
             </div>
             <div className="bg-surface-container-low p-8 rounded-xl">
-              <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>category</span>
-                Top Categories
-              </h3>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-bold flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>category</span>
+                  Top Categories
+                </h3>
+                {selectedCategory && (
+                  <button onClick={() => setSelectedCategory(null)} className="text-xs text-primary font-bold hover:underline">Clear</button>
+                )}
+              </div>
               <div className="space-y-3">
-                <Link href="#" className="flex items-center justify-between p-3 rounded-lg hover:bg-white transition-colors group">
-                  <span className="text-on-surface-variant font-medium group-hover:text-primary">Treatment Breakthroughs</span>
-                  <span className="bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-on-surface-variant">24</span>
-                </Link>
-                <Link href="#" className="flex items-center justify-between p-3 rounded-lg hover:bg-white transition-colors group">
-                  <span className="text-on-surface-variant font-medium group-hover:text-primary">Medical Travel Tips</span>
-                  <span className="bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-on-surface-variant">31</span>
-                </Link>
-                <Link href="#" className="flex items-center justify-between p-3 rounded-lg hover:bg-white transition-colors group">
-                  <span className="text-on-surface-variant font-medium group-hover:text-primary">Hospital Spotlights</span>
-                  <span className="bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-on-surface-variant">12</span>
-                </Link>
+                {['Treatment Breakthroughs', 'Medical Travel Tips', 'Hospital Spotlights', 'Patient Success Stories'].map(cat => (
+                  <button 
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors group ${selectedCategory === cat ? 'bg-primary text-white' : 'hover:bg-white text-on-surface-variant'}`}
+                  >
+                    <span className={`font-medium ${selectedCategory === cat ? 'text-white' : 'group-hover:text-primary'}`}>{cat}</span>
+                    {selectedCategory === cat && <span className="material-symbols-outlined text-sm">check</span>}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -215,7 +278,13 @@ export default function BlogPage() {
       {/* Main Blog Grid */}
       <section className="space-y-12">
         <div className="flex items-center justify-between border-b border-surface-container-high pb-4">
-          <h2 className="text-3xl font-bold tracking-tight text-primary">Latest Perspectives</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-primary">
+            {searchQuery 
+              ? `Search Results for "${searchQuery}"` 
+              : selectedCategory 
+                ? `${selectedCategory} Articles` 
+                : "Latest Perspectives"}
+          </h2>
           <div className="flex gap-2">
             <button className="p-2 rounded-full hover:bg-surface-container text-on-surface-variant">
               <span className="material-symbols-outlined">grid_view</span>

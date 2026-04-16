@@ -108,7 +108,6 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex items-center gap-6 mt-4 md:mt-0">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZX0dhQiKJbTeKabBthrd87utqo-oFW8MR4bwbe-3Kl_4qZLauHS2NiZ9-5in5jE70lsFQwYcfCzXBEIoZUG-vYzaqoWu-wRCqBjy9CvURYwdj8nOvKP4ZgC8wsbKmFZ7-yODlxCtovxDDH8roPP40fxhORONYuA7Sn_TFqnwsbNpfODxHUVKo6Au8-0QxneoMYc_lVWWnTkBoUjBmgBs26BK5N2VKdhtIBkyansHEm13ejAfePom8FLA4UjLwVXd0FL7eFOfY188" alt="JCI Accreditation" className="h-8 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-help" />
           <div className="flex items-center gap-2 text-slate-400">
             <span className="material-symbols-outlined text-sm">language</span>
             <span className="text-xs font-bold">English (International)</span>
