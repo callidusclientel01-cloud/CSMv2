@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
 interface BlogPost {
@@ -15,26 +16,24 @@ interface BlogPost {
   category: string;
 }
 
-export default function BlogPage() {
+function BlogContent() {
+  const searchParams = useSearchParams();
+  const queryParam = searchParams.get("search");
+
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
   
   // New state
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>(queryParam || "");
   const [email, setEmail] = useState("");
   const [subscribing, setSubscribing] = useState(false);
   const [subMessage, setSubMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // Read the query parameters safely in the client to avoid Next.js Suspense boundary requirements
-    const params = new URLSearchParams(window.location.search);
-    const s = params.get("search");
-    if (s) {
-      setSearchQuery(s);
-    }
-  }, []);
+    setSearchQuery(queryParam || "");
+  }, [queryParam]);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -354,5 +353,17 @@ export default function BlogPage() {
         )}
       </section>
     </main>
+  );
+}
+
+export default function BlogPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center pt-32 pb-20 fade-in">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <BlogContent />
+    </Suspense>
   );
 }
