@@ -50,7 +50,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="flex w-full min-h-screen bg-surface">
       {/* Sidebar Navigation */}
       <aside className="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-slate-50 border-r border-slate-100 flex-col p-4 z-40">
-        <div className="mb-8 px-4 flex items-center gap-2">
+        <Link href="/" className="mb-8 px-4 flex items-center gap-2 hover:opacity-80 transition-opacity">
           <img src="/logo.png" alt="CureSureMedico Logo" className="h-8 object-contain" />
           <div>
             <h2 className="text-xl font-bold tracking-tighter">
@@ -60,11 +60,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </h2>
             <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Medical Tourism Excellence</p>
           </div>
-        </div>
+        </Link>
         <nav className="flex-1 space-y-1">
           <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition-all duration-200 group">
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">dashboard</span>
-            <span className="text-sm font-medium">Dashboard</span>
+            <span className="text-sm font-medium">Back to Dashboard</span>
           </Link>
           <Link href="/dashboard/consultation" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition-all duration-200 group">
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">calendar_today</span>
@@ -96,14 +96,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Top App Bar */}
         <header className="w-full sticky top-0 z-30 bg-white/80 backdrop-blur-md px-6 py-3 flex justify-between items-center shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 md:hidden">
+            <Link href="/" className="flex items-center gap-2 md:hidden hover:opacity-80">
               <img src="/logo.png" alt="CureSureMedico Logo" className="h-6 object-contain" />
               <h1 className="text-lg font-bold tracking-tighter">
                 <span className="text-blue-800">Cure</span>
                 <span className="text-emerald-600">Sure</span>
                 <span className="text-blue-800">Medico</span>
               </h1>
-            </div>
+            </Link>
             <div className="relative hidden sm:block">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
               <input className="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Search records..." type="text" />

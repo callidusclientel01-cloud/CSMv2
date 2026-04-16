@@ -183,7 +183,7 @@ export default function QuotePage() {
                   <div className="space-y-2 md:col-span-2">
                     <label className="text-sm font-medium text-on-surface-variant px-1">WhatsApp Number *</label>
                     <div className="flex gap-3">
-                      <span className="bg-surface-container-highest flex items-center justify-center rounded-xl px-4 py-3 font-bold text-sm text-on-surface-variant w-24">
+                      <span className="bg-surface-container-highest flex items-center justify-center rounded-xl px-4 py-3 font-bold text-sm text-on-surface-variant w-24 shrink-0">
                         {countryCode}
                       </span>
                       <input 

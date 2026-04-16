@@ -23,14 +23,7 @@ export default function Footer() {
           <p className="text-slate-500 leading-relaxed max-w-xs">
             Your trusted bridge to global clinical excellence. We coordinate world-class healthcare with precision, compassion, and unwavering integrity for patients worldwide.
           </p>
-          <div className="flex gap-4">
-            <Link href="#" className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed transition-colors">
-              <span className="material-symbols-outlined">share</span>
-            </Link>
-            <Link href="#" className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed transition-colors">
-              <span className="material-symbols-outlined">chat</span>
-            </Link>
-          </div>
+
         </div>
 
         {/* Quick Links */}

@@ -136,7 +136,7 @@ export default function Home() {
                   <label className="block text-xs font-bold text-outline uppercase mb-1">Full Name</label>
                   <input required className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Your Name" type="text" />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-outline uppercase mb-1">Country</label>
                     <select 
@@ -152,7 +152,7 @@ export default function Home() {
                   <div>
                     <label className="block text-xs font-bold text-outline uppercase mb-1">WhatsApp</label>
                     <div className="flex gap-2">
-                       <span className="bg-surface-container border-none rounded-xl flex items-center justify-center px-4 text-sm font-bold w-24 text-on-surface-variant">
+                       <span className="bg-surface-container border-none rounded-xl flex items-center justify-center px-4 text-sm font-bold w-24 shrink-0 text-on-surface-variant">
                          {phoneCode}
                        </span>
                       <input required className="flex-1 w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="800 000..." type="tel" />
@@ -401,18 +401,7 @@ export default function Home() {
       </div>
       </section>
 
-      {/* Visual Anchor Section */}
-      <section className="max-w-7xl mx-auto px-8 mb-24 mt-24">
-      <div className="relative rounded-2xl overflow-hidden aspect-[21/9]">
-      <img alt="African family with doctor" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCazZPlsryPdTGpIYuXl0RSiJOuL-M1oExo4KHRCzn9AfTwqgM0ciDiOvT-MV4vXPybHro4tQbjfLE1cimFq6iNeU9YZVr0CubHFIQcZLQ8HtGBFEcHQwHFDkLREjZf9vQI8X_EMufQzDwkqakCJl_wPinUDiLpNj_DFPtu1VHJ5HQmd3L-j9i0ULR8wyNxLeYBUudKnjNUv9t7RCZgNkxUeIM8LwnyKERM-PhaXvvSx3GbOHQheG95KDJhWFjP39u4ribsWC6ImAE"/>
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/60 to-transparent flex items-end p-12">
-      <div className="max-w-md text-white">
-      <h2 className="text-3xl font-bold mb-2">Our Network Around the World</h2>
-      <p className="text-white/80">Connecting you with JCI-accredited hospitals and world-renowned specialists.</p>
-      </div>
-      </div>
-      </div>
-      </section>
+
       {/* Specialty Treatments */}
       <section className="py-24 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-8">

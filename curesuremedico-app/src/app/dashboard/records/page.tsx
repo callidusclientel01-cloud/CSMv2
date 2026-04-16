@@ -15,6 +15,7 @@ export default function MedicalRecordsPage() {
   const [documents, setDocuments] = useState<PatientDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDocuments();
@@ -215,8 +216,10 @@ export default function MedicalRecordsPage() {
                     {new Date(doc.uploaded_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-5 text-right space-x-2">
-                    <a href={doc.storage_path} target="_blank" rel="noreferrer" className="text-primary hover:bg-primary/5 px-3 py-1 rounded-full text-sm font-bold transition-colors inline-block">View</a>
-                    <a href={doc.storage_path} download className="text-on-surface-variant hover:text-primary transition-colors inline-block">
+                    <button onClick={() => setPreviewUrl(doc.storage_path)} className="text-primary hover:bg-primary/5 px-3 py-1 rounded-full text-sm font-bold transition-colors inline-block cursor-pointer">
+                      View
+                    </button>
+                    <a href={`${doc.storage_path}?download=`} download={doc.file_name} className="text-on-surface-variant hover:text-primary transition-colors inline-block">
                       <span className="material-symbols-outlined align-middle">download</span>
                     </a>
                   </td>
@@ -240,6 +243,23 @@ export default function MedicalRecordsPage() {
           <button className="bg-white text-primary px-6 py-2 rounded-full font-bold whitespace-nowrap hover:bg-slate-100 transition-colors">Manage Access</button>
         </div>
       </div>
+
+      {/* Document Preview Modal */}
+      {previewUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-10">
+          <div className="bg-surface-container-lowest w-full max-w-5xl h-[85vh] rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center p-4 border-b border-outline-variant/20 bg-surface-container-lowest">
+              <h3 className="font-bold text-lg">Document Preview</h3>
+              <button onClick={() => setPreviewUrl(null)} className="p-2 bg-surface-container hover:bg-surface-variant rounded-full text-on-surface transition-colors flex items-center justify-center">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden bg-slate-100 flex items-center justify-center relative">
+               <iframe src={previewUrl} className="w-full h-full border-none"></iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

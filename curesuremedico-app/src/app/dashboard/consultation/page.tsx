@@ -82,19 +82,21 @@ export default function ConsultationPage() {
               {/* Specialty Selection */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3">Select Specialty (Required)</label>
-                <div className="grid grid-cols-3 gap-3">
-                  {["Cardiology", "Neurology", "Oncology"].map((spec) => (
+                <div className="flex flex-wrap gap-2">
+                  {["Cardiology", "Neurology", "Orthopedics", "Oncology", "Others"].map((spec) => (
                     <button 
                       key={spec}
                       onClick={() => setSpecialty(spec)}
-                      className={`flex flex-col items-center justify-center p-4 rounded-xl border transition-all ${
+                      className={`px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 transition-all ${
                         specialty === spec 
-                          ? 'border-primary/40 bg-primary/10 text-primary' 
-                          : 'border-outline-variant/30 hover:border-primary/40 hover:bg-surface-container-low text-on-surface-variant'
+                          ? 'bg-primary border border-primary text-on-primary' 
+                          : 'bg-surface-container-high border border-transparent text-on-surface-variant hover:bg-surface-container-highest'
                       }`}
                     >
-                      <span className="material-symbols-outlined text-3xl mb-2">{spec === 'Cardiology' ? 'cardiology' : spec === 'Neurology' ? 'neurology' : 'oncology'}</span>
-                      <span className="text-xs font-semibold">{spec}</span>
+                      <span className="material-symbols-outlined text-lg">
+                        {spec === 'Cardiology' ? 'cardiology' : spec === 'Neurology' ? 'neurology' : spec === 'Orthopedics' ? 'bone' : spec === 'Oncology' ? 'oncology' : 'more_horiz'}
+                      </span>
+                      {spec}
                     </button>
                   ))}
                 </div>

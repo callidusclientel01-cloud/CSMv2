@@ -82,7 +82,7 @@ export default function HospitalProfilePage({ params }: { params: { id: string }
                 <div>
                   <label className="block text-sm font-medium text-on-surface-variant mb-1.5 ml-1">WhatsApp Number</label>
                   <div className="flex">
-                    <span className="inline-flex items-center px-4 py-3 rounded-l-xl border-r border-outline-variant/20 bg-surface-container-highest text-on-surface-variant font-bold text-sm">
+                    <span className="inline-flex items-center justify-center min-w-[80px] shrink-0 px-4 py-3 rounded-l-xl border-r border-outline-variant/20 bg-surface-container-highest text-on-surface-variant font-bold text-sm">
                       {phoneCode}
                     </span>
                     <input required className="w-full bg-surface-container-highest border-none rounded-r-xl px-4 py-3 focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline" placeholder="123456789" type="tel" />
