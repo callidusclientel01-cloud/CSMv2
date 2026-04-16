@@ -82,23 +82,24 @@ export default function ConsultationPage() {
               {/* Specialty Selection */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3">Select Specialty (Required)</label>
-                <div className="flex flex-wrap gap-2">
-                  {["Cardiology", "Neurology", "Orthopedics", "Oncology", "Others"].map((spec) => (
-                    <button 
-                      key={spec}
-                      onClick={() => setSpecialty(spec)}
-                      className={`px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 transition-all ${
-                        specialty === spec 
-                          ? 'bg-primary border border-primary text-on-primary' 
-                          : 'bg-surface-container-high border border-transparent text-on-surface-variant hover:bg-surface-container-highest'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-lg">
-                        {spec === 'Cardiology' ? 'cardiology' : spec === 'Neurology' ? 'neurology' : spec === 'Orthopedics' ? 'bone' : spec === 'Oncology' ? 'oncology' : 'more_horiz'}
-                      </span>
-                      {spec}
-                    </button>
-                  ))}
+                <div className="relative">
+                  <select 
+                    value={specialty}
+                    onChange={(e) => setSpecialty(e.target.value)}
+                    className="w-full bg-surface-container-highest border-none outline-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary/40 transition-all font-body appearance-none font-semibold text-on-surface"
+                  >
+                    <option value="" disabled>Select a specialty...</option>
+                    {[
+                      "Cardiology", "Neurology", "Orthopedics", "Oncology", 
+                      "Gastroenterology", "Urology", "Nephrology", "Pulmonology", 
+                      "Endocrinology", "Rheumatology", "Dermatology", "Ophthalmology", 
+                      "ENT (Otolaryngology)", "Gynecology", "Pediatrics", "Psychiatry", 
+                      "General Surgery", "Plastic Surgery", "Dental", "Others"
+                    ].sort().map((spec) => (
+                      <option key={spec} value={spec}>{spec}</option>
+                    ))}
+                  </select>
+                  <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">arrow_drop_down</span>
                 </div>
               </div>
               

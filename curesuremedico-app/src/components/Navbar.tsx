@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -114,7 +115,8 @@ export default function Navbar() {
               const form = e.currentTarget as HTMLFormElement;
               const searchInput = form.elements.namedItem('search') as HTMLInputElement;
               if (searchInput.value.trim()) {
-                window.location.href = `/blog?search=${encodeURIComponent(searchInput.value.trim())}`;
+                router.push(`/blog?search=${encodeURIComponent(searchInput.value.trim())}`);
+                searchInput.value = '';
               }
             }}
             className="hidden xl:flex items-center bg-surface-container-highest rounded-full px-4 py-2"
