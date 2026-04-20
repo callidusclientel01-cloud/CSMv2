@@ -161,7 +161,7 @@ export default function TreatmentsPage() {
               </div>
             </div>
           </div>
-          <div className="bg-surface-container-lowest p-8 md:p-10 rounded-xl shadow-2xl max-w-md ml-auto">
+          <div className="bg-surface-container-lowest p-6 md:p-10 flex-col flex rounded-xl shadow-2xl max-w-md mx-auto lg:ml-auto w-full">
             <h3 className="text-2xl font-bold text-primary mb-2">Request a Consultation</h3>
             <p className="text-on-surface-variant text-sm mb-6">Get a personalized medical quote within 24 hours.</p>
             <form onSubmit={handleLeadSubmit} className="space-y-4">
@@ -169,7 +169,7 @@ export default function TreatmentsPage() {
                 <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Full Name</label>
                 <input required className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="John Doe" type="text" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Country</label>
                   <select 
@@ -190,14 +190,14 @@ export default function TreatmentsPage() {
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">WhatsApp Number</label>
                 <div className="flex gap-2">
-                  <span className="bg-surface-container-high px-3 flex items-center justify-center rounded-lg text-sm font-bold w-24 text-on-surface-variant">
+                  <span className="bg-surface-container-high px-3 flex items-center justify-center rounded-lg text-sm font-bold w-20 sm:w-24 shrink-0 text-on-surface-variant">
                     {phoneCode}
                   </span>
-                  <input required className="flex-1 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="800 000 0000" type="tel" />
+                  <input required className="flex-1 min-w-0 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="800 000 0000" type="tel" />
                 </div>
               </div>
               <button type="submit" className="w-full bg-primary text-on-primary py-4 rounded-full font-bold text-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer">
-                Get Quote <span className="material-symbols-outlined">arrow_forward</span>
+                <span className="whitespace-nowrap">Get Quote</span> <span className="material-symbols-outlined shrink-0">arrow_forward</span>
               </button>
             </form>
           </div>
@@ -205,25 +205,25 @@ export default function TreatmentsPage() {
       </section>
 
       {/* Global Search & Filter Bar */}
-      <section className="bg-surface py-12 -mt-10 relative z-20 px-8">
-        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-full shadow-lg border border-outline-variant/10 p-2 flex flex-col md:flex-row items-center gap-2">
-          <div className="flex-1 flex items-center px-6 w-full md:w-auto border-r border-outline-variant/20">
+      <section className="bg-surface py-12 -mt-10 relative z-20 px-4 md:px-8">
+        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full overflow-hidden shadow-lg border border-outline-variant/10 p-4 shrink-0 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2">
+          <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto border-b md:border-b-0 md:border-r border-outline-variant/20 pb-4 md:pb-0">
             <span className="material-symbols-outlined text-primary mr-3">stethoscope</span>
             <input 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium" 
+              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0" 
               placeholder="Search by Treatment..." 
               type="text" 
             />
           </div>
-          <div className="flex-1 flex items-center px-6 w-full md:w-auto">
+          <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto pb-2 md:pb-0">
             <span className="material-symbols-outlined text-tertiary mr-3">public</span>
             <select 
               value={selectedDest}
               onChange={(e) => setSelectedDest(e.target.value)}
-              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer"
+              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer px-0"
             >
               <option value="">Filter by Destination</option>
               <option value="India">India</option>
@@ -231,7 +231,7 @@ export default function TreatmentsPage() {
               <option value="Turkey">Turkey</option>
             </select>
           </div>
-          <button onClick={handleSearch} className="bg-secondary text-on-secondary px-10 py-3.5 rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer">
+          <button onClick={handleSearch} className="bg-secondary text-on-secondary px-8 py-3.5 rounded-2xl md:rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer block text-center min-h-[48px]">
             Find Hospital
           </button>
         </div>
@@ -259,10 +259,10 @@ export default function TreatmentsPage() {
                     </span>
                   </div>
                   <h3 className="text-2xl font-bold mb-3">{treatment.name}</h3>
-                  <p className="opacity-80 mb-8 line-clamp-2">{treatment.short_description}</p>
-                  <div className="mt-auto flex items-center justify-between">
+                  <p className="opacity-80 mb-8 line-clamp-2 min-h-[48px]">{treatment.short_description}</p>
+                  <div className="mt-auto flex flex-col gap-4">
                     <span className="text-xs font-bold uppercase tracking-widest opacity-80">Starting at {treatment.starting_price}</span>
-                    <Link href={`/treatments/${treatment.slug || treatment.id}`} className="flex items-center font-bold text-sm uppercase tracking-widest gap-2 group-hover:text-secondary-container">
+                    <Link href={`/treatments/${treatment.slug || treatment.id}`} className="flex items-center justify-center font-bold text-sm uppercase tracking-widest gap-2 bg-white text-primary hover:bg-surface-container-lowest py-3 rounded-xl transition-all shadow-sm">
                       Explore Speciality <span className="material-symbols-outlined text-lg">arrow_forward</span>
                     </Link>
                   </div>
