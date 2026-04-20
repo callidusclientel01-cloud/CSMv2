@@ -172,7 +172,7 @@ export default function Home() {
 
       {/* Global Search & Filter Bar (Added per user request) */}
       <section className="bg-surface py-8 md:py-12 -mt-10 relative z-20 px-4 md:px-8">
-        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full shadow-lg border border-outline-variant/10 p-4 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2">
+        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full overflow-hidden shadow-lg border border-outline-variant/10 p-4 shrink-0 2xl:p-3 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2">
           <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto border-b md:border-b-0 md:border-r border-outline-variant/20 pb-4 md:pb-0">
             <span className="material-symbols-outlined text-primary mr-3">stethoscope</span>
             <input 

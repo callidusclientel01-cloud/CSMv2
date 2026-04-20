@@ -156,15 +156,15 @@ export default function DestinationsPage() {
               <div className="space-y-1">
                 <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">WhatsApp Number</label>
                 <div className="flex gap-2">
-                  <span className="bg-surface-container-highest flex items-center justify-center px-3 rounded-md text-on-surface-variant text-sm font-bold w-24">
+                  <span className="bg-surface-container-highest flex items-center justify-center px-3 rounded-md text-on-surface-variant text-sm font-bold w-20 sm:w-24 shrink-0">
                     {phoneCode}
                   </span>
-                  <input required className="flex-1 bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="800 000 0000" type="tel" />
+                  <input required className="flex-1 min-w-0 bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="800 000 0000" type="tel" />
                 </div>
               </div>
-              <button type="submit" className="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-lg hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 cursor-pointer">
-                Request Expert Consultation
-                <span className="material-symbols-outlined">arrow_forward</span>
+              <button type="submit" className="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-base md:text-lg hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 cursor-pointer">
+                <span className="whitespace-nowrap">Request Expert Consultation</span>
+                <span className="material-symbols-outlined shrink-0">arrow_forward</span>
               </button>
               <p className="text-center text-xs text-on-surface-variant mt-2">Confidential and secure. Your data is protected.</p>
             </form>

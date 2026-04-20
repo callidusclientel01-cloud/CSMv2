@@ -322,8 +322,8 @@ function HospitalsList() {
                       ))}
                     </div>
 
-                    <div className="mt-auto flex items-center justify-between pt-6 border-t border-outline-variant/20">
-                      <div className="flex gap-2">
+                    <div className="mt-auto flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 pt-6 border-t border-outline-variant/20">
+                      <div className="flex gap-2 shrink-0 flex-wrap">
                         {hospital.accreditations && hospital.accreditations.map((acc, index) => (
                            <div key={index} className={`px-2 py-1 rounded border shadow-sm text-[10px] font-bold tracking-wider ${
                              acc === 'JCI' ? 'bg-amber-100 text-amber-800 border-amber-200' :
@@ -334,11 +334,11 @@ function HospitalsList() {
                            </div>
                         ))}
                       </div>
-                      <div className="flex gap-4">
-                        <Link href={`/hospitals/${hospital.slug || hospital.id}`} className="text-sm flex items-center gap-1 font-bold text-primary hover:underline">
+                      <div className="flex flex-wrap sm:flex-nowrap gap-4 w-full xl:w-auto mt-2 xl:mt-0 items-center justify-between xl:justify-end">
+                        <Link href={`/hospitals/${hospital.slug || hospital.id}`} className="text-sm flex items-center gap-1 font-bold text-primary hover:underline whitespace-nowrap">
                           View details <span className="material-symbols-outlined text-sm">arrow_forward</span>
                         </Link>
-                        <Link href="/quote" className="bg-primary text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:opacity-90">
+                        <Link href="/quote" className="bg-primary text-center w-full sm:w-auto text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:opacity-90 whitespace-nowrap">
                           Book Consultation
                         </Link>
                       </div>
