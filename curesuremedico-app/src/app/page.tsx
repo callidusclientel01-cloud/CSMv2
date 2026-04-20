@@ -85,8 +85,30 @@ export default function Home() {
         .order('id', { ascending: true })
         .limit(4);
       
-      if (!error && data && data.length > 0) {
-        setPatientStories(data);
+      if (error) {
+        console.error("Erreur de lecture Supabase (Peut-être les règles RLS ne sont pas activées ?) :", error);
+      } else if (data && data.length > 0) {
+        // Formatter les données : si l'utilisateur met un lien complet, on extrait l'ID
+        const formattedData = data.map(story => {
+          let yId = story.youtube_id || "";
+          
+          // Si on trouve "youtube.com/watch?v=" ou "youtu.be/", on extrait l'ID
+          if (yId.includes("youtube.com/watch?v=")) {
+            yId = yId.split("v=")[1].split("&")[0];
+          } else if (yId.includes("youtu.be/")) {
+            yId = yId.split("youtu.be/")[1].split("?")[0];
+          }
+
+          // Si on n'a pas de thumbnail, on en génère un automatiquement depuis YouTube !
+          const thumb = story.thumbnail_url || `https://img.youtube.com/vi/${yId}/maxresdefault.jpg`;
+
+          return {
+            ...story,
+            youtube_id: yId,
+            thumbnail_url: thumb
+          };
+        });
+        setPatientStories(formattedData);
       }
     }
     fetchStories();
