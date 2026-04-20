@@ -171,25 +171,25 @@ export default function Home() {
       </section>
 
       {/* Global Search & Filter Bar (Added per user request) */}
-      <section className="bg-surface py-12 -mt-10 relative z-20 px-8">
-        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-full shadow-lg border border-outline-variant/10 p-2 flex flex-col md:flex-row items-center gap-2">
-          <div className="flex-1 flex items-center px-6 w-full md:w-auto border-r border-outline-variant/20">
+      <section className="bg-surface py-8 md:py-12 -mt-10 relative z-20 px-4 md:px-8">
+        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full shadow-lg border border-outline-variant/10 p-4 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2">
+          <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto border-b md:border-b-0 md:border-r border-outline-variant/20 pb-4 md:pb-0">
             <span className="material-symbols-outlined text-primary mr-3">stethoscope</span>
             <input 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium" 
+              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0 py-1" 
               placeholder="Search by Treatment..." 
               type="text" 
             />
           </div>
-          <div className="flex-1 flex items-center px-6 w-full md:w-auto">
+          <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto pb-2 md:pb-0">
             <span className="material-symbols-outlined text-tertiary mr-3">public</span>
             <select 
               value={selectedDest}
               onChange={(e) => setSelectedDest(e.target.value)}
-              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer"
+              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer px-0 py-1"
             >
               <option value="">Filter by Destination</option>
               <option value="India">India</option>
@@ -197,7 +197,7 @@ export default function Home() {
               <option value="Turkey">Turkey</option>
             </select>
           </div>
-          <button onClick={handleSearch} className="bg-secondary text-on-secondary px-10 py-3.5 rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer">
+          <button onClick={handleSearch} className="bg-secondary text-on-secondary px-8 py-3.5 rounded-2xl md:rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer flex-shrink-0">
             Find Hospital
           </button>
         </div>
@@ -311,7 +311,7 @@ export default function Home() {
       {/* Hospital 1 */}
       <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10">
       <div className="relative h-56">
-      <img alt="Apollo Hospitals" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjaHlh-SqC03deGKOP3O7I7t5qQbhMVv2eVmLBpJxE-RtdlF9tgl57tYmnh3iU0FJBo6qwIMSg9H-IjErV3QGBNyW7FULZNmyzh72UqJPSSMgeSS_vhZanqYyQPwWPrXzebOM89PFnPe7Z4fS6a9JXYDWX7e8I4tFq-XCkOW8Li-YCPBZnMLHJA4i5BOxvBxZ-fSCMK3oYPyuMQdiWqpj5j1FzEVdQdcitW6FcDptMPgxk7Le5zMtDNICvwI8MVFPQiZld8ZvYlCo"/>
+      <img alt="Apollo Hospitals" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
       <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
       <span className="text-xs font-bold text-on-surface">4.9/5</span>
@@ -328,7 +328,7 @@ export default function Home() {
       {/* Hospital 2 */}
       <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10">
       <div className="relative h-56">
-      <img alt="Bumrungrad International" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebJ8wQ_zCwYl8zd_DZW9MVoLnE1xAA36MOERssA2I6BYa2ggzStbScync7_P7A5KJYbSeko8sVxAOyQA53rYsm0ig_uaC3R0akvNKgSxnM0l763r20bZ-A-YqZZlSBwFmgdu3J6e96BlAw4iD4_Ykbg-dPa2kWNA7B-sVdko2NiqR5D-yfgciBBpynbCm_GMeE2TWxLvcv1svm6LLmd1fl2x3nNRkx80rfDguY2c2SBXbzvplv0x0cqRr1w4VfHFYLw0MVLTRJl0"/>
+      <img alt="Bumrungrad International" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
       <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
       <span className="text-xs font-bold text-on-surface">4.8/5</span>
@@ -345,7 +345,7 @@ export default function Home() {
       {/* Hospital 3 */}
       <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10">
       <div className="relative h-56">
-      <img alt="Cleveland Clinic" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebJ8wQ_zCwYl8zd_DZW9MVoLnE1xAA36MOERssA2I6BYa2ggzStbScync7_P7A5KJYbSeko8sVxAOyQA53rYsm0ig_uaC3R0akvNKgSxnM0l763r20bZ-A-YqZZlSBwFmgdu3J6e96BlAw4iD4_Ykbg-dPa2kWNA7B-sVdko2NiqR5D-yfgciBBpynbCm_GMeE2TWxLvcv1svm6LLmd1fl2x3nNRkx80rfDguY2c2SBXbzvplv0x0cqRr1w4VfHFYLw0MVLTRJl0"/>
+      <img alt="Cleveland Clinic" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
       <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
       <span className="text-xs font-bold text-on-surface">4.9/5</span>
@@ -372,7 +372,7 @@ export default function Home() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {/* Destination 1: India */}
       <div className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
-      <img alt="India Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQZaDpfpFFF3DOO2smjkpcs7r0C6tdDF2Vcphyaq6G58zXtczDhuoGkMPl6yyinartPyId8RQXQSr4TcRXeYB7b70wrNt1qC9MOAnTkJAW_lv66lIytC7o77UXxyKBMeodqZh52b0-mC5HI_riy-NCJfZQAuqIDDCc90rSe_poSmx96fGkVL9cMxygfaT3r4i03kF5y09p_gfV2pEJd1NE47wSvGWB0ygovD6PEWrQjrQhXB6WfCSvl-e59_bAKWmzUydVMM45kgc"/>
+      <img alt="India Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
       <h3 className="text-3xl font-bold text-white mb-2">India</h3>
       <p className="text-secondary-fixed font-bold text-sm mb-6">Save 60-80% on medical costs compared to Western facilities.</p>
@@ -381,7 +381,7 @@ export default function Home() {
       </div>
       {/* Destination 2: Thailand */}
       <div className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
-      <img alt="Thailand Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLH1TsXo777siMCGhqY88b_R8RWsAMexGU5tTezMcsPCOqBz0wRLwydKNFhU_crbeH9m0OLv-QqAzbBHEUn8izYLO-0T1CxdFXqJeHKiT_zW-yvd-gC2TxmHx0n5-NaBmWxT0HKS5tyehDr1N3TcEp_gNJio13HqphblIGv4FMEBqVVLGG0zLYdXnQ07qL_wOwYoSDqZQV0_rQwsj-a6kfXhMxIMKT9u9h3i7-1fAAbo8xP5pQKBWO18FYOFUrhfbkTXxa8ZF9CrY"/>
+      <img alt="Thailand Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
       <h3 className="text-3xl font-bold text-white mb-2">Thailand</h3>
       <p className="text-secondary-fixed font-bold text-sm mb-6">Specializing in Wellness, IVF, and high-end cosmetic care.</p>
@@ -390,7 +390,7 @@ export default function Home() {
       </div>
       {/* Destination 3: UAE */}
       <div className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
-      <img alt="UAE Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebJ8wQ_zCwYl8zd_DZW9MVoLnE1xAA36MOERssA2I6BYa2ggzStbScync7_P7A5KJYbSeko8sVxAOyQA53rYsm0ig_uaC3R0akvNKgSxnM0l763r20bZ-A-YqZZlSBwFmgdu3J6e96BlAw4iD4_Ykbg-dPa2kWNA7B-sVdko2NiqR5D-yfgciBBpynbCm_GMeE2TWxLvcv1svm6LLmd1fl2x3nNRkx80rfDguY2c2SBXbzvplv0x0cqRr1w4VfHFYLw0MVLTRJl0"/>
+      <img alt="UAE Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
       <h3 className="text-3xl font-bold text-white mb-2">UAE</h3>
       <p className="text-secondary-fixed font-bold text-sm mb-6">Premium Clinical Care with ultra-modern JCI facilities.</p>
@@ -518,7 +518,7 @@ export default function Home() {
       <p className="text-on-surface-variant leading-relaxed">We only partner with hospitals that meet the gold standard of international healthcare. Each facility is personally vetted by our medical board.</p>
       </div>
       <div className="flex-1 relative aspect-square rounded-2xl overflow-hidden">
-      <img alt="Hospital exterior" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjaHlh-SqC03deGKOP3O7I7t5qQbhMVv2eVmLBpJxE-RtdlF9tgl57tYmnh3iU0FJBo6qwIMSg9H-IjErV3QGBNyW7FULZNmyzh72UqJPSSMgeSS_vhZanqYyQPwWPrXzebOM89PFnPe7Z4fS6a9JXYDWX7e8I4tFq-XCkOW8Li-YCPBZnMLHJA4i5BOxvBxZ-fSCMK3oYPyuMQdiWqpj5j1FzEVdQdcitW6FcDptMPgxk7Le5zMtDNICvwI8MVFPQiZld8ZvYlCo"/>
+      <img alt="Hospital exterior" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"/>
       </div>
       </div>
       <div className="bg-secondary-container p-8 rounded-2xl flex flex-col">
