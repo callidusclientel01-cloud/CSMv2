@@ -111,7 +111,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-primary/5 mix-blend-multiply"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           <div className="lg:col-span-7 z-10">
             <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest mb-6">World-Class Healthcare</span>
             <h1 className="font-headline text-5xl md:text-6xl font-extrabold text-primary leading-[1.1] tracking-tight mb-8">
@@ -120,18 +120,18 @@ export default function Home() {
             <p className="text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
               Personalized medical travel support for international patients. From consultation to recovery, we guide you every step of the way.
             </p>
-            <div className="flex flex-wrap gap-4 mb-12 z-10 relative">
-              <button onClick={() => router.push('/quote')} className="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-2xl font-bold shadow-lg flex items-center gap-2 hover:opacity-90 transition-opacity">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-12 z-10 relative">
+              <button onClick={() => router.push('/quote')} className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-2xl font-bold shadow-lg flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
                 Get Free Treatment Plan <span className="material-symbols-outlined text-base">arrow_forward</span>
               </button>
-              <button onClick={() => router.push('/quote')} className="px-8 py-4 bg-surface-container-low text-primary rounded-2xl font-bold hover:bg-surface-container-high transition-colors">
+              <button onClick={() => router.push('/quote')} className="w-full sm:w-auto px-8 py-4 bg-surface-container-low text-primary rounded-2xl font-bold hover:bg-surface-container-high transition-colors flex justify-center items-center">
                 Talk to Medical Expert
               </button>
             </div>
           </div>
           <div className="lg:col-span-5 relative">
             <div className="absolute -top-12 -right-12 w-64 h-64 bg-secondary-container/30 rounded-full blur-3xl"></div>
-            <div className="relative bg-surface-container-lowest p-8 rounded-2xl shadow-xl border border-outline-variant/10">
+            <div className="relative bg-surface-container-lowest p-6 md:p-8 rounded-2xl shadow-xl border border-outline-variant/10">
               <h3 className="text-xl font-bold text-primary mb-6">Inquire About Treatment</h3>
               <form onSubmit={handleLeadSubmit} className="space-y-4">
                 <div>
@@ -204,7 +204,7 @@ export default function Home() {
       </section>
 
       {/* Your Journey to Recovery Section */}
-      <section className="py-24 bg-surface px-8 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-surface px-4 md:px-8 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -ml-20 -mt-20 blur-3xl z-0"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
@@ -261,9 +261,9 @@ export default function Home() {
       </section>
 
       {/* Dynamic Packages Section */}
-      <section className="py-24 bg-surface-container-lowest">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+      <section className="py-16 md:py-24 bg-surface-container-lowest">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6 md:gap-4">
             <div>
               <span className="text-secondary font-bold uppercase text-xs tracking-widest">Curated Healthcare</span>
               <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">Promotional Medical Packages</h2>
@@ -301,15 +301,15 @@ export default function Home() {
       </section>
 
       {/* Elite Accredited Hospitals Section */}
-      <section className="py-24 bg-surface">
-      <div className="max-w-7xl mx-auto px-8">
-      <div className="text-center mb-16">
+      <section className="py-16 md:py-24 bg-surface">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="text-center mb-12 md:mb-16">
       <h2 className="text-4xl font-headline font-extrabold text-primary">Elite Accredited Hospitals</h2>
       <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">Global centers of excellence with JCI and ISO certifications, specifically chosen for our African patients.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {/* Hospital 1 */}
-      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10">
+      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
       <div className="relative h-56">
       <img alt="Apollo Hospitals" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
@@ -317,16 +317,16 @@ export default function Home() {
       <span className="text-xs font-bold text-on-surface">4.9/5</span>
       </div>
       </div>
-      <div className="p-8">
+      <div className="p-6 md:p-8 flex-1 flex flex-col">
       <h3 className="text-xl font-bold text-primary mb-1">Apollo Hospitals</h3>
       <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
       <span className="material-symbols-outlined text-base">location_on</span> Chennai, India
                               </p>
-      <button onClick={() => router.push('/hospitals')} className="w-full py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">View Details</button>
+      <button onClick={() => router.push('/hospitals')} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
       </div>
       </div>
       {/* Hospital 2 */}
-      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10">
+      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
       <div className="relative h-56">
       <img alt="Bumrungrad International" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
@@ -334,16 +334,16 @@ export default function Home() {
       <span className="text-xs font-bold text-on-surface">4.8/5</span>
       </div>
       </div>
-      <div className="p-8">
+      <div className="p-6 md:p-8 flex-1 flex flex-col">
       <h3 className="text-xl font-bold text-primary mb-1">Bumrungrad International</h3>
       <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
       <span className="material-symbols-outlined text-base">location_on</span> Bangkok, Thailand
                               </p>
-      <button onClick={() => router.push('/hospitals')} className="w-full py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">View Details</button>
+      <button onClick={() => router.push('/hospitals')} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
       </div>
       </div>
       {/* Hospital 3 */}
-      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10">
+      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
       <div className="relative h-56">
       <img alt="Cleveland Clinic" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1000&q=80"/>
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
@@ -351,20 +351,20 @@ export default function Home() {
       <span className="text-xs font-bold text-on-surface">4.9/5</span>
       </div>
       </div>
-      <div className="p-8">
+      <div className="p-6 md:p-8 flex-1 flex flex-col">
       <h3 className="text-xl font-bold text-primary mb-1">Cleveland Clinic</h3>
       <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
       <span className="material-symbols-outlined text-base">location_on</span> Abu Dhabi, UAE
                               </p>
-      <button onClick={() => router.push('/hospitals')} className="w-full py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">View Details</button>
+      <button onClick={() => router.push('/hospitals')} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
       </div>
       </div>
       </div>
       </div>
       </section>
       {/* Top Medical Destinations Section */}
-      <section className="py-24 bg-surface-container-low">
-      <div className="max-w-7xl mx-auto px-8">
+      <section className="py-16 md:py-24 bg-surface-container-low">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="text-center mb-16">
       <h2 className="text-4xl font-headline font-extrabold text-primary">Top Medical Destinations</h2>
       <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">Experience world-class care in the world&apos;s leading medical hubs with complete concierge support.</p>
@@ -376,7 +376,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
       <h3 className="text-3xl font-bold text-white mb-2">India</h3>
       <p className="text-secondary-fixed font-bold text-sm mb-6">Save 60-80% on medical costs compared to Western facilities.</p>
-      <button onClick={() => router.push('/destinations')} className="w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">Explore Treatments</button>
+      <button onClick={() => router.push('/destinations')} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
       </div>
       </div>
       {/* Destination 2: Thailand */}
@@ -385,7 +385,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
       <h3 className="text-3xl font-bold text-white mb-2">Thailand</h3>
       <p className="text-secondary-fixed font-bold text-sm mb-6">Specializing in Wellness, IVF, and high-end cosmetic care.</p>
-      <button onClick={() => router.push('/destinations')} className="w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">Explore Treatments</button>
+      <button onClick={() => router.push('/destinations')} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
       </div>
       </div>
       {/* Destination 3: UAE */}
@@ -394,7 +394,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
       <h3 className="text-3xl font-bold text-white mb-2">UAE</h3>
       <p className="text-secondary-fixed font-bold text-sm mb-6">Premium Clinical Care with ultra-modern JCI facilities.</p>
-      <button onClick={() => router.push('/destinations')} className="w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all">Explore Treatments</button>
+      <button onClick={() => router.push('/destinations')} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
       </div>
       </div>
       </div>
@@ -403,8 +403,8 @@ export default function Home() {
 
 
       {/* Specialty Treatments */}
-      <section className="py-24 bg-surface-container-low">
-      <div className="max-w-7xl mx-auto px-8">
+      <section className="py-16 md:py-24 bg-surface-container-low">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="mb-16">
       <span className="text-secondary font-bold uppercase text-xs tracking-widest">Centers of Excellence</span>
       <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">Specialty Treatments</h2>
@@ -464,11 +464,11 @@ export default function Home() {
       </section>
 
       {/* Patient Stories */}
-      <section className="py-24 bg-primary text-white overflow-hidden relative">
+      <section className="py-16 md:py-24 bg-primary text-white overflow-hidden relative">
       <div className="absolute inset-0 opacity-10">
       <div className="w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary-container via-transparent to-transparent"></div>
       </div>
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div>
       <span className="text-secondary-fixed font-bold uppercase text-xs tracking-widest">Real Experiences</span>
@@ -502,11 +502,11 @@ export default function Home() {
       </div>
       </section>
 
-      {/* The CureSure Advantage */}
-      <section className="py-24 bg-surface">
-      <div className="max-w-7xl mx-auto px-8">
-      <div className="text-center mb-16">
-      <h2 className="text-4xl font-headline font-extrabold text-primary">The CureSure Advantage</h2>
+      {/* The CureSureMedico Advantage */}
+      <section className="py-16 md:py-24 bg-surface">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="text-center mb-12 md:mb-16">
+      <h2 className="text-4xl font-headline font-extrabold text-primary">The CureSureMedico Advantage</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-2 bg-surface-container p-10 rounded-2xl flex flex-col md:flex-row gap-8 items-center">

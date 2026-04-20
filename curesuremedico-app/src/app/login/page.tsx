@@ -128,7 +128,7 @@ export default function LoginPage() {
               <label className="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-1">Email Address</label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-xl">mail</span>
-                <input required value={email} onChange={e => setEmail(e.target.value)} className="w-full pl-12 pr-4 py-3.5 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline/60 transition-all" placeholder="dr.smith@curesure.com" type="email" />
+                <input required value={email} onChange={e => setEmail(e.target.value)} className="w-full pl-12 pr-4 py-3.5 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline/60 transition-all" placeholder="dr.smith@curesuremedico.com" type="email" />
               </div>
             </div>
 
