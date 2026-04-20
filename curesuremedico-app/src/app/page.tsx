@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { countries } from "@/utils/countries";
+import { supabase } from "@/utils/supabaseClient";
 
 // Mock data (This will later come from Supabase)
 const PACKAGES = [
@@ -34,8 +35,8 @@ const PACKAGES = [
   }
 ];
 
-// Mock data for Patient Stories (Videos) from Supabase
-const PATIENT_STORIES = [
+// Fallback data for Patient Stories (Videos) if Supabase is empty
+const STATIC_STORIES = [
   {
     id: 1,
     title: "Nigeria | Cardiac Surgery",
@@ -66,6 +67,7 @@ const PATIENT_STORIES = [
   }
 ];
 
+
 export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
@@ -73,6 +75,22 @@ export default function Home() {
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [phoneCode, setPhoneCode] = useState("+234");
   const [videoOpen, setVideoOpen] = useState<string | null>(null);
+  const [patientStories, setPatientStories] = useState<any[]>(STATIC_STORIES);
+
+  useEffect(() => {
+    async function fetchStories() {
+      const { data, error } = await supabase
+        .from('patient_stories')
+        .select('*')
+        .order('id', { ascending: true })
+        .limit(4);
+      
+      if (!error && data && data.length > 0) {
+        setPatientStories(data);
+      }
+    }
+    fetchStories();
+  }, []);
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -482,7 +500,7 @@ export default function Home() {
                           </button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {PATIENT_STORIES.map((story) => (
+      {patientStories.map((story) => (
         <div 
           key={story.id}
           className="aspect-video relative rounded-2xl overflow-hidden shadow-2xl group cursor-pointer" 
