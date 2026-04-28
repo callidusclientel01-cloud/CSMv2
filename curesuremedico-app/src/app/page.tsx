@@ -77,6 +77,14 @@ export default function Home() {
   const [videoOpen, setVideoOpen] = useState<string | null>(null);
   const [patientStories, setPatientStories] = useState<any[]>(STATIC_STORIES);
 
+  // Form State
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [medicalCondition, setMedicalCondition] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
   useEffect(() => {
     async function fetchStories() {
       const { data, error } = await supabase
@@ -130,9 +138,37 @@ export default function Home() {
     setSelectedDest("");
   };
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/quote'); // Or an inline submit if preferred, redirecting is simpler for homepage
+    setIsSubmitting(true);
+    setSubmitError("");
+    setSubmitSuccess(false);
+
+    try {
+      const fullPhone = `${phoneCode} ${phoneNumber}`;
+      
+      const { error } = await supabase.from('leads').insert([{
+        name: fullName,
+        phone: fullPhone,
+        condition: medicalCondition,
+        notes: `From Hero Form. Country selected: ${selectedCountryName}`
+      }]);
+
+      if (error) throw error;
+
+      setSubmitSuccess(true);
+      setFullName("");
+      setPhoneNumber("");
+      setMedicalCondition("");
+      
+      // Optional: hide success message after a few seconds
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (err: any) {
+      console.error("Error submitting lead:", err);
+      setSubmitError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -174,9 +210,19 @@ export default function Home() {
             <div className="relative bg-surface-container-lowest p-6 md:p-8 rounded-2xl shadow-xl border border-outline-variant/10">
               <h3 className="text-xl font-bold text-primary mb-6">Inquire About Treatment</h3>
               <form onSubmit={handleLeadSubmit} className="space-y-4">
+                {submitSuccess && (
+                  <div className="bg-green-100 text-green-800 p-3 rounded-xl text-sm font-medium">
+                    Thank you! Your inquiry has been sent. We will contact you shortly.
+                  </div>
+                )}
+                {submitError && (
+                  <div className="bg-error/10 text-error p-3 rounded-xl text-sm font-medium">
+                    {submitError}
+                  </div>
+                )}
                 <div>
                   <label className="block text-xs font-bold text-outline uppercase mb-1">Full Name</label>
-                  <input required className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Your Name" type="text" />
+                  <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Your Name" type="text" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-outline uppercase mb-1">Country</label>
@@ -196,14 +242,16 @@ export default function Home() {
                      <span className="bg-surface-container border-none rounded-xl flex items-center justify-center px-4 text-sm font-bold w-24 shrink-0 text-on-surface-variant">
                        {phoneCode}
                      </span>
-                    <input required className="flex-1 w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Phone Number..." type="tel" />
+                    <input required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="flex-1 w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Phone Number..." type="tel" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-outline uppercase mb-1">Medical Condition</label>
-                  <input required className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="e.g. Cardiac Surgery" type="text" />
+                  <input required value={medicalCondition} onChange={(e) => setMedicalCondition(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="e.g. Cardiac Surgery" type="text" />
                 </div>
-                <button className="w-full py-4 bg-primary text-white font-bold rounded-xl mt-4 hover:bg-primary-container transition-colors tracking-wide" type="submit">Complete Inquiry</button>
+                <button disabled={isSubmitting} className="w-full py-4 bg-primary text-white font-bold rounded-xl mt-4 hover:bg-primary-container transition-colors tracking-wide disabled:opacity-70 disabled:cursor-not-allowed" type="submit">
+                  {isSubmitting ? "Sending..." : "Complete Inquiry"}
+                </button>
               </form>
             </div>
           </div>
