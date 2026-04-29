@@ -18,6 +18,17 @@ export default function QuotePage() {
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [countryCode, setCountryCode] = useState("+234");
   const [file, setFile] = useState<File | null>(null);
+  const [availableDestinations, setAvailableDestinations] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchDestinations() {
+      const { data } = await supabase.from('destinations').select('country_name');
+      if (data && data.length > 0) {
+        setAvailableDestinations(data);
+      }
+    }
+    fetchDestinations();
+  }, []);
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -227,10 +238,18 @@ export default function QuotePage() {
                       className="w-full bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 py-3 px-4 transition-all"
                     >
                       <option value="">No preference / Advise Me</option>
-                      <option value="India">India</option>
-                      <option value="Turkey">Turkey</option>
-                      <option value="UAE">UAE</option>
-                      <option value="Thailand">Thailand</option>
+                      {availableDestinations.length > 0 ? (
+                        availableDestinations.map(d => (
+                          <option key={d.country_name} value={d.country_name}>{d.country_name}</option>
+                        ))
+                      ) : (
+                        <>
+                          <option value="India">India</option>
+                          <option value="Turkey">Turkey</option>
+                          <option value="UAE">UAE</option>
+                          <option value="Thailand">Thailand</option>
+                        </>
+                      )}
                     </select>
                   </div>
                   <div className="space-y-2 md:col-span-2">

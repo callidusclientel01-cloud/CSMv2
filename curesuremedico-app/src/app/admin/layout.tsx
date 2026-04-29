@@ -36,6 +36,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Hospitals", path: "/admin/hospitals", icon: "local_hospital" },
     { name: "Treatments", path: "/admin/treatments", icon: "medical_services" },
     { name: "Destinations", path: "/admin/destinations", icon: "flight_takeoff" },
+    { name: "Packages", path: "/admin/packages", icon: "card_giftcard" },
+    { name: "Patient Stories", path: "/admin/patient-stories", icon: "video_library" },
     { name: "Blog", path: "/admin/blog", icon: "article" },
     { name: "Leads/Inquiries", path: "/admin/leads", icon: "forum" },
   ];

@@ -85,9 +85,15 @@ export default function Home() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
+  const [packages, setPackages] = useState<any[]>(PACKAGES);
+  const [hospitals, setHospitals] = useState<any[]>([]);
+  const [destinations, setDestinations] = useState<any[]>([]);
+  const [treatments, setTreatments] = useState<any[]>([]);
+
   useEffect(() => {
-    async function fetchStories() {
-      const { data, error } = await supabase
+    async function fetchData() {
+      // 1. Stories
+      const { data: storiesData, error } = await supabase
         .from('patient_stories')
         .select('*')
         .order('id', { ascending: true })
@@ -95,31 +101,66 @@ export default function Home() {
       
       if (error) {
         console.error("Erreur de lecture Supabase (Peut-être les règles RLS ne sont pas activées ?) :", error);
-      } else if (data && data.length > 0) {
-        // Formatter les données : si l'utilisateur met un lien complet, on extrait l'ID
-        const formattedData = data.map(story => {
+      } else if (storiesData && storiesData.length > 0) {
+        // Formatter les données
+        const formattedData = storiesData.map(story => {
           let yId = story.youtube_id || "";
-          
-          // Si on trouve "youtube.com/watch?v=" ou "youtu.be/", on extrait l'ID
           if (yId.includes("youtube.com/watch?v=")) {
             yId = yId.split("v=")[1].split("&")[0];
           } else if (yId.includes("youtu.be/")) {
             yId = yId.split("youtu.be/")[1].split("?")[0];
           }
-
-          // Si on n'a pas de thumbnail, on en génère un automatiquement depuis YouTube !
           const thumb = story.thumbnail_url || `https://img.youtube.com/vi/${yId}/maxresdefault.jpg`;
-
-          return {
-            ...story,
-            youtube_id: yId,
-            thumbnail_url: thumb
-          };
+          return { ...story, youtube_id: yId, thumbnail_url: thumb };
         });
         setPatientStories(formattedData);
       }
+
+      // 2. Packages
+      const { data: pkgs } = await supabase.from('packages').select('*').limit(3);
+      if (pkgs && pkgs.length > 0) setPackages(pkgs);
+
+      // 3. Hospitals
+      const { data: hosps } = await supabase.from('hospitals').select('*').order('rating', { ascending: false }).limit(3);
+      if (hosps && hosps.length > 0) {
+        setHospitals(hosps);
+      } else {
+        // Fallback
+        setHospitals([
+          { id: 'h1', name: 'Apollo Hospitals', city: 'Chennai', country: 'India', rating: 4.9, reviews_count: 5200, image_url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80', accreditations: ['JCI', 'NABH'] },
+          { id: 'h2', name: 'Bumrungrad International', city: 'Bangkok', country: 'Thailand', rating: 4.8, reviews_count: 8500, image_url: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1000&q=80', accreditations: ['JCI'] },
+          { id: 'h3', name: 'Cleveland Clinic', city: 'Abu Dhabi', country: 'UAE', rating: 4.9, reviews_count: 3100, image_url: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1000&q=80', accreditations: ['JCI', 'ISO'] }
+        ]);
+      }
+
+      // 4. Destinations
+      const { data: dests } = await supabase.from('destinations').select('*').limit(3);
+      if (dests && dests.length > 0) {
+        setDestinations(dests);
+      } else {
+        // Fallback
+        setDestinations([
+          { id: 'd1', country_name: 'India', tagline: 'World-Class Destination', description: 'Save 60-80% on medical costs compared to Western facilities.', image_url: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1000&q=80' },
+          { id: 'd2', country_name: 'Thailand', tagline: 'Wellness & Surgery', description: 'Specializing in Wellness, IVF, and high-end cosmetic care.', image_url: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1000&q=80' },
+          { id: 'd3', country_name: 'UAE', tagline: 'Luxury Care', description: 'Premium Clinical Care with ultra-modern JCI facilities.', image_url: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80' }
+        ]);
+      }
+
+      // 5. Treatments
+      const { data: trts } = await supabase.from('treatments').select('*').limit(4);
+      if (trts && trts.length > 0) {
+        setTreatments(trts);
+      } else {
+        // Fallback
+        setTreatments([
+          { id: 't1', name: 'Cardiology', icon_name: 'cardiology', short_description: 'Advanced heart surgeries and minimally invasive procedures.', starting_price: '$3,500' },
+          { id: 't2', name: 'Orthopedics', icon_name: 'orthopedics', short_description: 'Joint replacements and spine surgeries using robotic precision.', starting_price: '$4,200' },
+          { id: 't3', name: 'Oncology', icon_name: 'oncology', short_description: 'Comprehensive cancer care with latest immunotherapy protocols.', starting_price: '$5,000' },
+          { id: 't4', name: 'Neurology', icon_name: 'neurology', short_description: 'Expert treatment for complex brain and spinal cord disorders.', starting_price: '$4,800' }
+        ]);
+      }
     }
-    fetchStories();
+    fetchData();
   }, []);
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -361,12 +402,12 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {PACKAGES.map((pkg) => (
+            {packages.map((pkg) => (
               <div key={pkg.id} className="bg-white rounded-3xl border border-outline-variant/10 overflow-hidden flex flex-col no-line-card shadow-sm">
                 <div className="relative h-48">
-                  <img alt={pkg.title} className="w-full h-full object-cover" src={pkg.image} />
-                  <div className={`absolute top-4 left-4 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${pkg.badge === 'Limited Time' ? 'bg-error' : 'bg-primary'}`}>
-                    {pkg.badge}
+                  <img alt={pkg.title} className="w-full h-full object-cover" src={pkg.image_url || pkg.image} />
+                  <div className={`absolute top-4 left-4 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${pkg.badge_text === 'Limited Time' || pkg.badge === 'Limited Time' ? 'bg-error' : 'bg-primary'}`}>
+                    {pkg.badge_text || pkg.badge || "Offer"}
                   </div>
                 </div>
                 <div className="p-8 flex-1 flex flex-col">
@@ -396,57 +437,24 @@ export default function Home() {
       <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">Global centers of excellence with JCI and ISO certifications, specifically chosen for our African patients.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {/* Hospital 1 */}
-      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
-      <div className="relative h-56">
-      <img alt="Apollo Hospitals" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"/>
-      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
-      <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-      <span className="text-xs font-bold text-on-surface">4.9/5</span>
-      </div>
-      </div>
-      <div className="p-6 md:p-8 flex-1 flex flex-col">
-      <h3 className="text-xl font-bold text-primary mb-1">Apollo Hospitals</h3>
-      <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
-      <span className="material-symbols-outlined text-base">location_on</span> Chennai, India
-                              </p>
-      <button onClick={() => router.push('/hospitals')} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
-      </div>
-      </div>
-      {/* Hospital 2 */}
-      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
-      <div className="relative h-56">
-      <img alt="Bumrungrad International" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1000&q=80"/>
-      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
-      <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-      <span className="text-xs font-bold text-on-surface">4.8/5</span>
-      </div>
-      </div>
-      <div className="p-6 md:p-8 flex-1 flex flex-col">
-      <h3 className="text-xl font-bold text-primary mb-1">Bumrungrad International</h3>
-      <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
-      <span className="material-symbols-outlined text-base">location_on</span> Bangkok, Thailand
-                              </p>
-      <button onClick={() => router.push('/hospitals')} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
-      </div>
-      </div>
-      {/* Hospital 3 */}
-      <div className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
-      <div className="relative h-56">
-      <img alt="Cleveland Clinic" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1000&q=80"/>
-      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
-      <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-      <span className="text-xs font-bold text-on-surface">4.9/5</span>
-      </div>
-      </div>
-      <div className="p-6 md:p-8 flex-1 flex flex-col">
-      <h3 className="text-xl font-bold text-primary mb-1">Cleveland Clinic</h3>
-      <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
-      <span className="material-symbols-outlined text-base">location_on</span> Abu Dhabi, UAE
-                              </p>
-      <button onClick={() => router.push('/hospitals')} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
-      </div>
-      </div>
+      {hospitals.map((hospital, idx) => (
+        <div key={hospital.id || idx} className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
+          <div className="relative h-56">
+            <img alt={hospital.name} className="w-full h-full object-cover" src={hospital.image_url || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"}/>
+            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
+              <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+              <span className="text-xs font-bold text-on-surface">{hospital.rating}/5</span>
+            </div>
+          </div>
+          <div className="p-6 md:p-8 flex-1 flex flex-col">
+            <h3 className="text-xl font-bold text-primary mb-1">{hospital.name}</h3>
+            <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
+              <span className="material-symbols-outlined text-base">location_on</span> {hospital.city}, {hospital.country}
+            </p>
+            <button onClick={() => router.push(`/hospitals/${hospital.slug || hospital.id}`)} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
+          </div>
+        </div>
+      ))}
       </div>
       </div>
       </section>
@@ -458,33 +466,16 @@ export default function Home() {
       <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">Experience world-class care in the world&apos;s leading medical hubs with complete concierge support.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {/* Destination 1: India */}
-      <div className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
-      <img alt="India Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1000&q=80"/>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
-      <h3 className="text-3xl font-bold text-white mb-2">India</h3>
-      <p className="text-secondary-fixed font-bold text-sm mb-6">Save 60-80% on medical costs compared to Western facilities.</p>
-      <button onClick={() => router.push('/destinations')} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
-      </div>
-      </div>
-      {/* Destination 2: Thailand */}
-      <div className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
-      <img alt="Thailand Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1000&q=80"/>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
-      <h3 className="text-3xl font-bold text-white mb-2">Thailand</h3>
-      <p className="text-secondary-fixed font-bold text-sm mb-6">Specializing in Wellness, IVF, and high-end cosmetic care.</p>
-      <button onClick={() => router.push('/destinations')} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
-      </div>
-      </div>
-      {/* Destination 3: UAE */}
-      <div className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
-      <img alt="UAE Destination" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80"/>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
-      <h3 className="text-3xl font-bold text-white mb-2">UAE</h3>
-      <p className="text-secondary-fixed font-bold text-sm mb-6">Premium Clinical Care with ultra-modern JCI facilities.</p>
-      <button onClick={() => router.push('/destinations')} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
-      </div>
-      </div>
+      {destinations.map((dest, idx) => (
+        <div key={dest.id || idx} className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
+          <img alt={dest.country_name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={dest.image_url}/>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
+            <h3 className="text-3xl font-bold text-white mb-2">{dest.country_name}</h3>
+            <p className="text-secondary-fixed font-bold text-sm mb-6">{dest.tagline || dest.description}</p>
+            <button onClick={() => router.push(`/destinations/${dest.slug || dest.id}`)} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
+          </div>
+        </div>
+      ))}
       </div>
       </div>
       </section>
@@ -498,50 +489,19 @@ export default function Home() {
       <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">Specialty Treatments</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div className="bg-surface-container-lowest p-8 rounded-2xl no-line-card shadow-sm cursor-pointer hover:border-primary border border-transparent transition-all" onClick={() => router.push('/treatments')}>
-      <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
-      <span className="material-symbols-outlined">cardiology</span>
-      </div>
-      <h3 className="text-xl font-bold text-primary mb-2">Cardiology</h3>
-      <p className="text-sm text-on-surface-variant mb-6">Advanced heart surgeries and minimally invasive procedures.</p>
-      <div className="flex items-center justify-between mt-auto">
-      <span className="text-xs font-bold text-outline">Starting at</span>
-      <span className="text-lg font-extrabold text-secondary">$3,500</span>
-      </div>
-      </div>
-      <div className="bg-surface-container-lowest p-8 rounded-2xl no-line-card shadow-sm cursor-pointer hover:border-primary border border-transparent transition-all" onClick={() => router.push('/treatments')}>
-      <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
-      <span className="material-symbols-outlined">orthopedics</span>
-      </div>
-      <h3 className="text-xl font-bold text-primary mb-2">Orthopedics</h3>
-      <p className="text-sm text-on-surface-variant mb-6">Joint replacements and spine surgeries using robotic precision.</p>
-      <div className="flex items-center justify-between mt-auto">
-      <span className="text-xs font-bold text-outline">Starting at</span>
-      <span className="text-lg font-extrabold text-secondary">$4,200</span>
-      </div>
-      </div>
-      <div className="bg-surface-container-lowest p-8 rounded-2xl no-line-card shadow-sm cursor-pointer hover:border-primary border border-transparent transition-all" onClick={() => router.push('/treatments')}>
-      <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
-      <span className="material-symbols-outlined">oncology</span>
-      </div>
-      <h3 className="text-xl font-bold text-primary mb-2">Oncology</h3>
-      <p className="text-sm text-on-surface-variant mb-6">Comprehensive cancer care with latest immunotherapy protocols.</p>
-      <div className="flex items-center justify-between mt-auto">
-      <span className="text-xs font-bold text-outline">Starting at</span>
-      <span className="text-lg font-extrabold text-secondary">$5,000</span>
-      </div>
-      </div>
-      <div className="bg-surface-container-lowest p-8 rounded-2xl no-line-card shadow-sm cursor-pointer hover:border-primary border border-transparent transition-all" onClick={() => router.push('/treatments')}>
-      <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
-      <span className="material-symbols-outlined">neurology</span>
-      </div>
-      <h3 className="text-xl font-bold text-primary mb-2">Neurology</h3>
-      <p className="text-sm text-on-surface-variant mb-6">Expert treatment for complex brain and spinal cord disorders.</p>
-      <div className="flex items-center justify-between mt-auto">
-      <span className="text-xs font-bold text-outline">Starting at</span>
-      <span className="text-lg font-extrabold text-secondary">$4,800</span>
-      </div>
-      </div>
+      {treatments.map((trt, idx) => (
+        <div key={trt.id || idx} className="bg-surface-container-lowest p-8 rounded-2xl no-line-card shadow-sm cursor-pointer hover:border-primary border border-transparent transition-all" onClick={() => router.push(`/treatments/${trt.slug || trt.id}`)}>
+          <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
+            <span className="material-symbols-outlined">{trt.icon_name || 'medical_services'}</span>
+          </div>
+          <h3 className="text-xl font-bold text-primary mb-2">{trt.name}</h3>
+          <p className="text-sm text-on-surface-variant mb-6">{trt.short_description}</p>
+          <div className="flex items-center justify-between mt-auto">
+            <span className="text-xs font-bold text-outline">Starting at</span>
+            <span className="text-lg font-extrabold text-secondary">{trt.starting_price}</span>
+          </div>
+        </div>
+      ))}
       </div>
       <div className="mt-12 text-center">
       <button onClick={() => router.push('/treatments')} className="text-primary font-bold flex items-center gap-2 mx-auto hover:gap-4 transition-all">
