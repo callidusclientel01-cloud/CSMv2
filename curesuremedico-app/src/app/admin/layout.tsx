@@ -1,12 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { supabase } from "@/utils/supabaseClient";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [session, setSession] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session);
+      setLoading(false);
+      if (!session && pathname !== "/admin/login") {
+        router.push("/admin/login");
+      }
+    };
+    checkSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (!session && pathname !== "/admin/login") {
+        router.push("/admin/login");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [pathname, router]);
 
   const menuItems = [
     { name: "Overview", path: "/admin", icon: "dashboard" },
@@ -16,6 +41,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Blog", path: "/admin/blog", icon: "article" },
     { name: "Leads/Inquiries", path: "/admin/leads", icon: "forum" },
   ];
+
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center bg-slate-900 text-white font-bold tracking-widest text-sm uppercase">Verifying Access...</div>;
+  }
+
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
+  if (!session) {
+    return null;
+  }
 
   return (
     <div className="flex h-screen bg-slate-100">
