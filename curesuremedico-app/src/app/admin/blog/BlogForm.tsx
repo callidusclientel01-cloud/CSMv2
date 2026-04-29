@@ -18,7 +18,8 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
     author_role: initialData?.author_role || "Editor",
     published_date: initialData?.published_date || new Date().toISOString().split('T')[0],
     read_time: initialData?.read_time || "5 min",
-    is_featured: initialData?.is_featured || false
+    is_featured: initialData?.is_featured || false,
+    youtube_video_id: initialData?.youtube_video_id || ""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -110,6 +111,12 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
           placeholder="https://..."
           required
         />
+      </div>
+
+      <div>
+        <label className="block text-sm font-bold text-slate-700 mb-2">YouTube Video ID (Optional)</label>
+        <input type="text" name="youtube_video_id" value={formData.youtube_video_id} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none" placeholder="e.g. dQw4w9WgXcQ" />
+        <p className="text-xs text-slate-500 mt-2">Just the ID, not the full URL. If URL is https://youtube.com/watch?v=dQw4w9WgXcQ, the ID is dQw4w9WgXcQ.</p>
       </div>
 
       <div>

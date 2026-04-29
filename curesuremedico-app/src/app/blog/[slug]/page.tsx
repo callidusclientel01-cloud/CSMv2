@@ -15,6 +15,7 @@ interface BlogPost {
   image_url: string;
   category: string;
   published_date?: string;
+  youtube_video_id?: string;
 }
 
 const fallbackPosts: BlogPost[] = [
@@ -133,6 +134,20 @@ export default function BlogArticlePage() {
 
         {/* Middle: Article Body */}
         <article className="lg:col-span-8 article-content text-lg leading-relaxed text-on-surface-variant font-medium">
+          
+          {post.youtube_video_id && (
+            <div className="mb-10 w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-outline-variant/10">
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${post.youtube_video_id}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          )}
+
           {post.content ? (
             <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: post.content }} />
           ) : (
