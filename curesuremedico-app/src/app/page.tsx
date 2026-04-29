@@ -100,9 +100,9 @@ export default function Home() {
         .limit(4);
       
       if (error) {
-        console.error("Erreur de lecture Supabase (Peut-être les règles RLS ne sont pas activées ?) :", error);
+        console.error("Supabase read error (Perhaps RLS rules are not enabled?):", error);
       } else if (storiesData && storiesData.length > 0) {
-        // Formatter les données
+        // Format the data
         const formattedData = storiesData.map(story => {
           let yId = story.youtube_id || "";
           if (yId.includes("youtube.com/watch?v=")) {
@@ -340,7 +340,7 @@ export default function Home() {
             <span className="text-secondary font-bold uppercase text-xs tracking-widest">How It Works</span>
             <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">Your Journey to Recovery</h2>
             <p className="text-on-surface-variant max-w-xl mx-auto mt-4 text-lg">
-              We handle everything, so you can focus on healing. Un accompagnement étape par étape.
+              We handle everything, so you can focus on healing. A step-by-step guidance.
             </p>
           </div>
 

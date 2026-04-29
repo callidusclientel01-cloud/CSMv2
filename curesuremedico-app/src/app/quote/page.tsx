@@ -127,15 +127,15 @@ export default function QuotePage() {
                <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
                  <span className="material-symbols-outlined text-green-600 text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                </div>
-               <h3 className="text-3xl font-bold text-on-surface mb-4">Demande Envoyée avec Succès !</h3>
+               <h3 className="text-3xl font-bold text-on-surface mb-4">Request Sent Successfully!</h3>
                <p className="text-on-surface-variant max-w-md mx-auto mb-8 text-lg">
-                 Merci pour votre confiance. Notre équipe médicale a bien reçu votre dossier et vous contactera par email ou WhatsApp d'ici 24 heures pour planifier votre consultation avec nos spécialistes.
+                 Thank you for your trust. Our medical team has received your details and will contact you via email or WhatsApp within 24 hours to schedule your consultation with our specialists.
                </p>
                <button 
                  onClick={() => setSuccess(false)}
                  className="bg-primary hover:bg-primary-container text-on-primary font-bold px-8 py-3 rounded-full transition-colors"
                >
-                 Envoyer une autre demande
+                 Send Another Request
                </button>
             </div>
           ) : null}
