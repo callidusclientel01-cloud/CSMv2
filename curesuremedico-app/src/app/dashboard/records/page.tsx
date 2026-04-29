@@ -16,6 +16,11 @@ export default function MedicalRecordsPage() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+
+  const filteredDocs = activeCategory === 'All' 
+    ? documents 
+    : documents.filter(doc => doc.category === activeCategory);
 
   useEffect(() => {
     fetchDocuments();
@@ -70,7 +75,7 @@ export default function MedicalRecordsPage() {
           user_id: user.id,
           file_name: file.name,
           storage_path: filePath, // Storing internal path instead of public URL for privacy
-          category: file.type.includes('pdf') ? 'Report' : 'Imaging'
+          category: activeCategory !== 'All' ? activeCategory : (file.type.includes('pdf') ? 'Laboratory Reports' : 'Diagnostic Imaging')
         });
 
       if (dbError) throw dbError;
@@ -146,12 +151,15 @@ export default function MedicalRecordsPage() {
         </label>
       </header>
 
-      {/* Bento Grid - Folder System - Static Visually */}
+      {/* Bento Grid - Folder System */}
       <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
         {/* Folder Card: Reports */}
-        <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+        <div 
+          onClick={() => setActiveCategory(activeCategory === 'Laboratory Reports' ? 'All' : 'Laboratory Reports')}
+          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Laboratory Reports' ? 'border-primary ring-2 ring-primary/20' : 'border-outline-variant/10'}`}
+        >
           <div className="flex justify-between items-start mb-4">
-            <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary">
+            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Laboratory Reports' ? 'bg-primary text-white' : 'bg-blue-50 text-primary'}`}>
               <span className="material-symbols-outlined text-3xl">description</span>
             </div>
             <span className="text-xs font-bold bg-blue-100 text-blue-700 px-2 py-1 rounded">Lab</span>
@@ -161,9 +169,12 @@ export default function MedicalRecordsPage() {
         </div>
         
         {/* Folder Card: Prescriptions */}
-        <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow group cursor-pointer border-l-4 border-l-secondary">
+        <div 
+          onClick={() => setActiveCategory(activeCategory === 'Prescriptions' ? 'All' : 'Prescriptions')}
+          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Prescriptions' ? 'border-secondary ring-2 ring-secondary/20 border-l-4' : 'border-outline-variant/10 border-l-4 border-l-secondary'}`}
+        >
           <div className="flex justify-between items-start mb-4">
-            <div className="w-12 h-12 rounded-lg bg-green-50 flex items-center justify-center text-secondary">
+            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Prescriptions' ? 'bg-secondary text-white' : 'bg-green-50 text-secondary'}`}>
               <span className="material-symbols-outlined text-3xl">prescriptions</span>
             </div>
             <span className="text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded">Meds</span>
@@ -173,9 +184,12 @@ export default function MedicalRecordsPage() {
         </div>
 
         {/* Folder Card: Imaging */}
-        <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+        <div 
+          onClick={() => setActiveCategory(activeCategory === 'Diagnostic Imaging' ? 'All' : 'Diagnostic Imaging')}
+          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Diagnostic Imaging' ? 'border-purple-600 ring-2 ring-purple-600/20' : 'border-outline-variant/10'}`}
+        >
           <div className="flex justify-between items-start mb-4">
-            <div className="w-12 h-12 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Diagnostic Imaging' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-600'}`}>
               <span className="material-symbols-outlined text-3xl">radiology</span>
             </div>
             <span className="text-xs font-bold bg-purple-100 text-purple-700 px-2 py-1 rounded">Scans</span>
@@ -185,9 +199,12 @@ export default function MedicalRecordsPage() {
         </div>
 
         {/* Folder Card: Visa Docs */}
-        <div className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+        <div 
+          onClick={() => setActiveCategory(activeCategory === 'Visa Documents' ? 'All' : 'Visa Documents')}
+          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Visa Documents' ? 'border-orange-600 ring-2 ring-orange-600/20' : 'border-outline-variant/10'}`}
+        >
           <div className="flex justify-between items-start mb-4">
-            <div className="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600">
+            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Visa Documents' ? 'bg-orange-600 text-white' : 'bg-orange-50 text-orange-600'}`}>
               <span className="material-symbols-outlined text-3xl">id_card</span>
             </div>
             <span className="text-xs font-bold bg-orange-100 text-orange-700 px-2 py-1 rounded">Travel</span>
@@ -199,7 +216,7 @@ export default function MedicalRecordsPage() {
 
       {/* Recent Activity / List View Section */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold tracking-tight">Recent Records</h2>
+        <h2 className="text-2xl font-bold tracking-tight">{activeCategory === 'All' ? 'Recent Records' : activeCategory}</h2>
         <div className="flex gap-2">
           <button className="p-2 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-dim transition-colors">
             <span className="material-symbols-outlined">grid_view</span>
@@ -226,12 +243,12 @@ export default function MedicalRecordsPage() {
               <tr>
                 <td colSpan={4} className="px-6 py-8 text-center text-on-surface-variant">Loading records...</td>
               </tr>
-            ) : documents.length === 0 ? (
+            ) : filteredDocs.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-on-surface-variant">No medical records uploaded yet.</td>
+                <td colSpan={4} className="px-6 py-8 text-center text-on-surface-variant">No {activeCategory !== 'All' ? activeCategory.toLowerCase() : 'medical records'} uploaded yet.</td>
               </tr>
             ) : (
-              documents.map((doc) => (
+              filteredDocs.map((doc) => (
                 <tr key={doc.id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
