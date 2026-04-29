@@ -1,0 +1,1092 @@
+[
+  {
+    "source": "/ns.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/services",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/become-a-partner",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/blogs",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/about-us",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/+919148297106",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/profile.php",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/curesuremedico",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/watch",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/contact-us",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/privacy-policy",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/terms-and-conditions.aspx",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/delivery-timeline.aspx",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/refund-policy.aspx",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/sitemap.aspx",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/curesuremedico/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/send/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/people/CureSureMedico/100095027918655/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/@curesuremedico",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-brands-400.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-brands-400d41d.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-brands-401.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-brands-402.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-light-300.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-light-300d41d.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-light-301.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-light-302.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-regular-400.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-regular-400d41d.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-regular-401.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-regular-402.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-solid-900.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-solid-900d41d.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-solid-901.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/assets/fonts/fa-solid-902.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/htdocs_error/style.css",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/htdocs_error/something-lost.png",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/Une%20plateforme%20innovante%20pour%20les%20professionnels%20de%20sant%C3%A9",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/stem-cell-therapy-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/electronic-hand-and-limb-prosthetics-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/knee-replacement-surgery-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/weight-loss-surgery-for-ethiopians-in-India",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cochlear-implant-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/scoliosis-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/sacral-neuro-modulation-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/spinal-cord-stimulation-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/deep-brain-stimulation-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urolift-surgery-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/tavi-tavr-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-marrow-transplant-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-transplant-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/liver-transplant-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/stem-cell-therapy-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/electronic-hand-and-limb-prosthetics-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/knee-replacement-surgery-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/weight-loss-surgery-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cochlear-implant-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/scoliosis-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/sacral-neuro-modulation-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/spinal-cord-stimulation-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/deep-brain-stimulation-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urolift-surgery-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/tavi-tavr-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-marrow-transplant-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-transplant-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/liver-transplant-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/stem-cell-therapy-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/electronic-hand-and-limb-prosthetics-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/knee-replacement-surgery-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/weight-loss-surgery-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cochlear-implant-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/scoliosis-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/sacral-neuro-modulation-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/spinal-cord-stimulation-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/deep-brain-stimulation-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urolift-surgery-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/tavi-tavr-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-marrow-transplant-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-transplant-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/liver-transplant-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/stem-cell-therapy-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/electronic-hand-and-limb-prosthetics-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/knee-replacement-surgery-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/weight-loss-surgery-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cochlear-implant-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/scoliosis-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/sacral-neuro%E2%80%93modulation-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/spinal-cord-stimulation-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/deep-brain-stimulation-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urolift-surgery-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/tavi-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-marrow-transplant-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-transplant-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/liver-transplant-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/fertility-treatments-ivf-iui-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cancer-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/organ-transplant-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/pediatric-treatments-and-surgeries-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/lung-and-breathing-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-and-joint-surgeries-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/digestive-system-treatments-and-surgeries-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/best-radiology-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/hormone-and-gland-treatments-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/skin-care-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/newborn-care-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/aesthetic-surgeries-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/vascular-surgery-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/dental-care-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urology-treatments-and-surgeries-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/mental-health-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/eye-surgeries-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/neuro-surgeries-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/ent-treament-orl-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/gynecology-treatment-for-ethiopians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/heart-surgeries-for-ethiopians%20-in-India",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/fertility-treatments-ivf-iui-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cancer-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/organ-transplant-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/pediatric-treatments-and-surgeries-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/lung-and-breathing-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-and-joint-surgeries-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/digestive-system-treatments-and-surgeries-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/best-radiology-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/hormone-and-gland-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/skin-care-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/newborn-care-for-tanzanian-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/aesthetic-surgeries-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/vascular-surgery-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/dental-care-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urology-treatments-and-surgeries-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/mental-health-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/eye-surgeries-for-tanzanian-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/neuro-surgeries-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/ent-treament-orl-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/gynecology-treatment-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/heart-surgery-for-tanzanians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/fertility-treatments-ivf-iui-for-kenyan-patients-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cancer-treatments-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/organ-transplant-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/pediatric-treatments-and-surgeries-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/lung-and-breathing-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-and-joint-surgeries-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/digestive-system-treatments-and-surgeries-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/radiology-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/hormone-and-gland-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/skin-care-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/newborn-care-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/aesthetic-surgeries-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/vascular-surgery-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/dental-care-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urology-treatments-and-surgeries-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/mental-health-treatment-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/eye-surgery-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/neuro-surgery-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/ent-treament-orl-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/gynecology-treatment-in-india-for-kenyans",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/heart-surgeries-for-kenyans-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/fertility-treatment-ivf-iui-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/cancer-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/organ-transplant-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/pediatric-treatments-and-surgeries-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/lung-and-breathing-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/bone-and-joint-surgeries-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/digestive-system-treatments-and-surgeries-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/radiology-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/hormone-and-gland-treatments-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/skin-care-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/newborn-care-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/kidney-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/aesthetic-surgeries-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/vascular-surgery-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/dental-care-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/urology-Treatment-Surgeries-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/mental-health-treatment-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/eye-surgeries-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/neuro-surgery-in-india-for-nigerian-patients",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/ent-treatment-orl-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/gynecology-treatments-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/medical-tourism/heart-surgery-for-nigerians-in-india",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/404",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/sharer.php",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Craniotomy",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Biopsy",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/share_channel/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/UploadImages/766d953d-a883-4eb4-8255-8370864b7c71_Detail.webp",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Atrial_fibrillation",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/uas/login",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Auricle_(anatomy)",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Potassium",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/ckj/article/3/2/203/348174",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/news/industry/kidney-transplant-activity-in-india-has-a-long-way-to-go/90108151",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/en/Insights/Publications/Smart-surgery-and-low-cost-health-care-in-India.html",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/india/c-section-most-performed-surgery-in-india-report/articleshow/80719770.cms",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/embed/g3Po3pLFhjQ",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Aortic_regurgitation",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/news/articles/c0e84jw9qdjo",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/intent/tweet",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Tuberculosis",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Metabolism",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Aortic_stenosis",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/pmc/articles/PMC4696435/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/factsheets/Magnesium-HealthProfessional/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/pmc/articles/PMC5337761/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/CROS_hearing_aid",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/articles/PMC5337761/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Ost%C3%A9oporose",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Special:Search",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/reports/5939437/wellness-tourism-global-market-report",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/reports/wellness-tourism-market",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/articles/PMC4696435/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Brachytherapy",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Chemotherapy",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/article/10.1007/s00268-020-05794-7",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/factsheets/Potassium-HealthProfessional/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wiki/Orthopedic_surgery",
+    "destination": "/",
+    "permanent": true
+  }
+]
