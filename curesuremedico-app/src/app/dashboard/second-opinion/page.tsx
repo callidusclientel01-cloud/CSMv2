@@ -185,13 +185,7 @@ export default function SecondOpinionPage() {
               </li>
             </ul>
           </div>
-          <div className="p-8 rounded-xl bg-slate-900 text-white overflow-hidden relative group">
-            <div className="relative z-10">
-              <h5 className="text-lg font-bold mb-2">Need help?</h5>
-              <p className="text-sm text-slate-300 mb-6">Our patient advocates are available 24/7 to assist with your documentation.</p>
-            </div>
-            <span className="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl text-white/5 pointer-events-none group-hover:scale-110 transition-transform duration-700">support_agent</span>
-          </div>
+
         </div>
       </div>
     </section>

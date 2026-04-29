@@ -9,6 +9,7 @@ export default function ConsultationPage() {
   const router = useRouter();
   const [specialty, setSpecialty] = useState("");
   const [destination, setDestination] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -22,7 +23,13 @@ export default function ConsultationPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("You must be logged in to book a consultation.");
 
-      const inquiryType = `${specialty} Consultation in ${destination}`;
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+      const inquiryType = `${specialty} Consultation in ${destination}${file ? ` (File attached: ${file.name})` : ''}`;
       
       const { error } = await supabase
         .from('enquiries')
@@ -134,11 +141,13 @@ export default function ConsultationPage() {
                 <div>
                    <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3">Medical Report (Optional)</label>
                    <label className="flex items-center justify-center w-full h-[46px] px-4 bg-surface-container-highest rounded-xl cursor-pointer hover:bg-surface-container-high transition-all">
-                     <div className="flex items-center gap-2">
-                       <span className="material-symbols-outlined text-primary">upload_file</span>
-                       <span className="text-sm text-on-surface-variant">Upload PDF/JPG</span>
+                     <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis max-w-full">
+                       <span className="material-symbols-outlined text-primary">{file ? 'description' : 'upload_file'}</span>
+                       <span className={`text-sm truncate ${file ? 'text-primary font-medium' : 'text-on-surface-variant'}`}>
+                         {file ? file.name : "Upload PDF/JPG"}
+                       </span>
                      </div>
-                     <input className="hidden" type="file" disabled/>
+                     <input className="hidden" type="file" onChange={handleFileChange} />
                    </label>
                 </div>
               </div>
@@ -185,7 +194,7 @@ export default function ConsultationPage() {
                 <p className="text-[11px] text-on-surface-variant">Available 24/7 for global patients</p>
               </div>
             </div>
-            <button className="w-full py-2 bg-white text-primary border border-primary/20 text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-all">
+            <button onClick={() => window.open('https://wa.me/914428290203', '_blank')} className="w-full py-2 bg-white text-primary border border-primary/20 text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-all">
               Talk to a Care Manager
             </button>
           </div>
