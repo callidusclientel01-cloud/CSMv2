@@ -55,21 +55,21 @@ export default function TreatmentsPage() {
         } else {
           // STATIC FALLBACK
           finalTreatments = [
-            { id: "1", name: "Cardiology", icon_name: "favorite", short_description: "Heart valve replacement, Bypass surgery, and minimally invasive cardiac procedures.", starting_price: "Ask for quote" },
-            { id: "2", name: "Orthopedics", icon_name: "check_circle", short_description: "Precision robotic knee and hip replacements using the latest biocompatible materials.", starting_price: "Ask for quote" },
-            { id: "3", name: "Oncology", icon_name: "healing", short_description: "Comprehensive cancer care including CyberKnife, Proton therapy, and advanced immunotherapy.", starting_price: "Ask for quote" },
-            { id: "4", name: "Fertility/IVF", icon_name: "child_care", short_description: "High-success rate IVF, ICSI, and egg donation programs in world-class clinics.", starting_price: "Ask for quote" },
-            { id: "5", name: "Neurology", icon_name: "psychology", short_description: "Expert neurosurgery for brain and spine conditions using navigation-guided systems.", starting_price: "Ask for quote" },
-            { id: "6", name: "Bariatric Surgery", icon_name: "monitor_weight", short_description: "Advanced metabolic surgeries and gastric sleeve procedures for long-term health.", starting_price: "Ask for quote" },
-            { id: "7", name: "Gastroenterology", icon_name: "check_circle", short_description: "Advanced endoscopic procedures and digestive tract treatments.", starting_price: "Ask for quote" },
-            { id: "8", name: "Urology", icon_name: "check_circle", short_description: "Prostate treatments, kidney stone removal, and robotic urologic surgeries.", starting_price: "Ask for quote" },
-            { id: "9", name: "Cosmetic Surgery", icon_name: "face", short_description: "High-end aesthetic and reconstructive procedures by international board-certified surgeons.", starting_price: "Ask for quote" },
-            { id: "10", name: "Dentistry", icon_name: "check_circle", short_description: "Full mouth restorations, dental implants, and premium aesthetic dentistry.", starting_price: "Ask for quote" },
-            { id: "11", name: "Ophthalmology", icon_name: "visibility", short_description: "Advanced LASIK, cataract surgery, and retinal treatments.", starting_price: "Ask for quote" },
-            { id: "12", name: "Pediatrics", icon_name: "check_circle", short_description: "Specialized pediatric cardiology, oncology, and general pediatric surgery.", starting_price: "Ask for quote" },
-            { id: "13", name: "Pulmonology", icon_name: "check_circle", short_description: "Asthma, COPD, and advanced respiratory disorder treatments.", starting_price: "Ask for quote" },
-            { id: "14", name: "General Surgery", icon_name: "medical_services", short_description: "Wide range of minimally invasive laparoscopic and general surgical procedures.", starting_price: "Ask for quote" },
-            { id: "15", name: "Gynecology", icon_name: "pregnant_woman", short_description: "Comprehensive women's health screening and specialized gynecological surgeries.", starting_price: "Ask for quote" }
+            { id: "1", slug: "cardiology", name: "Cardiology", icon_name: "favorite", short_description: "Heart valve replacement, Bypass surgery, and minimally invasive cardiac procedures.", starting_price: "Ask for quote" },
+            { id: "2", slug: "orthopedics", name: "Orthopedics", icon_name: "check_circle", short_description: "Precision robotic knee and hip replacements using the latest biocompatible materials.", starting_price: "Ask for quote" },
+            { id: "3", slug: "oncology", name: "Oncology", icon_name: "healing", short_description: "Comprehensive cancer care including CyberKnife, Proton therapy, and advanced immunotherapy.", starting_price: "Ask for quote" },
+            { id: "4", slug: "fertility-ivf", name: "Fertility/IVF", icon_name: "child_care", short_description: "High-success rate IVF, ICSI, and egg donation programs in world-class clinics.", starting_price: "Ask for quote" },
+            { id: "5", slug: "neurology", name: "Neurology", icon_name: "psychology", short_description: "Expert neurosurgery for brain and spine conditions using navigation-guided systems.", starting_price: "Ask for quote" },
+            { id: "6", slug: "bariatric-surgery", name: "Bariatric Surgery", icon_name: "monitor_weight", short_description: "Advanced metabolic surgeries and gastric sleeve procedures for long-term health.", starting_price: "Ask for quote" },
+            { id: "7", slug: "gastroenterology", name: "Gastroenterology", icon_name: "check_circle", short_description: "Advanced endoscopic procedures and digestive tract treatments.", starting_price: "Ask for quote" },
+            { id: "8", slug: "urology", name: "Urology", icon_name: "check_circle", short_description: "Prostate treatments, kidney stone removal, and robotic urologic surgeries.", starting_price: "Ask for quote" },
+            { id: "9", slug: "cosmetic-surgery", name: "Cosmetic Surgery", icon_name: "face", short_description: "High-end aesthetic and reconstructive procedures by international board-certified surgeons.", starting_price: "Ask for quote" },
+            { id: "10", slug: "dentistry", name: "Dentistry", icon_name: "check_circle", short_description: "Full mouth restorations, dental implants, and premium aesthetic dentistry.", starting_price: "Ask for quote" },
+            { id: "11", slug: "ophthalmology", name: "Ophthalmology", icon_name: "visibility", short_description: "Advanced LASIK, cataract surgery, and retinal treatments.", starting_price: "Ask for quote" },
+            { id: "12", slug: "pediatrics", name: "Pediatrics", icon_name: "check_circle", short_description: "Specialized pediatric cardiology, oncology, and general pediatric surgery.", starting_price: "Ask for quote" },
+            { id: "13", slug: "pulmonology", name: "Pulmonology", icon_name: "check_circle", short_description: "Asthma, COPD, and advanced respiratory disorder treatments.", starting_price: "Ask for quote" },
+            { id: "14", slug: "general-surgery", name: "General Surgery", icon_name: "medical_services", short_description: "Wide range of minimally invasive laparoscopic and general surgical procedures.", starting_price: "Ask for quote" },
+            { id: "15", slug: "gynecology", name: "Gynecology", icon_name: "pregnant_woman", short_description: "Comprehensive women's health screening and specialized gynecological surgeries.", starting_price: "Ask for quote" }
           ];
         }
         setTreatments(finalTreatments);

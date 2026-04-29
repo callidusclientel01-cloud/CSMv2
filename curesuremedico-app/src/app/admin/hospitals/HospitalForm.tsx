@@ -8,6 +8,7 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
+    slug: initialData?.slug || "",
     city: initialData?.city || "",
     country: initialData?.country || "",
     rating: initialData?.rating || 5.0,
@@ -16,6 +17,19 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
     description: initialData?.description || "",
     image_url: initialData?.image_url || ""
   });
+
+  const generateSlug = (text: string) => {
+    return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    if (!initialData?.id) {
+      setFormData({ ...formData, name: newName, slug: generateSlug(newName) });
+    } else {
+      setFormData({ ...formData, name: newName });
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,6 +41,7 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
 
     const payload = {
       name: formData.name,
+      slug: formData.slug,
       city: formData.city,
       country: formData.country,
       rating: parseFloat(formData.rating.toString()),
@@ -53,7 +68,11 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Hospital Name</label>
-          <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Apollo Hospitals" />
+          <input required type="text" name="name" value={formData.name} onChange={handleNameChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Apollo Hospitals" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
+          <input required type="text" name="slug" value={formData.slug} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="apollo-hospitals" />
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">City</label>

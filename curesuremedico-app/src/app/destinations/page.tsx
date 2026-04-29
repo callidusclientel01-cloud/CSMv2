@@ -93,6 +93,7 @@ export default function DestinationsPage() {
           finalDestinations = [
             {
               id: "1",
+              slug: "india",
               country_name: "India",
               tagline: "The Value Hub",
               description: "",
@@ -101,6 +102,7 @@ export default function DestinationsPage() {
             },
             {
               id: "2",
+              slug: "turkey",
               country_name: "Turkey",
               tagline: "Aesthetic Specialists",
               description: "",
@@ -109,6 +111,7 @@ export default function DestinationsPage() {
             },
             {
               id: "3",
+              slug: "uae",
               country_name: "UAE",
               tagline: "Luxury Care",
               description: "",
@@ -117,6 +120,7 @@ export default function DestinationsPage() {
             },
             {
               id: "4",
+              slug: "thailand",
               country_name: "Thailand",
               tagline: "Wellness & Surgery",
               description: "",

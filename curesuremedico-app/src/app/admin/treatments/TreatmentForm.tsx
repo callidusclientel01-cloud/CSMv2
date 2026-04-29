@@ -8,10 +8,24 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
+    slug: initialData?.slug || "",
     icon_name: initialData?.icon_name || "medical_services",
     short_description: initialData?.short_description || "",
     starting_price: initialData?.starting_price || ""
   });
+
+  const generateSlug = (text: string) => {
+    return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    if (!initialData?.id) {
+      setFormData({ ...formData, name: newName, slug: generateSlug(newName) });
+    } else {
+      setFormData({ ...formData, name: newName });
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,7 +52,11 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Treatment Name</label>
-          <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Cardiology" />
+          <input required type="text" name="name" value={formData.name} onChange={handleNameChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Cardiology" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
+          <input required type="text" name="slug" value={formData.slug} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="cardiology" />
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Starting Price</label>
