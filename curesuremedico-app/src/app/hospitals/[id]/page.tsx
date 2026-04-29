@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import Image from "next/image";
 import { countries } from "@/utils/countries";
 
-export default function HospitalProfilePage({ params }: { params: { id: string } }) {
+export default function HospitalProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const unwrappedParams = use(params);
   // Mock data for Apollo Hospitals based on the provided template
-  const isApollo = params.id === "apollo";
+  const isApollo = unwrappedParams.id === "apollo";
   
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [phoneCode, setPhoneCode] = useState("+234");
