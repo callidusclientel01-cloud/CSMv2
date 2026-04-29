@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 export default function DestinationForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -47,8 +48,14 @@ export default function DestinationForm({ initialData }: { initialData?: any }) 
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-slate-700 mb-2">Image URL</label>
-        <input required type="url" name="image_url" value={formData.image_url} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="https://..." />
+        <ImageUploadField
+          label="Image URL"
+          name="image_url"
+          value={formData.image_url}
+          onChange={(url) => setFormData({ ...formData, image_url: url })}
+          placeholder="https://..."
+          required
+        />
       </div>
 
       <div>

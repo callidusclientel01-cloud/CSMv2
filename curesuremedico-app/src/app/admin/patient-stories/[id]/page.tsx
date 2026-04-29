@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 export default function PatientStoryForm() {
   const params = useParams();
@@ -98,8 +99,13 @@ export default function PatientStoryForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Custom Thumbnail URL (Optional)</label>
-          <input type="text" name="thumbnail_url" value={formData.thumbnail_url} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none" placeholder="Leave empty to auto-fetch from YouTube"/>
+          <ImageUploadField
+            label="Custom Thumbnail URL (Optional)"
+            name="thumbnail_url"
+            value={formData.thumbnail_url}
+            onChange={(url) => setFormData({ ...formData, thumbnail_url: url })}
+            placeholder="Leave empty to auto-fetch from YouTube"
+          />
         </div>
 
         <div className="pt-6 border-t border-slate-100 flex justify-end gap-4">

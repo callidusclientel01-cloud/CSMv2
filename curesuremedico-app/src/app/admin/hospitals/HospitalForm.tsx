@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 export default function HospitalForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -15,7 +16,8 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
     reviews_count: initialData?.reviews_count || 0,
     accreditations: initialData?.accreditations?.join(", ") || "",
     description: initialData?.description || "",
-    image_url: initialData?.image_url || ""
+    image_url: initialData?.image_url || "",
+    logo_url: initialData?.logo_url || ""
   });
 
   const generateSlug = (text: string) => {
@@ -48,7 +50,8 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
       reviews_count: parseInt(formData.reviews_count.toString(), 10),
       accreditations: formData.accreditations.split(',').map((a: string) => a.trim()).filter((a: string) => a),
       description: formData.description,
-      image_url: formData.image_url
+      image_url: formData.image_url,
+      logo_url: formData.logo_url
     };
 
     if (initialData?.id) {
@@ -96,10 +99,21 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-bold text-slate-700 mb-2">Image URL</label>
-        <input type="url" name="image_url" value={formData.image_url} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="https://..." />
-      </div>
+      <ImageUploadField
+        label="Image URL"
+        name="image_url"
+        value={formData.image_url}
+        onChange={(url) => setFormData({ ...formData, image_url: url })}
+        placeholder="https://..."
+      />
+
+      <ImageUploadField
+        label="Logo URL"
+        name="logo_url"
+        value={formData.logo_url}
+        onChange={(url) => setFormData({ ...formData, logo_url: url })}
+        placeholder="https://..."
+      />
 
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-2">Description</label>

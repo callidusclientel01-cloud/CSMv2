@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 export default function TreatmentForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -97,8 +98,13 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
         <h3 className="text-lg font-bold text-slate-900 mb-4">Full Page Details</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">Hero Image URL</label>
-            <input type="url" name="hero_image_url" value={formData.hero_image_url} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="https://..." />
+            <ImageUploadField
+              label="Hero Image URL"
+              name="hero_image_url"
+              value={formData.hero_image_url}
+              onChange={(url) => setFormData({ ...formData, hero_image_url: url })}
+              placeholder="https://..."
+            />
           </div>
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-2">Overview Title</label>

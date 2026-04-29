@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
+import ImageUploadField from "@/components/admin/ImageUploadField";
 
 export default function PackageForm() {
   const params = useParams();
@@ -112,8 +113,13 @@ export default function PackageForm() {
             <input required type="text" name="price" value={formData.price} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none" placeholder="e.g. $1,200"/>
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">Image URL</label>
-            <input type="text" name="image_url" value={formData.image_url} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none" placeholder="https://..."/>
+            <ImageUploadField
+              label="Image URL"
+              name="image_url"
+              value={formData.image_url}
+              onChange={(url) => setFormData({ ...formData, image_url: url })}
+              placeholder="https://..."
+            />
           </div>
         </div>
 
