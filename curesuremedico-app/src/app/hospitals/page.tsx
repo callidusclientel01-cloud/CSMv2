@@ -54,6 +54,7 @@ function HospitalsList() {
           fetchedData = [
             {
               id: "1",
+              slug: "apollo",
               name: "Apollo Hospitals, Greams Road",
               city: "Chennai, Tamil Nadu",
               country: "India",
@@ -67,6 +68,7 @@ function HospitalsList() {
             },
             {
               id: "2",
+              slug: "fortis",
               name: "Fortis Memorial Research Institute",
               city: "Gurgaon, Delhi NCR",
               country: "India",
@@ -80,6 +82,7 @@ function HospitalsList() {
             },
             {
               id: "3",
+              slug: "medanta",
               name: "Medanta - The Medicity",
               city: "Gurugram, Haryana",
               country: "India",
