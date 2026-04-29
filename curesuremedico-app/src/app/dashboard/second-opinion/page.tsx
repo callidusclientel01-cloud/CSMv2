@@ -1,8 +1,60 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef } from "react";
+import { supabase } from "@/utils/supabaseClient";
 
 export default function SecondOpinionPage() {
+  const [diagnosis, setDiagnosis] = useState("");
+  const [questions, setQuestions] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError("");
+    setSubmitSuccess(false);
+
+    try {
+      const { error } = await supabase.from('leads').insert([{
+        name: "Dashboard User",
+        phone: "N/A",
+        condition: `Second Opinion: ${diagnosis}`,
+        notes: `File: ${file ? file.name : 'None'}. Questions: ${questions}`
+      }]);
+
+      if (error) throw error;
+      setSubmitSuccess(true);
+      setDiagnosis("");
+      setQuestions("");
+      setFile(null);
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (err: any) {
+      setSubmitError(err.message || "An error occurred.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <section className="pt-24 pb-12 px-6 lg:px-12 max-w-6xl mx-auto min-h-screen">
       {/* Hero Header Section (Asymmetric Layout) */}
@@ -51,31 +103,55 @@ export default function SecondOpinionPage() {
             <h4 className="text-2xl font-bold text-on-surface mb-2">Opinion Request Form</h4>
             <p className="text-on-surface-variant">Please provide as much detail as possible to ensure accuracy.</p>
           </div>
-          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-8" onSubmit={handleSubmit}>
+            {submitSuccess && (
+              <div className="bg-green-100 text-green-800 p-3 rounded-lg text-sm font-medium">
+                Request sent successfully. A specialist will review your case.
+              </div>
+            )}
+            {submitError && (
+              <div className="bg-error/10 text-error p-3 rounded-lg text-sm font-medium">
+                {submitError}
+              </div>
+            )}
             {/* Diagnosis Section */}
             <div>
               <label className="block text-sm font-bold text-on-surface-variant mb-3 uppercase tracking-wider">Current Diagnosis</label>
-              <input className="w-full bg-surface-container-highest border-none rounded-xl p-4 focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-slate-400 focus:outline-none" placeholder="e.g. Stage II Breast Cancer, Grade 3" type="text" />
+              <input value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} required className="w-full bg-surface-container-highest border-none rounded-xl p-4 focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-slate-400 focus:outline-none" placeholder="e.g. Stage II Breast Cancer, Grade 3" type="text" />
             </div>
             {/* Scans & Files */}
             <div>
               <label className="block text-sm font-bold text-on-surface-variant mb-3 uppercase tracking-wider">Clinical Records &amp; Scans (MRI/CT/PET)</label>
-              <div className="border-2 border-dashed border-outline-variant/30 rounded-xl p-10 flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container hover:border-primary/50 transition-all group cursor-pointer">
-                <span className="material-symbols-outlined text-4xl text-outline mb-3 group-hover:text-primary transition-colors">cloud_upload</span>
-                <p className="text-sm font-medium text-on-surface">Drag and drop files or <span className="text-primary underline">browse computer</span></p>
-                <p className="text-xs text-on-surface-variant mt-2">Maximum file size 500MB. Supported: DICOM, PDF, JPG, PNG.</p>
+              <div 
+                onClick={() => fileInputRef.current?.click()}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                className="border-2 border-dashed border-outline-variant/30 rounded-xl p-10 flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container hover:border-primary/50 transition-all group cursor-pointer"
+              >
+                <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+                <span className="material-symbols-outlined text-4xl text-outline mb-3 group-hover:text-primary transition-colors">
+                  {file ? 'description' : 'cloud_upload'}
+                </span>
+                {file ? (
+                  <p className="text-sm font-medium text-primary">{file.name}</p>
+                ) : (
+                  <>
+                    <p className="text-sm font-medium text-on-surface">Drag and drop files or <span className="text-primary underline">browse computer</span></p>
+                    <p className="text-xs text-on-surface-variant mt-2">Maximum file size 500MB. Supported: DICOM, PDF, JPG, PNG.</p>
+                  </>
+                )}
               </div>
             </div>
             {/* Specific Questions */}
             <div>
               <label className="block text-sm font-bold text-on-surface-variant mb-3 uppercase tracking-wider">Specific Questions for the Doctor</label>
-              <textarea className="w-full bg-surface-container-highest border-none rounded-xl p-4 focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-slate-400 focus:outline-none" placeholder="What are your primary concerns? Do you have questions about specific treatment options?" rows={4}></textarea>
+              <textarea value={questions} onChange={(e) => setQuestions(e.target.value)} required className="w-full bg-surface-container-highest border-none rounded-xl p-4 focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-slate-400 focus:outline-none" placeholder="What are your primary concerns? Do you have questions about specific treatment options?" rows={4}></textarea>
             </div>
             {/* Action */}
             <div className="pt-4">
-              <button className="w-full lg:w-auto bg-primary text-on-primary px-10 py-4 rounded-full font-bold text-lg hover:shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2" type="submit">
-                Request Medical Review
-                <span className="material-symbols-outlined">arrow_forward</span>
+              <button disabled={isSubmitting} className="w-full lg:w-auto bg-primary text-on-primary px-10 py-4 rounded-full font-bold text-lg hover:shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed" type="submit">
+                {isSubmitting ? "Submitting..." : "Request Medical Review"}
+                {!isSubmitting && <span className="material-symbols-outlined">arrow_forward</span>}
               </button>
             </div>
           </form>
@@ -113,7 +189,6 @@ export default function SecondOpinionPage() {
             <div className="relative z-10">
               <h5 className="text-lg font-bold mb-2">Need help?</h5>
               <p className="text-sm text-slate-300 mb-6">Our patient advocates are available 24/7 to assist with your documentation.</p>
-              <button className="bg-white text-slate-900 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-slate-100 transition-colors">Start Live Chat</button>
             </div>
             <span className="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl text-white/5 pointer-events-none group-hover:scale-110 transition-transform duration-700">support_agent</span>
           </div>

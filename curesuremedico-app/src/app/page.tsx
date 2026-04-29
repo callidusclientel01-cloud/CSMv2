@@ -200,7 +200,7 @@ export default function Home() {
               <button onClick={() => router.push('/quote')} className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-2xl font-bold shadow-lg flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
                 Get Free Treatment Plan <span className="material-symbols-outlined text-base">arrow_forward</span>
               </button>
-              <button onClick={() => router.push('/quote')} className="w-full sm:w-auto px-8 py-4 bg-surface-container-low text-primary rounded-2xl font-bold hover:bg-surface-container-high transition-colors flex justify-center items-center">
+              <button onClick={() => window.open('https://wa.me/914428290203', '_blank')} className="w-full sm:w-auto px-8 py-4 bg-surface-container-low text-primary rounded-2xl font-bold hover:bg-surface-container-high transition-colors flex justify-center items-center">
                 Talk to Medical Expert
               </button>
             </div>
