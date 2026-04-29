@@ -13,25 +13,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setLoading(false);
-      if (!session && pathname !== "/admin/login") {
-        router.push("/admin/login");
+    // Check if the user is on the client side
+    if (typeof window !== "undefined") {
+      const storedKey = localStorage.getItem("csm_admin_auth");
+      const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
+      
+      if (storedKey === validKey) {
+        setSession({ user: "admin" });
+        setLoading(false);
+      } else {
+        if (pathname !== "/admin/login") {
+          window.location.href = "/admin/login";
+        } else {
+          setLoading(false);
+        }
       }
-    };
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if (!session && pathname !== "/admin/login") {
-        router.push("/admin/login");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [pathname, router]);
+    }
+  }, [pathname]);
 
   const menuItems = [
     { name: "Overview", path: "/admin", icon: "dashboard" },

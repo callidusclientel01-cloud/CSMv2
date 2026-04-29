@@ -6,7 +6,6 @@ import { supabase } from "@/utils/supabaseClient";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -16,15 +15,15 @@ export default function AdminLogin() {
     setLoading(true);
     setErrorMsg(null);
 
-    try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-      
-      // Navigate to admin dashboard on success
+    // The key is either set in environment variables or defaults to CSMAdmin2024!
+    const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
+
+    if (password === validKey) {
+      // Store securely in localStorage
+      localStorage.setItem("csm_admin_auth", password);
       window.location.href = "/admin";
-    } catch (err: any) {
-      setErrorMsg(err.message || "Invalid credentials.");
-    } finally {
+    } else {
+      setErrorMsg("Invalid authentication key.");
       setLoading(false);
     }
   };
@@ -47,31 +46,16 @@ export default function AdminLogin() {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">Admin Email</label>
+            <label className="text-sm font-medium text-slate-300">Authentication Key</label>
             <div className="relative">
-              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">mail</span>
-              <input 
-                type="email" 
-                required 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-white"
-                placeholder="admin@curesuremedico.com"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">Password</label>
-            <div className="relative">
-              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">lock</span>
+              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">key</span>
               <input 
                 type="password" 
                 required 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-white"
-                placeholder="••••••••"
+                placeholder="Enter your secret key"
               />
             </div>
           </div>
