@@ -2,17 +2,24 @@ import React from "react";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
 
-// Revalidate this page every 60 seconds or make it fully dynamic
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
   // Fetch basic counts for the overview dashboard
-  const [{ count: hospitalsCount }, { count: treatmentsCount }, { count: destinationsCount }, { count: leadsCount }] = await Promise.all([
+  const [hospitalsRes, treatmentsRes, destinationsRes, leadsRes] = await Promise.all([
     supabase.from('hospitals').select('*', { count: 'exact', head: true }),
     supabase.from('treatments').select('*', { count: 'exact', head: true }),
     supabase.from('destinations').select('*', { count: 'exact', head: true }),
     supabase.from('leads').select('*', { count: 'exact', head: true }),
   ]);
+
+  if (hospitalsRes.error) console.error("Error fetching hospitals count:", hospitalsRes.error);
+  if (treatmentsRes.error) console.error("Error fetching treatments count:", treatmentsRes.error);
+  
+  const hospitalsCount = hospitalsRes.count || 0;
+  const treatmentsCount = treatmentsRes.count || 0;
+  const destinationsCount = destinationsRes.count || 0;
+  const leadsCount = leadsRes.count || 0;
 
   const statCards = [
     { title: "Total Hospitals", count: hospitalsCount || 0, icon: "local_hospital", color: "bg-blue-500", link: "/admin/hospitals" },
