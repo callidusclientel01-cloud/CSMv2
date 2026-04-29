@@ -13,6 +13,12 @@ export default function ConsultationPage() {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!specialty || !destination) {
       alert("Please select a specialty and a destination.");
@@ -23,12 +29,6 @@ export default function ConsultationPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("You must be logged in to book a consultation.");
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-    }
-  };
 
       const inquiryType = `${specialty} Consultation in ${destination}${file ? ` (File attached: ${file.name})` : ''}`;
       

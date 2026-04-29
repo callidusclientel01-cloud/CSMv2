@@ -25,11 +25,6 @@
     "permanent": true
   },
   {
-    "source": "/+919148297106",
-    "destination": "/",
-    "permanent": true
-  },
-  {
     "source": "/profile.php",
     "destination": "/",
     "permanent": true
@@ -946,11 +941,6 @@
   },
   {
     "source": "/uas/login",
-    "destination": "/",
-    "permanent": true
-  },
-  {
-    "source": "/wiki/Auricle_(anatomy)",
     "destination": "/",
     "permanent": true
   },
