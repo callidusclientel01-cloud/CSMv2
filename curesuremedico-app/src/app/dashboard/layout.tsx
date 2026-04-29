@@ -9,6 +9,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -116,7 +117,49 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               Emergency Support: +91 44 2829 0203
             </a>
             <div className="flex items-center gap-2">
-              <button className="material-symbols-outlined p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors">notifications</button>
+              <div className="relative">
+                <button onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} className="material-symbols-outlined p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors relative">
+                  notifications
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-pulse border border-white"></span>
+                </button>
+                {isNotificationsOpen && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 overflow-hidden z-50">
+                    <div className="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                      <h4 className="font-bold text-slate-800 text-sm">Notifications</h4>
+                      <button onClick={() => setIsNotificationsOpen(false)} className="text-[10px] font-bold text-blue-600 hover:underline uppercase tracking-wider">Mark all read</button>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto">
+                      <div className="p-4 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors bg-blue-50/30">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 bg-blue-100 text-blue-700 rounded-full shrink-0">
+                            <span className="material-symbols-outlined text-sm">verified_user</span>
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-slate-800">Welcome to CureSureMedico</p>
+                            <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Your secure patient portal is now active. You can start booking consultations.</p>
+                            <p className="text-[9px] font-bold text-blue-600 mt-2 uppercase tracking-widest">Just now</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-4 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 bg-emerald-100 text-emerald-700 rounded-full shrink-0">
+                            <span className="material-symbols-outlined text-sm">upload_file</span>
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-slate-800">Upload Medical Records</p>
+                            <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">To help our specialists evaluate your case faster, please upload your past medical reports.</p>
+                            <p className="text-[9px] font-bold text-slate-400 mt-2 uppercase tracking-widest">2 hours ago</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-3 text-center border-t border-slate-100 bg-slate-50">
+                      <button onClick={() => setIsNotificationsOpen(false)} className="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">Close Menu</button>
+                    </div>
+                  </div>
+                )}
+              </div>
               <button className="material-symbols-outlined p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors">help_outline</button>
             </div>
             <img 
