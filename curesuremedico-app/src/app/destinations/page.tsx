@@ -23,13 +23,48 @@ export default function DestinationsPage() {
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/quote');
+    setIsSubmitting(true);
+    setSubmitError("");
+    setSubmitSuccess(false);
+
+    try {
+      const fullPhone = `${phoneCode} ${phoneNumber}`;
+      
+      const { error } = await supabase.from('leads').insert([{
+        name: fullName,
+        phone: fullPhone,
+        condition: medicalCondition,
+        notes: `From Destinations Form. Country selected: ${selectedCountryName}`
+      }]);
+
+      if (error) throw error;
+
+      setSubmitSuccess(true);
+      setFullName("");
+      setPhoneNumber("");
+      setMedicalCondition("");
+      
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (err: any) {
+      console.error("Error submitting lead:", err);
+      setSubmitError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [phoneCode, setPhoneCode] = useState("+234");
+  
+  // Form State
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [medicalCondition, setMedicalCondition] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -131,10 +166,20 @@ export default function DestinationsPage() {
           <div className="bg-surface-container-lowest p-8 rounded-xl shadow-2xl border border-outline-variant/20 max-w-md ml-auto w-full">
             <h3 className="text-2xl font-bold mb-6">Start Your Journey</h3>
             <form onSubmit={handleLeadSubmit} className="space-y-4">
+              {submitSuccess && (
+                <div className="bg-green-100 text-green-800 p-3 rounded-md text-sm font-medium">
+                  Thank you! Your inquiry has been sent.
+                </div>
+              )}
+              {submitError && (
+                <div className="bg-error/10 text-error p-3 rounded-md text-sm font-medium">
+                  {submitError}
+                </div>
+              )}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Full Name</label>
-                  <input required className="w-full bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="John Doe" type="text" />
+                  <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="John Doe" type="text" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Country</label>
@@ -151,7 +196,7 @@ export default function DestinationsPage() {
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Medical Condition</label>
-                <input required className="w-full bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="e.g. Orthopedic, Cardiac" type="text" />
+                <input required value={medicalCondition} onChange={(e) => setMedicalCondition(e.target.value)} className="w-full bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="e.g. Orthopedic, Cardiac" type="text" />
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">WhatsApp Number</label>
@@ -159,12 +204,12 @@ export default function DestinationsPage() {
                   <span className="bg-surface-container-highest flex items-center justify-center px-3 rounded-md text-on-surface-variant text-sm font-bold w-20 sm:w-24 shrink-0">
                     {phoneCode}
                   </span>
-                  <input required className="flex-1 min-w-0 bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="800 000 0000" type="tel" />
+                  <input required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="flex-1 min-w-0 bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="800 000 0000" type="tel" />
                 </div>
               </div>
-              <button type="submit" className="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-base md:text-lg hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 cursor-pointer">
-                <span className="whitespace-nowrap">Request Expert Consultation</span>
-                <span className="material-symbols-outlined shrink-0">arrow_forward</span>
+              <button disabled={isSubmitting} type="submit" className="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-base md:text-lg hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
+                <span className="whitespace-nowrap">{isSubmitting ? "Sending..." : "Request Expert Consultation"}</span>
+                {!isSubmitting && <span className="material-symbols-outlined shrink-0">arrow_forward</span>}
               </button>
               <p className="text-center text-xs text-on-surface-variant mt-2">Confidential and secure. Your data is protected.</p>
             </form>

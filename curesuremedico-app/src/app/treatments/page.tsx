@@ -106,6 +106,14 @@ export default function TreatmentsPage() {
 
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [phoneCode, setPhoneCode] = useState("+234");
+  
+  // Form State
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [medicalCondition, setMedicalCondition] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -118,9 +126,36 @@ export default function TreatmentsPage() {
     setVisibleTreatments((prev) => prev + 6);
   };
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/quote');
+    setIsSubmitting(true);
+    setSubmitError("");
+    setSubmitSuccess(false);
+
+    try {
+      const fullPhone = `${phoneCode} ${phoneNumber}`;
+      
+      const { error } = await supabase.from('leads').insert([{
+        name: fullName,
+        phone: fullPhone,
+        condition: medicalCondition,
+        notes: `From Treatments Form. Country selected: ${selectedCountryName}`
+      }]);
+
+      if (error) throw error;
+
+      setSubmitSuccess(true);
+      setFullName("");
+      setPhoneNumber("");
+      setMedicalCondition("");
+      
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (err: any) {
+      console.error("Error submitting lead:", err);
+      setSubmitError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleSearch = () => {
@@ -165,9 +200,19 @@ export default function TreatmentsPage() {
             <h3 className="text-2xl font-bold text-primary mb-2">Request a Consultation</h3>
             <p className="text-on-surface-variant text-sm mb-6">Get a personalized medical quote within 24 hours.</p>
             <form onSubmit={handleLeadSubmit} className="space-y-4">
+              {submitSuccess && (
+                <div className="bg-green-100 text-green-800 p-3 rounded-lg text-sm font-medium">
+                  Thank you! Your inquiry has been sent.
+                </div>
+              )}
+              {submitError && (
+                <div className="bg-error/10 text-error p-3 rounded-lg text-sm font-medium">
+                  {submitError}
+                </div>
+              )}
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Full Name</label>
-                <input required className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="John Doe" type="text" />
+                <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="John Doe" type="text" />
               </div>
               <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                 <div>
@@ -184,7 +229,7 @@ export default function TreatmentsPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Condition</label>
-                  <input required className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="e.g. Cardiology" type="text" />
+                  <input required value={medicalCondition} onChange={(e) => setMedicalCondition(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="e.g. Cardiology" type="text" />
                 </div>
               </div>
               <div>
@@ -193,11 +238,11 @@ export default function TreatmentsPage() {
                   <span className="bg-surface-container-high px-3 flex items-center justify-center rounded-lg text-sm font-bold w-20 sm:w-24 shrink-0 text-on-surface-variant">
                     {phoneCode}
                   </span>
-                  <input required className="flex-1 min-w-0 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="800 000 0000" type="tel" />
+                  <input required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="flex-1 min-w-0 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="800 000 0000" type="tel" />
                 </div>
               </div>
-              <button type="submit" className="w-full bg-primary text-on-primary py-4 rounded-full font-bold text-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer">
-                <span className="whitespace-nowrap">Get Quote</span> <span className="material-symbols-outlined shrink-0">arrow_forward</span>
+              <button disabled={isSubmitting} type="submit" className="w-full bg-primary text-on-primary py-4 rounded-full font-bold text-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
+                <span className="whitespace-nowrap">{isSubmitting ? "Sending..." : "Get Quote"}</span> {!isSubmitting && <span className="material-symbols-outlined shrink-0">arrow_forward</span>}
               </button>
             </form>
           </div>
