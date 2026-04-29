@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -62,23 +63,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </Link>
         <nav className="flex-1 space-y-1">
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition-all duration-200 group">
+          <Link href="/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname === '/dashboard' ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">dashboard</span>
             <span className="text-sm font-medium">Back to Dashboard</span>
           </Link>
-          <Link href="/dashboard/consultation" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition-all duration-200 group">
+          <Link href="/dashboard/consultation" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/consultation') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">calendar_today</span>
             <span className="text-sm font-medium">Book a Consultation</span>
           </Link>
-          <Link href="/dashboard/enquiries" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition-all duration-200 group">
+          <Link href="/dashboard/enquiries" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/enquiries') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">chat_bubble</span>
             <span className="text-sm font-medium">My Enquiries</span>
           </Link>
-          <Link href="/dashboard/second-opinion" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition-all duration-200 group">
+          <Link href="/dashboard/second-opinion" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/second-opinion') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">assignment_turned_in</span>
             <span className="text-sm font-medium">Second Opinion</span>
           </Link>
-          <Link href="/dashboard/records" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-600 hover:bg-slate-100 rounded-lg transition-all duration-200 group">
+          <Link href="/dashboard/records" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/records') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">folder_shared</span>
             <span className="text-sm font-medium">Medical Records</span>
           </Link>
@@ -130,20 +131,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {children}
 
         <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t px-6 py-2 flex justify-around items-center z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
-          <Link href="/dashboard" className="flex flex-col items-center gap-1 text-slate-500">
+          <Link href="/dashboard" className={`flex flex-col items-center gap-1 ${pathname === '/dashboard' ? 'text-primary' : 'text-slate-500'}`}>
             <span className="material-symbols-outlined">dashboard</span>
             <span className="text-[10px] font-medium">Home</span>
           </Link>
-          <Link href="/dashboard/enquiries" className="flex flex-col items-center gap-1 text-slate-500">
+          <Link href="/dashboard/enquiries" className={`flex flex-col items-center gap-1 ${pathname.startsWith('/dashboard/enquiries') ? 'text-primary' : 'text-slate-500'}`}>
             <span className="material-symbols-outlined">chat_bubble</span>
             <span className="text-[10px] font-medium">Enquiries</span>
           </Link>
           <Link href="/dashboard/consultation" className="flex flex-col items-center gap-1 -mt-8">
-            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-200 mt-2">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg mt-2 transition-all ${pathname.startsWith('/dashboard/consultation') ? 'bg-blue-800 text-white shadow-blue-400 scale-110' : 'bg-primary text-white shadow-blue-200'}`}>
               <span className="material-symbols-outlined">calendar_today</span>
             </div>
           </Link>
-          <Link href="/dashboard/records" className="flex flex-col items-center gap-1 text-slate-500">
+          <Link href="/dashboard/records" className={`flex flex-col items-center gap-1 ${pathname.startsWith('/dashboard/records') ? 'text-primary' : 'text-slate-500'}`}>
             <span className="material-symbols-outlined">folder_shared</span>
             <span className="text-[10px] font-medium">Records</span>
           </Link>
