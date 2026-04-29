@@ -10,8 +10,36 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CureSureMedico | Global Clinical Excellence",
-  description: "Your trusted bridge to global clinical excellence.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.curesuremedico.com'),
+  title: {
+    default: "CureSureMedico | Global Clinical Excellence",
+    template: "%s | CureSureMedico"
+  },
+  description: "Your trusted bridge to global clinical excellence. Access top-tier medical care across our global network of accredited hospitals.",
+  openGraph: {
+    title: "CureSureMedico | Global Clinical Excellence",
+    description: "World-Class Treatments at Transparent Prices. Your medical travel journey made easy.",
+    url: "/",
+    siteName: "CureSureMedico",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CureSureMedico | Global Clinical Excellence",
+    description: "World-Class Treatments at Transparent Prices.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
