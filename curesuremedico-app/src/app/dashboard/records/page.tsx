@@ -21,7 +21,11 @@ export default function MedicalRecordsPage() {
 
   const filteredDocs = activeCategory === 'All' 
     ? documents 
-    : documents.filter(doc => doc.category === activeCategory);
+    : documents.filter(doc => {
+        if (activeCategory === 'Diagnostic Imaging') return doc.category === 'Diagnostic Imaging' || doc.category === 'Imaging';
+        if (activeCategory === 'Laboratory Reports') return doc.category === 'Laboratory Reports' || doc.category === 'Report';
+        return doc.category === activeCategory;
+      });
 
   useEffect(() => {
     fetchDocuments();
@@ -217,7 +221,7 @@ export default function MedicalRecordsPage() {
 
       {/* Recent Activity / List View Section */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold tracking-tight">{activeCategory === 'All' ? 'Recent Records' : activeCategory}</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Recent Records {activeCategory !== 'All' && `- ${activeCategory}`}</h2>
         <div className="flex gap-2">
           <button className="p-2 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-dim transition-colors">
             <span className="material-symbols-outlined">grid_view</span>
