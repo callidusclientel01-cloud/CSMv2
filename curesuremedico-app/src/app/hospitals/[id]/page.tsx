@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { countries } from "@/utils/countries";
-import { supabase } from "@/utils/supabaseClient";
 
 export default function HospitalProfilePage({ params }: { params: { id: string } }) {
-  const [hospital, setHospital] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
+  // Mock data for Apollo Hospitals based on the provided template
+  const isApollo = params.id === "apollo";
+  
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [phoneCode, setPhoneCode] = useState("+234");
   
@@ -19,31 +18,6 @@ export default function HospitalProfilePage({ params }: { params: { id: string }
     if (countryObj) setPhoneCode(countryObj.code);
   };
 
-  useEffect(() => {
-    async function fetchHospital() {
-      // The params.id is actually the slug because our links are /hospitals/:slug
-      let { data } = await supabase.from('hospitals').select('*').eq('slug', params.id).single();
-      
-      // Fallback: If not found by slug, maybe it's an ID
-      if (!data) {
-        const { data: idData } = await supabase.from('hospitals').select('*').eq('id', params.id).single();
-        data = idData;
-      }
-      
-      setHospital(data);
-      setLoading(false);
-    }
-    fetchHospital();
-  }, [params.id]);
-
-  if (loading) {
-    return <div className="pt-36 text-center text-on-surface">Loading hospital details...</div>;
-  }
-
-  if (!hospital) {
-    return <div className="pt-36 text-center text-on-surface text-xl font-bold">Hospital not found.</div>;
-  }
-
   return (
     <main className="pt-20 bg-surface text-on-surface">
       {/* Hero Section with Asymmetric Layout */}
@@ -51,30 +25,28 @@ export default function HospitalProfilePage({ params }: { params: { id: string }
         <div className="absolute inset-0 z-0">
           <img 
             className="w-full h-full object-cover opacity-15 grayscale" 
-            src={hospital.image_url || "https://lh3.googleusercontent.com/aida-public/AB6AXuAC1E4TG7V-JemvIIaMtrv3dAfwnM2_URdZ3oQjv0C3_arLrgLmrTVSzFP9uWcvewSR8CgW22BA4x9xi49U3q275PkvFdN6CA_hJ5NpOqdzct5QntM3aeQiPqtivYBv6Qs47wz01ky7Xg6jpv0_-ZNJu15Kh5tVgL9aBI00eCj2eKLRIPr8nWQNH0j_RafgX4nXEhpDDtCHGqA4OrAloeswGWwSy9WpbchhGDjAkgQfKmtpwYanAOA1G5iZDPxSDeyiUfK2MIOLWWA"} 
-            alt={hospital.name} 
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC1E4TG7V-JemvIIaMtrv3dAfwnM2_URdZ3oQjv0C3_arLrgLmrTVSzFP9uWcvewSR8CgW22BA4x9xi49U3q275PkvFdN6CA_hJ5NpOqdzct5QntM3aeQiPqtivYBv6Qs47wz01ky7Xg6jpv0_-ZNJu15Kh5tVgL9aBI00eCj2eKLRIPr8nWQNH0j_RafgX4nXEhpDDtCHGqA4OrAloeswGWwSy9WpbchhGDjAkgQfKmtpwYanAOA1G5iZDPxSDeyiUfK2MIOLWWA" 
+            alt="Hospital Exterior" 
           />
           <div className="absolute inset-0 bg-gradient-to-br from-surface via-surface/90 to-primary/5"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-3 mb-6">
-              {hospital.accreditations && hospital.accreditations.length > 0 && (
-                <span className="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
-                  {hospital.accreditations[0]} Accredited
-                </span>
-              )}
+              <span className="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
+                JCI Accredited
+              </span>
               <div className="flex items-center gap-1 text-secondary font-bold">
                 <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                <span className="text-sm">{hospital.rating || 4.5} Rating</span>
+                <span className="text-sm">4.9 Rating</span>
               </div>
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold text-on-surface tracking-tight mb-4 leading-[1.1]">
-              {hospital.name}
+              Apollo Hospitals, <br/><span className="text-primary">Greams Road</span>
             </h1>
             <div className="flex items-center gap-2 text-on-surface-variant mb-8 text-lg">
               <span className="material-symbols-outlined text-primary">location_on</span>
-              <span>{hospital.city}, {hospital.country}</span>
+              <span>Chennai, Tamil Nadu, India</span>
             </div>
             <div className="flex flex-wrap gap-4">
               <button className="bg-primary text-on-primary px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
@@ -143,9 +115,12 @@ export default function HospitalProfilePage({ params }: { params: { id: string }
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 flex flex-col justify-center">
-              <h2 className="text-3xl font-extrabold mb-6 tracking-tight">Clinical Excellence</h2>
+              <h2 className="text-3xl font-extrabold mb-6 tracking-tight">Clinical Excellence Since 1983</h2>
               <p className="text-lg text-on-surface-variant leading-relaxed mb-6">
-                {hospital.description || `${hospital.name} is one of the premier healthcare institutions in ${hospital.country}, providing advanced medical care with compassion and precision.`}
+                Apollo Hospitals, Greams Road, Chennai is the flagship hospital of the Apollo Group. Established in 1983, it has revolutionized the healthcare landscape in India, pioneering modern medical techniques and compassionate care.
+              </p>
+              <p className="text-lg text-on-surface-variant leading-relaxed">
+                Our mission is to bring healthcare of international standards within the reach of every individual. We are committed to the achievement and maintenance of excellence in education, research, and healthcare for the benefit of humanity.
               </p>
             </div>
             <div className="lg:col-span-4 bg-primary-container rounded-xl p-8 text-on-primary-container flex flex-col justify-between">
@@ -208,18 +183,30 @@ export default function HospitalProfilePage({ params }: { params: { id: string }
             <p className="text-on-surface-variant max-w-xl mx-auto">Providing world-class medical expertise across diverse specialties with a patient-centric approach.</p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {hospital.specialties && hospital.specialties.length > 0 ? (
-              hospital.specialties.map((spec: string, idx: number) => (
-                <div key={idx} className="group text-center cursor-pointer">
-                  <div className="w-24 h-24 mx-auto mb-6 bg-surface-container-low rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
-                    <span className="material-symbols-outlined text-4xl">medical_services</span>
-                  </div>
-                  <h4 className="font-bold text-lg">{spec}</h4>
-                </div>
-              ))
-            ) : (
-              <div className="col-span-2 lg:col-span-4 text-center text-on-surface-variant">No specialties listed.</div>
-            )}
+            <div className="group text-center cursor-pointer">
+              <div className="w-24 h-24 mx-auto mb-6 bg-surface-container-low rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                <span className="material-symbols-outlined text-4xl">cardiology</span>
+              </div>
+              <h4 className="font-bold text-lg">Cardiology</h4>
+            </div>
+            <div className="group text-center cursor-pointer">
+              <div className="w-24 h-24 mx-auto mb-6 bg-surface-container-low rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                <span className="material-symbols-outlined text-4xl">medication_liquid</span>
+              </div>
+              <h4 className="font-bold text-lg">Oncology</h4>
+            </div>
+            <div className="group text-center cursor-pointer">
+              <div className="w-24 h-24 mx-auto mb-6 bg-surface-container-low rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                <span className="material-symbols-outlined text-4xl">orthopedics</span>
+              </div>
+              <h4 className="font-bold text-lg">Orthopedics</h4>
+            </div>
+            <div className="group text-center cursor-pointer">
+              <div className="w-24 h-24 mx-auto mb-6 bg-surface-container-low rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                <span className="material-symbols-outlined text-4xl">smart_toy</span>
+              </div>
+              <h4 className="font-bold text-lg">Robotic Surgery</h4>
+            </div>
           </div>
         </div>
       </section>
@@ -253,7 +240,7 @@ export default function HospitalProfilePage({ params }: { params: { id: string }
           <div>
             <h2 className="text-4xl font-extrabold tracking-tight mb-6">Global Patient Support</h2>
             <p className="text-lg text-on-surface-variant leading-relaxed mb-8">
-              {hospital.name} is a preferred destination for international patients. Our dedicated International Patient Wing ensures a seamless journey from your home country to our hospital and back.
+              Apollo Greams Road is a preferred destination for international patients. Our dedicated International Patient Wing ensures a seamless journey from your home country to our hospital and back.
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-4">
