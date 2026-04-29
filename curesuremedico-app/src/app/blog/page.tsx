@@ -66,7 +66,7 @@ function BlogContent() {
         const { data, error } = await supabase
           .from("blog_posts")
           .select("*")
-          .order("id", { ascending: true }); // standard order
+          .order("id", { ascending: false }); // Newest first
 
         if (error) {
           console.error("Error fetching blog posts:", error);
@@ -149,6 +149,10 @@ function BlogContent() {
             }
           ];
         }
+        
+        // Filter out posts that have no content
+        finalPosts = finalPosts.filter(post => post.content && post.content.trim().length > 0);
+        
         setPosts(finalPosts);
       } finally {
         setLoading(false);
@@ -341,7 +345,7 @@ function BlogContent() {
                   className="bg-surface-container-high hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                  Voir Plus (Load Older Posts)
+                  Voir plus
                 </button>
               </div>
             )}
