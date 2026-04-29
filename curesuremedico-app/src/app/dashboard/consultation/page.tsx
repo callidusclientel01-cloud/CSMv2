@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { supabase } from "@/utils/supabaseClient";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ export default function ConsultationPage() {
   const [destination, setDestination] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
     if (!specialty || !destination) {
@@ -140,15 +141,15 @@ export default function ConsultationPage() {
                 </div>
                 <div>
                    <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3">Medical Report (Optional)</label>
-                   <label className="flex items-center justify-center w-full h-[46px] px-4 bg-surface-container-highest rounded-xl cursor-pointer hover:bg-surface-container-high transition-all">
-                     <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis max-w-full">
+                   <div onClick={() => fileInputRef.current?.click()} className="flex items-center justify-center w-full h-[46px] px-4 bg-surface-container-highest rounded-xl cursor-pointer hover:bg-surface-container-high transition-all">
+                     <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis max-w-full pointer-events-none">
                        <span className="material-symbols-outlined text-primary">{file ? 'description' : 'upload_file'}</span>
                        <span className={`text-sm truncate ${file ? 'text-primary font-medium' : 'text-on-surface-variant'}`}>
                          {file ? file.name : "Upload PDF/JPG"}
                        </span>
                      </div>
-                     <input className="hidden" type="file" onChange={handleFileChange} />
-                   </label>
+                     <input ref={fileInputRef} className="hidden" type="file" onChange={handleFileChange} />
+                   </div>
                 </div>
               </div>
             </div>

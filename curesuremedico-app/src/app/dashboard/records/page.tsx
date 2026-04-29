@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { supabase } from "@/utils/supabaseClient";
 
 interface PatientDocument {
@@ -17,6 +17,7 @@ export default function MedicalRecordsPage() {
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const filteredDocs = activeCategory === 'All' 
     ? documents 
@@ -144,11 +145,11 @@ export default function MedicalRecordsPage() {
           <h1 className="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Medical Records</h1>
           <p className="text-on-surface-variant max-w-lg">Secure access to your clinical history, diagnostic imaging, and physician prescriptions.</p>
         </div>
-        <label className="bg-primary text-on-primary px-6 py-3 rounded-full flex items-center gap-2 font-semibold shadow-lg hover:bg-primary-container hover:text-white transition-all active:scale-95 group cursor-pointer">
-          <span className="material-symbols-outlined group-hover:rotate-90 transition-transform">upload</span>
-          {uploading ? "Uploading..." : "Upload New Record"}
-          <input type="file" className="hidden" disabled={uploading} onChange={handleUpload} accept=".pdf,.jpg,.jpeg,.png" />
-        </label>
+        <div onClick={() => !uploading && fileInputRef.current?.click()} className="bg-primary text-on-primary px-6 py-3 rounded-full flex items-center gap-2 font-semibold shadow-lg hover:bg-primary-container hover:text-white transition-all active:scale-95 group cursor-pointer">
+          <span className="material-symbols-outlined group-hover:rotate-90 transition-transform pointer-events-none">upload</span>
+          <span className="pointer-events-none">{uploading ? "Uploading..." : "Upload New Record"}</span>
+          <input ref={fileInputRef} type="file" className="hidden" disabled={uploading} onChange={handleUpload} accept=".pdf,.jpg,.jpeg,.png" />
+        </div>
       </header>
 
       {/* Bento Grid - Folder System */}
