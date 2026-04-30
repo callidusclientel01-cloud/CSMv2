@@ -43,7 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               
               // Verify access to current path
               if (pathname !== "/admin" && pathname !== "/admin/login") {
-                 const hasAccess = data.permissions.some((perm: string) => pathname.startsWith(perm));
+                 const hasAccess = data.permissions.some((perm: string) => (pathname || "").startsWith(perm));
                  if (!hasAccess) {
                    router.push("/admin");
                    return;
@@ -102,7 +102,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   if (!session) {
-    return null;
+    return <div className="flex h-screen items-center justify-center bg-slate-900 text-white font-bold tracking-widest text-sm uppercase">Redirecting...</div>;
   }
 
   return (
