@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function TreatmentForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -114,7 +115,11 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
 
         <div className="mb-6">
           <label className="block text-sm font-bold text-slate-700 mb-2">Overview Description</label>
-          <textarea name="overview_description" value={formData.overview_description} onChange={handleChange} rows={4} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Detailed description for the full page..."></textarea>
+          <RichTextEditor 
+            value={formData.overview_description} 
+            onChange={(value) => setFormData({ ...formData, overview_description: value })} 
+            placeholder="Detailed description for the full page..."
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">

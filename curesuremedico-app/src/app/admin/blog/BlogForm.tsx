@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function BlogForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -126,7 +127,11 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
 
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-2">Full Content (HTML/Text)</label>
-        <textarea required name="content" value={formData.content} onChange={handleChange} rows={10} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none font-mono text-sm" placeholder="<p>Write your article here...</p>"></textarea>
+        <RichTextEditor 
+          value={formData.content} 
+          onChange={(value) => setFormData({ ...formData, content: value })} 
+          placeholder="Write your article here..."
+        />
       </div>
 
       <div className="flex justify-end gap-4 pt-4 border-t border-slate-100">

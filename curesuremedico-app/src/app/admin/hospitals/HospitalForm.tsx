@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function HospitalForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -117,7 +118,11 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
 
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-2">Description</label>
-        <textarea required name="description" value={formData.description} onChange={handleChange} rows={4} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Description of the hospital..."></textarea>
+        <RichTextEditor 
+          value={formData.description} 
+          onChange={(value) => setFormData({ ...formData, description: value })} 
+          placeholder="Description of the hospital..."
+        />
       </div>
 
       <div className="flex justify-end gap-4 pt-4 border-t border-slate-100">

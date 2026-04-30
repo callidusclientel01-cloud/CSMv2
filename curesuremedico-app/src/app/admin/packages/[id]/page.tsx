@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function PackageForm() {
   const params = useParams();
@@ -125,7 +126,11 @@ export default function PackageForm() {
 
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Description *</label>
-          <textarea required name="description" value={formData.description} onChange={handleChange} rows={4} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none" placeholder="Short description of the package..."></textarea>
+          <RichTextEditor 
+            value={formData.description} 
+            onChange={(value) => setFormData({ ...formData, description: value })} 
+            placeholder="Short description of the package..."
+          />
         </div>
 
         <div>
