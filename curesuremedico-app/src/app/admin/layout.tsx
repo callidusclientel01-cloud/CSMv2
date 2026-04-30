@@ -16,7 +16,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const verifyAuth = async () => {
       if (typeof window !== "undefined") {
         const storedKey = localStorage.getItem("csm_admin_auth");
-        const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
+        const validKeysStr = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
+        const validKeys = validKeysStr.split(",").map(k => k.trim());
         
         if (!storedKey) {
           if (pathname !== "/admin/login") {
@@ -27,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           return;
         }
 
-        if (storedKey === validKey) {
+        if (validKeys.includes(storedKey)) {
           setSession({ role: "superadmin", permissions: ["all"] });
           setLoading(false);
         } else {

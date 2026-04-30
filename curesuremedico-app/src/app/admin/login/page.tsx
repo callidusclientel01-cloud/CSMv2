@@ -16,9 +16,10 @@ export default function AdminLogin() {
     setErrorMsg(null);
 
     // The key is either set in environment variables or defaults to CSMAdmin2024!
-    const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
+    const validKeysStr = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
+    const validKeys = validKeysStr.split(",").map(k => k.trim());
 
-    if (password === validKey) {
+    if (validKeys.includes(password)) {
       // Store securely in localStorage (Superadmin)
       localStorage.setItem("csm_admin_auth", password);
       window.location.href = "/admin";
