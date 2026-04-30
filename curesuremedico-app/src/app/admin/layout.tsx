@@ -13,26 +13,70 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if the user is on the client side
-    if (typeof window !== "undefined") {
-      const storedKey = localStorage.getItem("csm_admin_auth");
-      const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
-      
-      if (storedKey === validKey) {
-        setSession({ user: "admin" });
-        setLoading(false);
-      } else {
-        if (pathname !== "/admin/login") {
-          window.location.href = "/admin/login";
-        } else {
+    const verifyAuth = async () => {
+      if (typeof window !== "undefined") {
+        const storedKey = localStorage.getItem("csm_admin_auth");
+        const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
+        
+        if (!storedKey) {
+          if (pathname !== "/admin/login") {
+            window.location.href = "/admin/login";
+          } else {
+            setLoading(false);
+          }
+          return;
+        }
+
+        if (storedKey === validKey) {
+          setSession({ role: "superadmin", permissions: ["all"] });
           setLoading(false);
+        } else {
+          try {
+            const { data, error } = await supabase
+              .from('admin_users')
+              .select('*')
+              .eq('auth_key', storedKey)
+              .single();
+
+            if (data && !error) {
+              setSession({ role: "admin", permissions: data.permissions || [] });
+              
+              // Verify access to current path
+              if (pathname !== "/admin" && pathname !== "/admin/login") {
+                 const hasAccess = data.permissions.some((perm: string) => pathname.startsWith(perm));
+                 if (!hasAccess) {
+                   router.push("/admin");
+                   return;
+                 }
+              }
+
+              setLoading(false);
+            } else {
+              localStorage.removeItem("csm_admin_auth");
+              if (pathname !== "/admin/login") {
+                window.location.href = "/admin/login";
+              } else {
+                setLoading(false);
+              }
+            }
+          } catch (err) {
+            console.error(err);
+            if (pathname !== "/admin/login") {
+              window.location.href = "/admin/login";
+            } else {
+              setLoading(false);
+            }
+          }
         }
       }
-    }
-  }, [pathname]);
+    };
+    
+    verifyAuth();
+  }, [pathname, router]);
 
-  const menuItems = [
+  const allMenuItems = [
     { name: "Overview", path: "/admin", icon: "dashboard" },
+    { name: "Users", path: "/admin/users", icon: "group", superadminOnly: true },
     { name: "Hospitals", path: "/admin/hospitals", icon: "local_hospital" },
     { name: "Treatments", path: "/admin/treatments", icon: "medical_services" },
     { name: "Destinations", path: "/admin/destinations", icon: "flight_takeoff" },
@@ -41,6 +85,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Blog", path: "/admin/blog", icon: "article" },
     { name: "Leads/Inquiries", path: "/admin/leads", icon: "forum" },
   ];
+
+  const menuItems = session ? allMenuItems.filter((item) => {
+    if (session.role === "superadmin") return true;
+    if (item.superadminOnly) return false;
+    if (item.path === "/admin") return true;
+    return session.permissions.includes(item.path);
+  }) : [];
 
   if (loading) {
     return <div className="flex h-screen items-center justify-center bg-slate-900 text-white font-bold tracking-widest text-sm uppercase">Verifying Access...</div>;

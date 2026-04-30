@@ -19,11 +19,31 @@ export default function AdminLogin() {
     const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || "CSMAdmin2024!";
 
     if (password === validKey) {
-      // Store securely in localStorage
+      // Store securely in localStorage (Superadmin)
       localStorage.setItem("csm_admin_auth", password);
       window.location.href = "/admin";
-    } else {
-      setErrorMsg("Invalid authentication key.");
+      return;
+    }
+    
+    // Check if it's a sub-admin in the database
+    try {
+      const { data, error } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('auth_key', password)
+        .single();
+
+      if (data && !error) {
+        // Sub-admin login successful
+        localStorage.setItem("csm_admin_auth", password);
+        window.location.href = "/admin";
+      } else {
+        setErrorMsg("Invalid authentication key.");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setErrorMsg("An error occurred during authentication.");
       setLoading(false);
     }
   };
