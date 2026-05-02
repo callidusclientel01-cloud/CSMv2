@@ -55,6 +55,7 @@ function TreatmentsContent() {
           console.error("Error fetching treatments:", treatmentErr);
         }
         
+        let finalTreatments: Treatment[] = [];
         if (treatmentData && treatmentData.length > 0) {
           finalTreatments = treatmentData;
         } else {
