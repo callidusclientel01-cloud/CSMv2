@@ -4,10 +4,13 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
+import { useAdmin } from "@/components/admin/AdminContext";
 
 export default function PatientStoryForm() {
   const params = useParams();
   const router = useRouter();
+  const session = useAdmin();
+  const isSuperadmin = session?.role === "superadmin";
   const isNew = params.id === "new";
 
   const [loading, setLoading] = useState(!isNew);
@@ -18,6 +21,7 @@ export default function PatientStoryForm() {
     country: "",
     youtube_id: "",
     thumbnail_url: "",
+    status: "draft"
   });
 
   useEffect(() => {
@@ -34,6 +38,7 @@ export default function PatientStoryForm() {
         country: data.country || "",
         youtube_id: data.youtube_id || "",
         thumbnail_url: data.thumbnail_url || "",
+        status: data.status || "draft"
       });
     }
     setLoading(false);
@@ -96,6 +101,20 @@ export default function PatientStoryForm() {
           <label className="block text-sm font-bold text-slate-700 mb-2">YouTube Video ID *</label>
           <input required type="text" name="youtube_id" value={formData.youtube_id} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none" placeholder="e.g. dQw4w9WgXcQ"/>
           <p className="text-xs text-slate-500 mt-2">Just the ID, not the full URL. If URL is https://youtube.com/watch?v=dQw4w9WgXcQ, the ID is dQw4w9WgXcQ.</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
+          <select 
+            name="status" 
+            value={formData.status} 
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none font-bold"
+          >
+            <option value="draft">Draft</option>
+            <option value="pending">Pending Approval</option>
+            {isSuperadmin && <option value="published">Published</option>}
+          </select>
         </div>
 
         <div>

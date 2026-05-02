@@ -4,10 +4,15 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import { useAdmin } from "@/components/admin/AdminContext";
 
 export default function HospitalForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
+  const session = useAdmin();
+  const isSuperadmin = session?.role === "superadmin";
+  
   const [loading, setLoading] = useState(false);
+  const [isPreviewAction, setIsPreviewAction] = useState(false);
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     slug: initialData?.slug || "",
@@ -28,7 +33,8 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
     gallery_image_1: initialData?.gallery_image_1 || "",
     gallery_image_2: initialData?.gallery_image_2 || "",
     gallery_image_3: initialData?.gallery_image_3 || "",
-    gallery_image_4: initialData?.gallery_image_4 || ""
+    gallery_image_4: initialData?.gallery_image_4 || "",
+    status: initialData?.status || "draft"
   });
 
   const [facilities, setFacilities] = useState<any[]>(
@@ -93,7 +99,8 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
       gallery_image_2: formData.gallery_image_2,
       gallery_image_3: formData.gallery_image_3,
       gallery_image_4: formData.gallery_image_4,
-      facilities: facilities
+      facilities: facilities,
+      status: formData.status
     };
 
     if (initialData?.id) {
@@ -105,7 +112,13 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
     }
 
     setLoading(false);
-    router.push("/admin/hospitals");
+    
+    if (isPreviewAction) {
+      window.open(`/hospitals/${formData.slug}?preview=true`, "_blank");
+      setIsPreviewAction(false);
+    } else {
+      router.push("/admin/hospitals");
+    }
   };
 
   return (
@@ -118,6 +131,19 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
           <input required type="text" name="slug" value={formData.slug} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="apollo-hospitals" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
+          <select 
+            name="status" 
+            value={formData.status} 
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold"
+          >
+            <option value="draft">Draft</option>
+            <option value="pending">Pending Approval</option>
+            {isSuperadmin && <option value="published">Published</option>}
+          </select>
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">City</label>
@@ -258,11 +284,27 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
         />
       </div>
 
-      <div className="flex justify-end gap-4 pt-4 border-t border-slate-100">
+      <div className="flex justify-between items-center pt-4 border-t border-slate-100">
         <button type="button" onClick={() => router.push('/admin/hospitals')} className="px-6 py-3 font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
-        <button type="submit" disabled={loading} className="px-6 py-3 font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors disabled:opacity-50">
-          {loading ? "Saving..." : "Save Hospital"}
-        </button>
+        <div className="flex gap-4">
+          <button 
+            type="submit" 
+            disabled={loading} 
+            onClick={() => setIsPreviewAction(true)}
+            className="px-6 py-3 font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-sm">visibility</span>
+            Save & Preview
+          </button>
+          <button 
+            type="submit" 
+            disabled={loading} 
+            onClick={() => setIsPreviewAction(false)}
+            className="px-6 py-3 font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors disabled:opacity-50"
+          >
+            {loading ? "Saving..." : "Save Hospital"}
+          </button>
+        </div>
       </div>
     </form>
   );

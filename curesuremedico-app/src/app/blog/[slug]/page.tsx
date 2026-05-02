@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
 interface BlogPost {
@@ -35,6 +35,8 @@ const fallbackPosts: BlogPost[] = [
 export default function BlogArticlePage() {
   const params = useParams<{ slug: string }>();
   const slug = params?.slug;
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
 
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,11 +45,14 @@ export default function BlogArticlePage() {
     async function loadPost() {
       if (!slug) return;
       try {
-        const { data } = await supabase
-          .from("blog_posts")
-          .select("*")
-          .eq("slug", slug)
-          .maybeSingle();
+        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+        let query = supabase.from("blog_posts").select("*").eq("slug", slug);
+
+        if (!(isPreview && isAdmin)) {
+          query = query.eq('status', 'published');
+        }
+
+        const { data } = await query.maybeSingle();
 
         if (data) {
           setPost(data);
@@ -61,7 +66,7 @@ export default function BlogArticlePage() {
       }
     }
     loadPost();
-  }, [slug]);
+  }, [slug, isPreview]);
 
   if (loading) {
     return <main className="pt-36 px-8 text-center">Loading article...</main>;

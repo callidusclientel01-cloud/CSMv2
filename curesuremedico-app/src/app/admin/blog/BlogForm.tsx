@@ -4,10 +4,15 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import { useAdmin } from "@/components/admin/AdminContext";
 
 export default function BlogForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
+  const session = useAdmin();
+  const isSuperadmin = session?.role === "superadmin";
+
   const [loading, setLoading] = useState(false);
+  const [isPreviewAction, setIsPreviewAction] = useState(false);
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
     slug: initialData?.slug || "",
@@ -20,7 +25,8 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
     published_date: initialData?.published_date || new Date().toISOString().split('T')[0],
     read_time: initialData?.read_time || "5 min",
     is_featured: initialData?.is_featured || false,
-    youtube_video_id: initialData?.youtube_video_id || ""
+    youtube_video_id: initialData?.youtube_video_id || "",
+    status: initialData?.status || "draft"
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -47,14 +53,23 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
 
     const payload = { ...formData };
 
+    let recordSlug = formData.slug;
+
     if (initialData?.id) {
       await supabase.from('blog_posts').update(payload).eq('id', initialData.id);
     } else {
-      await supabase.from('blog_posts').insert(payload);
+      const { data } = await supabase.from('blog_posts').insert(payload).select().single();
+      if (data) recordSlug = data.slug;
     }
 
     setLoading(false);
-    router.push("/admin/blog");
+    
+    if (isPreviewAction && recordSlug) {
+      window.open(`/blog/${recordSlug}?preview=true`, "_blank");
+      setIsPreviewAction(false);
+    } else {
+      router.push("/admin/blog");
+    }
   };
 
   return (
@@ -73,6 +88,20 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
           <input required type="text" name="slug" value={formData.slug} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none" placeholder="post-url-slug" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
+          <select 
+            name="status" 
+            value={formData.status} 
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none font-bold"
+          >
+            <option value="draft">Draft</option>
+            <option value="pending">Pending Approval</option>
+            {isSuperadmin && <option value="published">Published</option>}
+          </select>
         </div>
 
         <div>
@@ -134,11 +163,27 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
         />
       </div>
 
-      <div className="flex justify-end gap-4 pt-4 border-t border-slate-100">
+      <div className="flex justify-between items-center pt-4 border-t border-slate-100">
         <button type="button" onClick={() => router.push('/admin/blog')} className="px-6 py-3 font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
-        <button type="submit" disabled={loading} className="px-6 py-3 font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-xl transition-colors disabled:opacity-50">
-          {loading ? "Publishing..." : "Publish Post"}
-        </button>
+        <div className="flex gap-4">
+          <button 
+            type="submit" 
+            disabled={loading} 
+            onClick={() => setIsPreviewAction(true)}
+            className="px-6 py-3 font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-sm">visibility</span>
+            Save & Preview
+          </button>
+          <button 
+            type="submit" 
+            disabled={loading} 
+            onClick={() => setIsPreviewAction(false)}
+            className="px-6 py-3 font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-xl transition-colors disabled:opacity-50"
+          >
+            {loading ? "Saving..." : "Save Post"}
+          </button>
+        </div>
       </div>
     </form>
   );

@@ -49,6 +49,7 @@ export default function AdminDestinations() {
                   <th className="p-4">Destination</th>
                   <th className="p-4">Tagline</th>
                   <th className="p-4">Description</th>
+                  <th className="p-4">Status</th>
                   <th className="p-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -73,6 +74,15 @@ export default function AdminDestinations() {
                     <td className="p-4">
                       <div className="text-sm text-slate-600 max-w-xs truncate">{destination.description}</div>
                     </td>
+                    <td className="p-4">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
+                        destination.status === 'published' ? 'bg-green-100 text-green-800' : 
+                        destination.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                        'bg-slate-100 text-slate-800'
+                      }`}>
+                        {destination.status || 'draft'}
+                      </span>
+                    </td>
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2">
                         <Link href={`/admin/destinations/${destination.id}`} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
@@ -87,7 +97,7 @@ export default function AdminDestinations() {
                 ))}
                 {destinations.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="p-8 text-center text-slate-500">No destinations found.</td>
+                    <td colSpan={5} className="p-8 text-center text-slate-500">No destinations found.</td>
                   </tr>
                 )}
               </tbody>

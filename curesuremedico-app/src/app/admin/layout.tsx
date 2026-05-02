@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import { AdminProvider } from "@/components/admin/AdminContext";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -185,7 +186,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto pt-16 md:pt-0">
         <div className="p-6 md:p-10">
-          {children}
+          <AdminProvider session={session}>
+            {children}
+          </AdminProvider>
         </div>
       </main>
     </div>

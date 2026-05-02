@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import { countries } from "@/utils/countries";
 
@@ -26,7 +26,7 @@ interface Package {
   image_url: string;
 }
 
-export default function TreatmentsPage() {
+function TreatmentsContent() {
   const [treatments, setTreatments] = useState<Treatment[]>([]);
   const [packages, setPackages] = useState<Package[]>([]);
   const [visibleTreatments, setVisibleTreatments] = useState(6);
@@ -35,16 +35,21 @@ export default function TreatmentsPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDest, setSelectedDest] = useState("");
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
 
   useEffect(() => {
     async function fetchData() {
       try {
+        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+        const showDrafts = isPreview && isAdmin;
+
         // Fetch Treatments
-        let finalTreatments: Treatment[] = [];
-        const { data: treatmentData, error: treatmentErr } = await supabase
-          .from("treatments")
-          .select("*")
-          .order("id", { ascending: true });
+        let treatmentQuery = supabase.from("treatments").select("*").order("id", { ascending: true });
+        if (!showDrafts) {
+          treatmentQuery = treatmentQuery.eq('status', 'published');
+        }
+        const { data: treatmentData, error: treatmentErr } = await treatmentQuery;
 
         if (treatmentErr) {
           console.error("Error fetching treatments:", treatmentErr);
@@ -76,11 +81,11 @@ export default function TreatmentsPage() {
 
         // Fetch Packages
         let finalPackages: Package[] = [];
-        const { data: packageData, error: packageErr } = await supabase
-          .from("packages")
-          .select("*")
-          .order("id", { ascending: true })
-          .limit(3);
+        let packageQuery = supabase.from("packages").select("*").order("id", { ascending: true }).limit(3);
+        if (!showDrafts) {
+          packageQuery = packageQuery.eq('status', 'published');
+        }
+        const { data: packageData, error: packageErr } = await packageQuery;
 
         if (packageErr) {
           console.error("Error fetching packages:", packageErr);
@@ -102,7 +107,7 @@ export default function TreatmentsPage() {
       }
     }
     fetchData();
-  }, []);
+  }, [isPreview]);
 
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [phoneCode, setPhoneCode] = useState("+234");
@@ -438,5 +443,17 @@ export default function TreatmentsPage() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function TreatmentsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center pt-36 pb-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <TreatmentsContent />
+    </Suspense>
   );
 }

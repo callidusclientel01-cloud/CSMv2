@@ -3,10 +3,13 @@
 import { useState, use, useEffect } from "react";
 import Image from "next/image";
 import { countries } from "@/utils/countries";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
 export default function HospitalProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = use(params);
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
   
   const [hospital, setHospital] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -15,11 +18,14 @@ export default function HospitalProfilePage({ params }: { params: Promise<{ id: 
   
   useEffect(() => {
     async function fetchHospital() {
-      const { data, error } = await supabase
-        .from('hospitals')
-        .select('*')
-        .eq('slug', unwrappedParams.id)
-        .single();
+      const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+      let query = supabase.from('hospitals').select('*').eq('slug', unwrappedParams.id);
+      
+      if (!(isPreview && isAdmin)) {
+        query = query.eq('status', 'published');
+      }
+
+      const { data, error } = await query.single();
         
       if (data) {
         setHospital(data);
@@ -27,7 +33,7 @@ export default function HospitalProfilePage({ params }: { params: Promise<{ id: 
       setLoading(false);
     }
     fetchHospital();
-  }, [unwrappedParams.id]);
+  }, [unwrappedParams.id, isPreview]);
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;

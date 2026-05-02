@@ -49,6 +49,7 @@ export default function AdminPackages() {
                   <th className="p-4">Package Title</th>
                   <th className="p-4">Badge</th>
                   <th className="p-4">Price</th>
+                  <th className="p-4">Status</th>
                   <th className="p-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -73,6 +74,15 @@ export default function AdminPackages() {
                     <td className="p-4">
                       <div className="text-sm font-bold text-slate-900">{pkg.price}</div>
                     </td>
+                    <td className="p-4">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
+                        pkg.status === 'published' ? 'bg-green-100 text-green-800' : 
+                        pkg.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                        'bg-slate-100 text-slate-800'
+                      }`}>
+                        {pkg.status || 'draft'}
+                      </span>
+                    </td>
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2">
                         <Link href={`/admin/packages/${pkg.id}`} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
@@ -87,7 +97,7 @@ export default function AdminPackages() {
                 ))}
                 {packages.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="p-8 text-center text-slate-500">No packages found.</td>
+                    <td colSpan={5} className="p-8 text-center text-slate-500">No packages found.</td>
                   </tr>
                 )}
               </tbody>

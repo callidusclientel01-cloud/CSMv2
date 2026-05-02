@@ -49,6 +49,7 @@ export default function AdminTreatments() {
                   <th className="p-4">Treatment Name</th>
                   <th className="p-4">Short Description</th>
                   <th className="p-4">Starting Price</th>
+                  <th className="p-4">Status</th>
                   <th className="p-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -69,6 +70,15 @@ export default function AdminTreatments() {
                     <td className="p-4">
                       <div className="text-sm font-bold text-slate-900">{treatment.starting_price}</div>
                     </td>
+                    <td className="p-4">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
+                        treatment.status === 'published' ? 'bg-green-100 text-green-800' : 
+                        treatment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                        'bg-slate-100 text-slate-800'
+                      }`}>
+                        {treatment.status || 'draft'}
+                      </span>
+                    </td>
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2">
                         <Link href={`/admin/treatments/${treatment.id}`} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
@@ -83,7 +93,7 @@ export default function AdminTreatments() {
                 ))}
                 {treatments.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="p-8 text-center text-slate-500">No treatments found.</td>
+                    <td colSpan={5} className="p-8 text-center text-slate-500">No treatments found.</td>
                   </tr>
                 )}
               </tbody>

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
@@ -17,8 +17,10 @@ interface Destination {
   key_specialists: string[];
 }
 
-export default function DestinationsPage() {
+function DestinationsContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
@@ -76,10 +78,15 @@ export default function DestinationsPage() {
   useEffect(() => {
     async function fetchDestinations() {
       try {
-        const { data, error } = await supabase
-          .from("destinations")
-          .select("*")
-          .order("id", { ascending: true }); // Display in standard order
+        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+        const showDrafts = isPreview && isAdmin;
+
+        let query = supabase.from("destinations").select("*").order("id", { ascending: true }); // Display in standard order
+        if (!showDrafts) {
+          query = query.eq('status', 'published');
+        }
+
+        const { data, error } = await query;
 
         let finalDestinations: Destination[] = [];
         if (error) {
@@ -135,7 +142,7 @@ export default function DestinationsPage() {
       }
     }
     fetchDestinations();
-  }, []);
+  }, [isPreview]);
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 6);
@@ -356,5 +363,17 @@ export default function DestinationsPage() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function DestinationsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center pt-36 pb-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <DestinationsContent />
+    </Suspense>
   );
 }

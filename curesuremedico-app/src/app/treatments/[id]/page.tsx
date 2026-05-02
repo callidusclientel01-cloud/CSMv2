@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
 interface Procedure {
@@ -65,6 +65,8 @@ const fallbackTreatment: Treatment = {
 export default function TreatmentDetailsPage() {
   const params = useParams<{ id: string }>();
   const treatmentId = params?.id;
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
   const [treatment, setTreatment] = useState<Treatment | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -72,11 +74,14 @@ export default function TreatmentDetailsPage() {
     async function loadTreatment() {
       if (!treatmentId) return;
       try {
-        const { data } = await supabase
-          .from("treatments")
-          .select("*")
-          .eq("slug", treatmentId)
-          .maybeSingle();
+        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+        let query = supabase.from("treatments").select("*").eq("slug", treatmentId);
+        
+        if (!(isPreview && isAdmin)) {
+          query = query.eq('status', 'published');
+        }
+
+        const { data } = await query.maybeSingle();
 
         if (data) {
           // ensure JSONB procedures is parsed if needed
@@ -94,7 +99,7 @@ export default function TreatmentDetailsPage() {
     }
 
     loadTreatment();
-  }, [treatmentId]);
+  }, [treatmentId, isPreview]);
 
   if (loading) {
     return <main className="pt-36 px-8 text-center min-h-screen">Loading specialty...</main>;

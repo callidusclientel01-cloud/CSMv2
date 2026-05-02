@@ -4,10 +4,15 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import { useAdmin } from "@/components/admin/AdminContext";
 
 export default function TreatmentForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
+  const session = useAdmin();
+  const isSuperadmin = session?.role === "superadmin";
+
   const [loading, setLoading] = useState(false);
+  const [isPreviewAction, setIsPreviewAction] = useState(false);
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     slug: initialData?.slug || "",
@@ -20,7 +25,8 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
     success_rate: initialData?.success_rate || "15k+",
     quick_response_time: initialData?.quick_response_time || "24h",
     cost_saving: initialData?.cost_saving || "80%",
-    procedures: initialData?.procedures ? JSON.stringify(initialData.procedures, null, 2) : "[\n  {\n    \"name\": \"Procedure Name\",\n    \"description\": \"Description...\",\n    \"price\": \"$5,000\",\n    \"icon\": \"medical_services\"\n  }\n]"
+    procedures: initialData?.procedures ? JSON.stringify(initialData.procedures, null, 2) : "[\n  {\n    \"name\": \"Procedure Name\",\n    \"description\": \"Description...\",\n    \"price\": \"$5,000\",\n    \"icon\": \"medical_services\"\n  }\n]",
+    status: initialData?.status || "draft"
   });
 
   const generateSlug = (text: string) => {
@@ -56,7 +62,8 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
       success_rate: formData.success_rate,
       quick_response_time: formData.quick_response_time,
       cost_saving: formData.cost_saving,
-      procedures: (() => { try { return JSON.parse(formData.procedures) } catch(e) { return [] } })()
+      procedures: (() => { try { return JSON.parse(formData.procedures) } catch(e) { return [] } })(),
+      status: formData.status
     };
 
     if (initialData?.id) {
@@ -66,7 +73,13 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
     }
 
     setLoading(false);
-    router.push("/admin/treatments");
+
+    if (isPreviewAction) {
+      window.open(`/treatments/${formData.slug}?preview=true`, "_blank");
+      setIsPreviewAction(false);
+    } else {
+      router.push("/admin/treatments");
+    }
   };
 
   return (
@@ -83,6 +96,19 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Starting Price</label>
           <input required type="text" name="starting_price" value={formData.starting_price} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="$3,500" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
+          <select 
+            name="status" 
+            value={formData.status} 
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none font-bold"
+          >
+            <option value="draft">Draft</option>
+            <option value="pending">Pending Approval</option>
+            {isSuperadmin && <option value="published">Published</option>}
+          </select>
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Icon Name (Google Material Symbols)</label>
@@ -144,11 +170,27 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
         </div>
       </div>
 
-      <div className="flex justify-end gap-4 pt-4 border-t border-slate-100">
+      <div className="flex justify-between items-center pt-4 border-t border-slate-100">
         <button type="button" onClick={() => router.push('/admin/treatments')} className="px-6 py-3 font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
-        <button type="submit" disabled={loading} className="px-6 py-3 font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-xl transition-colors disabled:opacity-50">
-          {loading ? "Saving..." : "Save Treatment"}
-        </button>
+        <div className="flex gap-4">
+          <button 
+            type="submit" 
+            disabled={loading} 
+            onClick={() => setIsPreviewAction(true)}
+            className="px-6 py-3 font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-sm">visibility</span>
+            Save & Preview
+          </button>
+          <button 
+            type="submit" 
+            disabled={loading} 
+            onClick={() => setIsPreviewAction(false)}
+            className="px-6 py-3 font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-xl transition-colors disabled:opacity-50"
+          >
+            {loading ? "Saving..." : "Save Treatment"}
+          </button>
+        </div>
       </div>
     </form>
   );

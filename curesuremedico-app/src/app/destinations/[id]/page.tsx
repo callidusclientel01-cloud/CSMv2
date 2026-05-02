@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
 interface Hospital {
@@ -53,6 +53,8 @@ const fallbackDestination: Destination = {
 export default function DestinationDetailsPage() {
   const params = useParams<{ id: string }>();
   const destinationId = params?.id;
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
 
   const [destination, setDestination] = useState<Destination | null>(null);
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
@@ -62,12 +64,15 @@ export default function DestinationDetailsPage() {
     async function loadData() {
       if (!destinationId) return;
       try {
+        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+        const showDrafts = isPreview && isAdmin;
+
         // Fetch Destination
-        const { data: destData } = await supabase
-          .from("destinations")
-          .select("*")
-          .eq("slug", destinationId)
-          .maybeSingle();
+        let destQuery = supabase.from("destinations").select("*").eq("slug", destinationId);
+        if (!showDrafts) {
+          destQuery = destQuery.eq('status', 'published');
+        }
+        const { data: destData } = await destQuery.maybeSingle();
 
         let finalDest = fallbackDestination;
         if (destData) {
@@ -85,10 +90,11 @@ export default function DestinationDetailsPage() {
 
         // Fetch Hospitals in this country
         if (finalDest && finalDest.country_name) {
-          const { data: hospData } = await supabase
-            .from("hospitals")
-            .select("*")
-            .eq("country", finalDest.country_name);
+          let hospQuery = supabase.from("hospitals").select("*").eq("country", finalDest.country_name);
+          if (!showDrafts) {
+            hospQuery = hospQuery.eq('status', 'published');
+          }
+          const { data: hospData } = await hospQuery;
             
           if (hospData && hospData.length > 0) {
              const parsedHospitals = hospData.map(h => {
@@ -164,7 +170,7 @@ export default function DestinationDetailsPage() {
       }
     }
     loadData();
-  }, [destinationId]);
+  }, [destinationId, isPreview]);
 
   if (loading) {
     return <main className="pt-36 px-8 text-center min-h-screen">Loading destination...</main>;

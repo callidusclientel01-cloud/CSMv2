@@ -19,6 +19,7 @@ interface BlogPost {
 function BlogContent() {
   const searchParams = useSearchParams();
   const queryParam = searchParams.get("search");
+  const isPreview = searchParams.get('preview') === 'true';
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
@@ -62,11 +63,17 @@ function BlogContent() {
   useEffect(() => {
     async function fetchPosts() {
       try {
+        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+        const showDrafts = isPreview && isAdmin;
+
         let finalPosts: BlogPost[] = [];
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select("*")
-          .order("id", { ascending: false }); // Newest first
+        let query = supabase.from("blog_posts").select("*").order("id", { ascending: false }); // Newest first
+
+        if (!showDrafts) {
+          query = query.eq('status', 'published');
+        }
+
+        const { data, error } = await query;
 
         if (error) {
           console.error("Error fetching blog posts:", error);
@@ -159,7 +166,7 @@ function BlogContent() {
       }
     }
     fetchPosts();
-  }, []);
+  }, [isPreview]);
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 6);

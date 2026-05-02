@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { countries } from "@/utils/countries";
 import { supabase } from "@/utils/supabaseClient";
 
@@ -68,8 +68,10 @@ const STATIC_STORIES = [
 ];
 
 
-export default function Home() {
+function HomeContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDest, setSelectedDest] = useState("");
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
@@ -92,12 +94,15 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
+      const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+      const showDrafts = isPreview && isAdmin;
+
       // 1. Stories
-      const { data: storiesData, error } = await supabase
-        .from('patient_stories')
-        .select('*')
-        .order('id', { ascending: true })
-        .limit(4);
+        let storyQuery = supabase.from('patient_stories').select('*').order('id', { ascending: true }).limit(4);
+        if (!showDrafts) {
+          storyQuery = storyQuery.eq('status', 'published');
+        }
+        const { data: storiesData, error } = await storyQuery;
       
       if (error) {
         console.error("Supabase read error (Perhaps RLS rules are not enabled?):", error);
@@ -117,11 +122,15 @@ export default function Home() {
       }
 
       // 2. Packages
-      const { data: pkgs } = await supabase.from('packages').select('*').limit(3);
+      let pkgQuery = supabase.from('packages').select('*').limit(3);
+      if (!showDrafts) pkgQuery = pkgQuery.eq('status', 'published');
+      const { data: pkgs } = await pkgQuery;
       if (pkgs && pkgs.length > 0) setPackages(pkgs);
 
       // 3. Hospitals
-      const { data: hosps } = await supabase.from('hospitals').select('*').order('rating', { ascending: false }).limit(3);
+      let hospQuery = supabase.from('hospitals').select('*').order('rating', { ascending: false }).limit(3);
+      if (!showDrafts) hospQuery = hospQuery.eq('status', 'published');
+      const { data: hosps } = await hospQuery;
       if (hosps && hosps.length > 0) {
         setHospitals(hosps);
       } else {
@@ -134,7 +143,9 @@ export default function Home() {
       }
 
       // 4. Destinations
-      const { data: dests } = await supabase.from('destinations').select('*').limit(3);
+      let destQuery = supabase.from('destinations').select('*').limit(3);
+      if (!showDrafts) destQuery = destQuery.eq('status', 'published');
+      const { data: dests } = await destQuery;
       if (dests && dests.length > 0) {
         setDestinations(dests);
       } else {
@@ -147,7 +158,9 @@ export default function Home() {
       }
 
       // 5. Treatments
-      const { data: trts } = await supabase.from('treatments').select('*').limit(4);
+      let trtQuery = supabase.from('treatments').select('*').limit(4);
+      if (!showDrafts) trtQuery = trtQuery.eq('status', 'published');
+      const { data: trts } = await trtQuery;
       if (trts && trts.length > 0) {
         setTreatments(trts);
       } else {
@@ -161,7 +174,7 @@ export default function Home() {
       }
     }
     fetchData();
-  }, []);
+  }, [isPreview]);
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -623,5 +636,17 @@ export default function Home() {
         </div>
       )}
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center pt-36 pb-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   );
 }

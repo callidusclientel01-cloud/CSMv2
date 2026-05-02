@@ -49,6 +49,7 @@ export default function AdminBlog() {
                   <th className="p-4">Post Title</th>
                   <th className="p-4">Category</th>
                   <th className="p-4">Author & Date</th>
+                  <th className="p-4">Status</th>
                   <th className="p-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -77,6 +78,15 @@ export default function AdminBlog() {
                       <div className="text-sm font-medium text-slate-900">{post.author}</div>
                       <div className="text-xs text-slate-500">{new Date(post.published_date).toLocaleDateString()}</div>
                     </td>
+                    <td className="p-4">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
+                        post.status === 'published' ? 'bg-green-100 text-green-800' : 
+                        post.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                        'bg-slate-100 text-slate-800'
+                      }`}>
+                        {post.status || 'draft'}
+                      </span>
+                    </td>
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2">
                         <Link href={`/admin/blog/${post.id}`} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
@@ -91,7 +101,7 @@ export default function AdminBlog() {
                 ))}
                 {posts.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="p-8 text-center text-slate-500">No blog posts found.</td>
+                    <td colSpan={5} className="p-8 text-center text-slate-500">No blog posts found.</td>
                   </tr>
                 )}
               </tbody>

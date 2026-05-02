@@ -27,6 +27,7 @@ function HospitalsList() {
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
 
   // Filter States
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
@@ -36,10 +37,14 @@ function HospitalsList() {
   useEffect(() => {
     async function fetchHospitals() {
       try {
-        const { data, error } = await supabase
-          .from("hospitals")
-          .select("*")
-          .order("id", { ascending: true }); // Fallback sorting
+        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
+        let query = supabase.from("hospitals").select("*").order("id", { ascending: true });
+        
+        if (!(isPreview && isAdmin)) {
+          query = query.eq('status', 'published');
+        }
+
+        const { data, error } = await query;
 
         let fetchedData: Hospital[] = [];
 
@@ -102,7 +107,7 @@ function HospitalsList() {
       }
     }
     fetchHospitals();
-  }, []);
+  }, [isPreview]);
 
   useEffect(() => {
     let filtered = allHospitals;
