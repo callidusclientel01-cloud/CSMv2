@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, use, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { countries } from "@/utils/countries";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
-export default function HospitalProfilePage({ params }: { params: Promise<{ id: string }> }) {
-  const unwrappedParams = use(params);
+export default function HospitalProfilePage() {
+  const params = useParams();
+  const id = params?.id as string;
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
   
@@ -19,7 +20,7 @@ export default function HospitalProfilePage({ params }: { params: Promise<{ id: 
   useEffect(() => {
     async function fetchHospital() {
       const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
-      let query = supabase.from('hospitals').select('*').eq('slug', unwrappedParams.id);
+      let query = supabase.from('hospitals').select('*').eq('slug', id);
       
       if (!(isPreview && isAdmin)) {
         query = query.eq('status', 'published');
@@ -33,7 +34,7 @@ export default function HospitalProfilePage({ params }: { params: Promise<{ id: 
       setLoading(false);
     }
     fetchHospital();
-  }, [unwrappedParams.id, isPreview]);
+  }, [id, isPreview]);
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -50,8 +51,15 @@ export default function HospitalProfilePage({ params }: { params: Promise<{ id: 
     return <main className="pt-20 min-h-screen flex items-center justify-center bg-surface">Hospital not found.</main>;
   }
 
-  // Parse specialties string into array
-  const specialtiesList = hospital.specialties ? hospital.specialties.split(',').map((s: string) => s.trim()).filter(Boolean) : [];
+  // Parse specialties string into array safely
+  const specialtiesList = Array.isArray(hospital.specialties) 
+    ? hospital.specialties 
+    : (hospital.specialties ? hospital.specialties.split(',').map((s: string) => s.trim()).filter(Boolean) : []);
+
+  // Handle accreditations safely
+  const accreditationsDisplay = Array.isArray(hospital.accreditations)
+    ? hospital.accreditations.join(', ')
+    : (hospital.accreditations || "Top Accredited");
 
   return (
     <main className="pt-20 bg-surface text-on-surface">
@@ -69,7 +77,7 @@ export default function HospitalProfilePage({ params }: { params: Promise<{ id: 
           <div className="lg:col-span-7">
             <div className="flex items-center gap-3 mb-6">
               <span className="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
-                {hospital.accreditations || "Top Accredited"}
+                {accreditationsDisplay}
               </span>
               <div className="flex items-center gap-1 text-secondary font-bold">
                 <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
