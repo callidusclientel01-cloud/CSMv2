@@ -16,11 +16,25 @@ export default function DestinationForm({ initialData }: { initialData?: any }) 
   const [isPreviewAction, setIsPreviewAction] = useState(false);
   const [formData, setFormData] = useState({
     country_name: initialData?.country_name || "",
+    slug: initialData?.slug || "",
     tagline: initialData?.tagline || "",
     description: initialData?.description || "",
     image_url: initialData?.image_url || "",
     status: initialData?.status || "draft"
   });
+
+  const generateSlug = (text: string) => {
+    return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+  };
+
+  const handleCountryNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    if (!initialData?.id) {
+      setFormData({ ...formData, country_name: newName, slug: generateSlug(newName) });
+    } else {
+      setFormData({ ...formData, country_name: newName });
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,7 +80,11 @@ export default function DestinationForm({ initialData }: { initialData?: any }) 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Country / Destination Name</label>
-          <input required type="text" name="country_name" value={formData.country_name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="India" />
+          <input required type="text" name="country_name" value={formData.country_name} onChange={handleCountryNameChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="India" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
+          <input required type="text" name="slug" value={formData.slug} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="india" />
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Tagline</label>
