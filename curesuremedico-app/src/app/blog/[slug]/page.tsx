@@ -83,6 +83,27 @@ export default function BlogArticlePage() {
     );
   }
 
+  const handleShare = (platform: string) => {
+    if (typeof window === 'undefined') return;
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(post.title);
+
+    switch (platform) {
+      case 'whatsapp':
+        window.open(`https://api.whatsapp.com/send?text=${title}%20${url}`, '_blank');
+        break;
+      case 'linkedin':
+        window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank');
+        break;
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${title}&url=${url}`, '_blank');
+        break;
+      case 'email':
+        window.location.href = `mailto:?subject=${title}&body=Check out this article: ${url}`;
+        break;
+    }
+  };
+
   return (
     <main className="pt-24 pb-20 bg-surface text-on-surface">
       {/* Article Header */}
@@ -122,16 +143,16 @@ export default function BlogArticlePage() {
         <aside className="lg:col-span-1 hidden lg:block">
           <div className="sticky top-32 flex flex-col items-center gap-6">
             <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Share</span>
-            <button className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+            <button onClick={() => handleShare('whatsapp')} title="Share on WhatsApp" className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-[#25D366] hover:text-white transition-all duration-300">
               <span className="material-symbols-outlined">chat</span>
             </button>
-            <button className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+            <button onClick={() => handleShare('linkedin')} title="Share on LinkedIn" className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-[#0077b5] hover:text-white transition-all duration-300">
               <span className="material-symbols-outlined">work</span>
             </button>
-            <button className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+            <button onClick={() => handleShare('twitter')} title="Share on X / Twitter" className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-black hover:text-white transition-all duration-300">
               <span className="material-symbols-outlined">public</span>
             </button>
-            <button className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-primary hover:text-white transition-all duration-300">
+            <button onClick={() => handleShare('email')} title="Share via Email" className="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-highest text-primary hover:bg-red-500 hover:text-white transition-all duration-300">
               <span className="material-symbols-outlined">alternate_email</span>
             </button>
           </div>

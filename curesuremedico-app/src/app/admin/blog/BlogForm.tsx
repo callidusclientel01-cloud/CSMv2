@@ -5,6 +5,7 @@ import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import { useAdmin } from "@/components/admin/AdminContext";
+import toast from "react-hot-toast";
 
 export default function BlogForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -55,11 +56,19 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
 
     let recordSlug = formData.slug;
 
-    if (initialData?.id) {
-      await supabase.from('blog_posts').update(payload).eq('id', initialData.id);
-    } else {
-      const { data } = await supabase.from('blog_posts').insert(payload).select().single();
-      if (data) recordSlug = data.slug;
+    try {
+      if (initialData?.id) {
+        await supabase.from('blog_posts').update(payload).eq('id', initialData.id);
+      } else {
+        const { data } = await supabase.from('blog_posts').insert(payload).select().single();
+        if (data) recordSlug = data.slug;
+      }
+      toast.success("Blog post saved successfully!");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Failed to save blog post.");
+      setLoading(false);
+      return;
     }
 
     setLoading(false);

@@ -5,6 +5,7 @@ import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import { useAdmin } from "@/components/admin/AdminContext";
+import toast from "react-hot-toast";
 
 export default function HospitalForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -103,12 +104,20 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
       status: formData.status
     };
 
-    if (initialData?.id) {
-      // Update
-      await supabase.from('hospitals').update(payload).eq('id', initialData.id);
-    } else {
-      // Insert
-      await supabase.from('hospitals').insert(payload);
+    try {
+      if (initialData?.id) {
+        // Update
+        await supabase.from('hospitals').update(payload).eq('id', initialData.id);
+      } else {
+        // Insert
+        await supabase.from('hospitals').insert(payload);
+      }
+      toast.success("Hospital saved successfully!");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Failed to save hospital.");
+      setLoading(false);
+      return;
     }
 
     setLoading(false);
