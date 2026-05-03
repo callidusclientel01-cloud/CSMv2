@@ -107,10 +107,12 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
     try {
       if (initialData?.id) {
         // Update
-        await supabase.from('hospitals').update(payload).eq('id', initialData.id);
+        const { error } = await supabase.from('hospitals').update(payload).eq('id', initialData.id);
+        if (error) throw error;
       } else {
         // Insert
-        await supabase.from('hospitals').insert(payload);
+        const { error } = await supabase.from('hospitals').insert(payload);
+        if (error) throw error;
       }
       toast.success("Hospital saved successfully!");
     } catch (err: any) {

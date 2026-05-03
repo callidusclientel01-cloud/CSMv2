@@ -5,6 +5,7 @@ import { supabase } from "@/utils/supabaseClient";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import { useAdmin } from "@/components/admin/AdminContext";
+import toast from "react-hot-toast";
 
 export default function DestinationForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -33,11 +34,21 @@ export default function DestinationForm({ initialData }: { initialData?: any }) 
 
     let recordId = initialData?.id;
 
-    if (initialData?.id) {
-      await supabase.from('destinations').update(payload).eq('id', initialData.id);
-    } else {
-      const { data } = await supabase.from('destinations').insert(payload).select().single();
-      if (data) recordId = data.id;
+    try {
+      if (initialData?.id) {
+        const { error } = await supabase.from('destinations').update(payload).eq('id', initialData.id);
+        if (error) throw error;
+      } else {
+        const { data, error } = await supabase.from('destinations').insert(payload).select().single();
+        if (error) throw error;
+        if (data) recordId = data.id;
+      }
+      toast.success("Destination saved successfully!");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Failed to save destination.");
+      setLoading(false);
+      return;
     }
 
     setLoading(false);

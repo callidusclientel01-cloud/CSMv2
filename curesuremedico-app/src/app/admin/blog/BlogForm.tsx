@@ -58,9 +58,11 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
 
     try {
       if (initialData?.id) {
-        await supabase.from('blog_posts').update(payload).eq('id', initialData.id);
+        const { error } = await supabase.from('blog_posts').update(payload).eq('id', initialData.id);
+        if (error) throw error;
       } else {
-        const { data } = await supabase.from('blog_posts').insert(payload).select().single();
+        const { data, error } = await supabase.from('blog_posts').insert(payload).select().single();
+        if (error) throw error;
         if (data) recordSlug = data.slug;
       }
       toast.success("Blog post saved successfully!");
