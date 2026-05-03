@@ -86,6 +86,9 @@ function HomeContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [num1, setNum1] = useState(0);
+  const [num2, setNum2] = useState(0);
+  const [userCaptcha, setUserCaptcha] = useState("");
 
   const [packages, setPackages] = useState<any[]>(PACKAGES);
   const [hospitals, setHospitals] = useState<any[]>([]);
@@ -93,6 +96,9 @@ function HomeContent() {
   const [treatments, setTreatments] = useState<any[]>([]);
 
   useEffect(() => {
+    setNum1(Math.floor(Math.random() * 10) + 1);
+    setNum2(Math.floor(Math.random() * 10) + 1);
+
     async function fetchData() {
       const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
       const showDrafts = isPreview && isAdmin;
@@ -198,6 +204,15 @@ function HomeContent() {
     setSubmitError("");
     setSubmitSuccess(false);
 
+    if (parseInt(userCaptcha) !== num1 + num2) {
+      setSubmitError("Incorrect math answer. Please try again.");
+      setNum1(Math.floor(Math.random() * 10) + 1);
+      setNum2(Math.floor(Math.random() * 10) + 1);
+      setUserCaptcha("");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const fullPhone = `${phoneCode} ${phoneNumber}`;
       
@@ -302,6 +317,10 @@ function HomeContent() {
                 <div>
                   <label className="block text-xs font-bold text-outline uppercase mb-1">Medical Condition</label>
                   <input required value={medicalCondition} onChange={(e) => setMedicalCondition(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="e.g. Cardiac Surgery" type="text" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">Human Check: {num1} + {num2} = ?</label>
+                  <input required value={userCaptcha} onChange={(e) => setUserCaptcha(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Answer" type="number" />
                 </div>
                 <button disabled={isSubmitting} className="w-full py-4 bg-primary text-white font-bold rounded-xl mt-4 hover:bg-primary-container transition-colors tracking-wide disabled:opacity-70 disabled:cursor-not-allowed" type="submit">
                   {isSubmitting ? "Sending..." : "Complete Inquiry"}

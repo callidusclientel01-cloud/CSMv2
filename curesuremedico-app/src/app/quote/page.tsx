@@ -19,8 +19,14 @@ export default function QuotePage() {
   const [countryCode, setCountryCode] = useState("+234");
   const [file, setFile] = useState<File | null>(null);
   const [availableDestinations, setAvailableDestinations] = useState<any[]>([]);
+  const [num1, setNum1] = useState(0);
+  const [num2, setNum2] = useState(0);
+  const [userCaptcha, setUserCaptcha] = useState("");
 
   useEffect(() => {
+    setNum1(Math.floor(Math.random() * 10) + 1);
+    setNum2(Math.floor(Math.random() * 10) + 1);
+
     async function fetchDestinations() {
       const { data } = await supabase.from('destinations').select('country_name');
       if (data && data.length > 0) {
@@ -48,6 +54,15 @@ export default function QuotePage() {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
+
+    if (parseInt(userCaptcha) !== num1 + num2) {
+      setError("Incorrect math answer. Please try again.");
+      setNum1(Math.floor(Math.random() * 10) + 1);
+      setNum2(Math.floor(Math.random() * 10) + 1);
+      setUserCaptcha("");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       let attachmentUrl = "";
@@ -92,6 +107,9 @@ export default function QuotePage() {
         notes: ""
       });
       setFile(null);
+      setNum1(Math.floor(Math.random() * 10) + 1);
+      setNum2(Math.floor(Math.random() * 10) + 1);
+      setUserCaptcha("");
       
     } catch (err: any) {
       console.error("Submission failed", err);
@@ -283,6 +301,17 @@ export default function QuotePage() {
                       placeholder="Briefly describe your symptoms, previous treatments, and goals..." 
                       rows={4}
                     ></textarea>
+                  </div>
+                  <div className="md:col-span-2 space-y-2">
+                    <label className="text-sm font-medium text-on-surface-variant px-1">Human Check: {num1} + {num2} = ?</label>
+                    <input 
+                      required
+                      value={userCaptcha}
+                      onChange={(e) => setUserCaptcha(e.target.value)}
+                      className="w-full bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 py-3 px-4 transition-all" 
+                      placeholder="Answer" 
+                      type="number" 
+                    />
                   </div>
                 </div>
               </div>

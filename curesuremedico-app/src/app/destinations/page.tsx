@@ -31,6 +31,15 @@ function DestinationsContent() {
     setSubmitError("");
     setSubmitSuccess(false);
 
+    if (parseInt(userCaptcha) !== num1 + num2) {
+      setSubmitError("Incorrect math answer. Please try again.");
+      setNum1(Math.floor(Math.random() * 10) + 1);
+      setNum2(Math.floor(Math.random() * 10) + 1);
+      setUserCaptcha("");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const fullPhone = `${phoneCode} ${phoneNumber}`;
       
@@ -67,6 +76,14 @@ function DestinationsContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [num1, setNum1] = useState(0);
+  const [num2, setNum2] = useState(0);
+  const [userCaptcha, setUserCaptcha] = useState("");
+
+  useEffect(() => {
+    setNum1(Math.floor(Math.random() * 10) + 1);
+    setNum2(Math.floor(Math.random() * 10) + 1);
+  }, []);
   
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -217,6 +234,10 @@ function DestinationsContent() {
                   </span>
                   <input required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="flex-1 min-w-0 bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 placeholder:text-outline p-3 text-sm" placeholder="800 000 0000" type="tel" />
                 </div>
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-on-surface-variant uppercase ml-1">Human Check: {num1} + {num2} = ?</label>
+                <input required value={userCaptcha} onChange={(e) => setUserCaptcha(e.target.value)} className="w-full bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="Answer" type="number" />
               </div>
               <button disabled={isSubmitting} type="submit" className="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-base md:text-lg hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
                 <span className="whitespace-nowrap">{isSubmitting ? "Sending..." : "Request Expert Consultation"}</span>

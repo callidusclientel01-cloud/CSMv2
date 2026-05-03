@@ -120,6 +120,14 @@ function TreatmentsContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [num1, setNum1] = useState(0);
+  const [num2, setNum2] = useState(0);
+  const [userCaptcha, setUserCaptcha] = useState("");
+
+  useEffect(() => {
+    setNum1(Math.floor(Math.random() * 10) + 1);
+    setNum2(Math.floor(Math.random() * 10) + 1);
+  }, []);
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const name = e.target.value;
@@ -137,6 +145,15 @@ function TreatmentsContent() {
     setIsSubmitting(true);
     setSubmitError("");
     setSubmitSuccess(false);
+
+    if (parseInt(userCaptcha) !== num1 + num2) {
+      setSubmitError("Incorrect math answer. Please try again.");
+      setNum1(Math.floor(Math.random() * 10) + 1);
+      setNum2(Math.floor(Math.random() * 10) + 1);
+      setUserCaptcha("");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const fullPhone = `${phoneCode} ${phoneNumber}`;
@@ -246,6 +263,10 @@ function TreatmentsContent() {
                   </span>
                   <input required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="flex-1 min-w-0 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="800 000 0000" type="tel" />
                 </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Human Check: {num1} + {num2} = ?</label>
+                <input required value={userCaptcha} onChange={(e) => setUserCaptcha(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="Answer" type="number" />
               </div>
               <button disabled={isSubmitting} type="submit" className="w-full bg-primary text-on-primary py-4 rounded-full font-bold text-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
                 <span className="whitespace-nowrap">{isSubmitting ? "Sending..." : "Get Quote"}</span> {!isSubmitting && <span className="material-symbols-outlined shrink-0">arrow_forward</span>}
