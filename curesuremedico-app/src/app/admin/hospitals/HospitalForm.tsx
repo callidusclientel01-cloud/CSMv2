@@ -192,7 +192,7 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Contact Number</label>
-          <input type="text" name="contact_number" value={formData.contact_number} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="+91 44 2829 0203" />
+          <input type="text" name="contact_number" value={formData.contact_number} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="+91 91482 97106" />
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-bold text-slate-700 mb-2">Specialties (comma separated)</label>

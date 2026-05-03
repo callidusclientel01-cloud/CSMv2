@@ -79,7 +79,7 @@ export default function Footer() {
             <div className="flex gap-3 pt-2">
               <span className="material-symbols-outlined text-blue-700 text-base mt-0.5">call</span>
               <div>
-                +91 81089 70640<br />
+                +91 91482 97106<br />
                 +261 38 25 819 47
               </div>
             </div>

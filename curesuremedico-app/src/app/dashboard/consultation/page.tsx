@@ -195,7 +195,7 @@ export default function ConsultationPage() {
                 <p className="text-[11px] text-on-surface-variant">Available 24/7 for global patients</p>
               </div>
             </div>
-            <button onClick={() => window.open('https://wa.me/914428290203', '_blank')} className="w-full py-2 bg-white text-primary border border-primary/20 text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-all">
+            <button onClick={() => window.open('https://wa.me/919148297106', '_blank')} className="w-full py-2 bg-white text-primary border border-primary/20 text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-all">
               Talk to a Care Manager
             </button>
           </div>

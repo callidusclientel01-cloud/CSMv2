@@ -112,9 +112,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <a href="tel:+914428290203" className="hidden lg:flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-full text-xs font-bold hover:bg-red-100 transition-colors">
+            <a href="tel:+919148297106" className="hidden lg:flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-full text-xs font-bold hover:bg-red-100 transition-colors">
               <span className="material-symbols-outlined text-sm">emergency</span>
-              Emergency Support: +91 44 2829 0203
+              Emergency Support: +91 91482 97106
             </a>
             <div className="flex items-center gap-2">
               <div className="relative">

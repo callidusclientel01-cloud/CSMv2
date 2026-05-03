@@ -180,7 +180,7 @@ export default function EnquiriesPage() {
           <h5 className="text-lg font-bold text-on-surface">Looking for something else?</h5>
           <p className="text-on-surface-variant text-sm mt-1 max-w-xl">If you need to start a new enquiry or request a second opinion from our international network of medical specialists, please use the button in the dashboard or contact your dedicated advisor.</p>
         </div>
-        <button onClick={() => window.open('https://wa.me/914428290203', '_blank')} className="ml-auto bg-white text-primary border border-primary/20 px-6 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow transition-all whitespace-nowrap">Contact Support</button>
+        <button onClick={() => window.open('https://wa.me/919148297106', '_blank')} className="ml-auto bg-white text-primary border border-primary/20 px-6 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow transition-all whitespace-nowrap">Contact Support</button>
       </div>
     </section>
   );

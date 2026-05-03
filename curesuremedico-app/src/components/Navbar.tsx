@@ -51,7 +51,7 @@ export default function Navbar() {
       <div className="bg-primary px-4 md:px-8 border-b border-primary-container">
         <div className="max-w-screen-2xl mx-auto h-10 flex justify-between items-center text-xs font-semibold text-white/90">
           <div className="flex items-center gap-4">
-            <span className="text-white/80 hidden sm:inline-block">📞 +91 44 2829 0203 (International)</span>
+            <span className="text-white/80 hidden sm:inline-block">📞 +91 91482 97106 (International)</span>
           </div>
           <div className="flex items-center gap-3 md:gap-6 w-full sm:w-auto justify-between sm:justify-end">
             <div className="flex items-center gap-1">
@@ -223,9 +223,9 @@ export default function Navbar() {
           
           <div className="mt-8 pt-8 border-t border-outline-variant/20">
             <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Besoin d&apos;assistance ?</p>
-            <a href="tel:+914428290203" className="flex items-center gap-3 p-4 bg-secondary-container text-on-secondary-container rounded-xl font-bold">
+            <a href="tel:+919148297106" className="flex items-center gap-3 p-4 bg-secondary-container text-on-secondary-container rounded-xl font-bold">
               <span className="material-symbols-outlined">call</span>
-              +91 44 2829 0203
+              +91 91482 97106
             </a>
           </div>
         </div>
