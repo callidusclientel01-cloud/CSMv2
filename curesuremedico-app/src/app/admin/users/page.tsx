@@ -7,6 +7,7 @@ interface AdminUser {
   id: string;
   name: string;
   auth_key: string;
+  role: string;
   permissions: string[];
   created_at: string;
 }
@@ -29,6 +30,7 @@ export default function UsersManagementPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [name, setName] = useState("");
   const [authKey, setAuthKey] = useState("");
+  const [role, setRole] = useState("editor");
   const [selectedPerms, setSelectedPerms] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -62,7 +64,7 @@ export default function UsersManagementPage() {
     setSubmitting(true);
     
     const { error } = await supabase.from("admin_users").insert([
-      { name, auth_key: authKey, permissions: selectedPerms }
+      { name, auth_key: authKey, role, permissions: selectedPerms }
     ]);
     
     setSubmitting(false);
@@ -71,6 +73,7 @@ export default function UsersManagementPage() {
       setIsFormOpen(false);
       setName("");
       setAuthKey("");
+      setRole("editor");
       setSelectedPerms([]);
       fetchUsers();
     } else {
@@ -108,7 +111,7 @@ export default function UsersManagementPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <h2 className="text-xl font-bold text-slate-800 mb-4">Create Sub-Administrator</h2>
           <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Name</label>
                 <input 
@@ -130,6 +133,18 @@ export default function UsersManagementPage() {
                   className="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                   placeholder="Unique secure key"
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Role</label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                >
+                  <option value="superadmin">Super Admin (All Access)</option>
+                  <option value="editor">Editor</option>
+                  <option value="viewer">Viewer</option>
+                </select>
               </div>
             </div>
             
@@ -172,6 +187,7 @@ export default function UsersManagementPage() {
               <thead className="bg-slate-50 text-slate-500 text-sm font-medium border-b border-slate-200">
                 <tr>
                   <th className="px-6 py-4">Name</th>
+                  <th className="px-6 py-4">Role</th>
                   <th className="px-6 py-4">Access Key</th>
                   <th className="px-6 py-4">Permissions</th>
                   <th className="px-6 py-4">Created Date</th>
@@ -183,11 +199,23 @@ export default function UsersManagementPage() {
                   <tr key={user.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4 font-medium text-slate-800">{user.name}</td>
                     <td className="px-6 py-4">
+                      <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                        user.role === 'superadmin' ? 'bg-purple-100 text-purple-700 border border-purple-200' :
+                        user.role === 'viewer' ? 'bg-gray-100 text-gray-700 border border-gray-200' :
+                        'bg-green-100 text-green-700 border border-green-200'
+                      }`}>
+                        {user.role === 'superadmin' ? 'Super Admin' : 
+                         user.role === 'viewer' ? 'Viewer' : 'Editor'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
                       <code className="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs">{user.auth_key}</code>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-wrap gap-1">
-                        {user.permissions.map((p, i) => (
+                        {user.role === 'superadmin' ? (
+                           <span className="inline-block bg-purple-50 text-purple-600 text-xs px-2 py-1 rounded border border-purple-100">All Access</span>
+                        ) : user.permissions.map((p, i) => (
                           <span key={i} className="inline-block bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded border border-blue-100">
                             {PERMISSIONS_LIST.find(pl => pl.id === p)?.label || p}
                           </span>

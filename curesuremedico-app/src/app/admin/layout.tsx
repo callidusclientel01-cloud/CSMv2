@@ -41,14 +41,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               .single();
 
             if (data && !error) {
-              setSession({ role: "admin", permissions: data.permissions || [] });
+              const userRole = data.role || "editor";
+              setSession({ role: userRole, permissions: data.permissions || [] });
               
               // Verify access to current path
               if (pathname !== "/admin" && pathname !== "/admin/login") {
-                 const hasAccess = data.permissions.some((perm: string) => (pathname || "").startsWith(perm));
-                 if (!hasAccess) {
-                   router.push("/admin");
-                   return;
+                 if (userRole !== "superadmin") {
+                   const hasAccess = data.permissions.some((perm: string) => (pathname || "").startsWith(perm));
+                   if (!hasAccess) {
+                     router.push("/admin");
+                     return;
+                   }
                  }
               }
 
