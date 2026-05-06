@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import ToasterProvider from "@/components/ToasterProvider";
+import { CurrencyProvider } from "@/components/CurrencyProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -59,10 +60,12 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body text-on-surface bg-surface min-h-screen flex flex-col">
-        <NavigationWrapper>
-          <ToasterProvider />
-          {children}
-        </NavigationWrapper>
+        <CurrencyProvider>
+          <NavigationWrapper>
+            <ToasterProvider />
+            {children}
+          </NavigationWrapper>
+        </CurrencyProvider>
       </body>
     </html>
   );

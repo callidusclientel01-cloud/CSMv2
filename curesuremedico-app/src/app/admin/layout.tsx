@@ -88,6 +88,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Packages", path: "/admin/packages", icon: "card_giftcard" },
     { name: "Patient Stories", path: "/admin/patient-stories", icon: "video_library" },
     { name: "Blog", path: "/admin/blog", icon: "article" },
+    { name: "Currencies", path: "/admin/currencies", icon: "payments", superadminOnly: true },
     { name: "Leads/Inquiries", path: "/admin/leads", icon: "forum" },
   ];
 

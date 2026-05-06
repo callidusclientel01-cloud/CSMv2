@@ -4,8 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import { useCurrency } from "@/components/CurrencyProvider";
 
 export default function Navbar() {
+  const { currencies, selectedCurrency, setSelectedCurrency, isLoaded } = useCurrency();
   const pathname = usePathname();
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -63,13 +65,26 @@ export default function Navbar() {
             </div>
             <div className="flex items-center gap-1">
               <span className="material-symbols-outlined text-[14px] text-secondary-fixed">payments</span>
-              <select className="bg-transparent text-white border-none py-1 pr-4 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold">
-                <option className="text-on-surface" value="usd">USD ($)</option>
-                <option className="text-on-surface" value="eur">EUR (€)</option>
-                <option className="text-on-surface" value="xof">FCFA (CFA)</option>
-                <option className="text-on-surface" value="inr">INR (₹)</option>
-                <option className="text-on-surface" value="cny">CNY (¥)</option>
-              </select>
+              {isLoaded ? (
+                <select 
+                  value={selectedCurrency.code}
+                  onChange={(e) => {
+                    const curr = currencies.find(c => c.code === e.target.value);
+                    if (curr) setSelectedCurrency(curr);
+                  }}
+                  className="bg-transparent text-white border-none py-1 pr-4 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold"
+                >
+                  {currencies.map(c => (
+                    <option key={c.code} className="text-on-surface" value={c.code}>
+                      {c.code} ({c.symbol})
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <select disabled className="bg-transparent text-white/50 border-none py-1 pr-4 pl-1 focus:ring-0 cursor-not-allowed text-xs font-semibold">
+                  <option>Loading...</option>
+                </select>
+              )}
             </div>
           </div>
         </div>

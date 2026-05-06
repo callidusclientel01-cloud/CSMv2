@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import { countries } from "@/utils/countries";
+import { useCurrency } from "@/components/CurrencyProvider";
 
 interface Treatment {
   id: string;
@@ -37,6 +38,7 @@ function TreatmentsContent() {
   const [selectedDest, setSelectedDest] = useState("");
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
+  const { formatStringPrice } = useCurrency();
 
   useEffect(() => {
     async function fetchData() {
@@ -333,7 +335,7 @@ function TreatmentsContent() {
                   <h3 className="text-2xl font-bold mb-3">{treatment.name}</h3>
                   <p className="opacity-80 mb-8 line-clamp-2 min-h-[48px]">{treatment.short_description}</p>
                   <div className="mt-auto flex flex-col gap-4">
-                    <span className="text-xs font-bold uppercase tracking-widest opacity-80">Starting at {treatment.starting_price}</span>
+                    <span className="text-xs font-bold uppercase tracking-widest opacity-80">Starting at {formatStringPrice(treatment.starting_price)}</span>
                     <Link href={`/treatments/${treatment.slug || treatment.id}`} className="flex items-center justify-center font-bold text-sm uppercase tracking-widest gap-2 bg-white text-primary hover:bg-surface-container-lowest py-3 rounded-xl transition-all shadow-sm">
                       Explore Speciality <span className="material-symbols-outlined text-lg">arrow_forward</span>
                     </Link>
@@ -407,7 +409,7 @@ function TreatmentsContent() {
                   <div className="mt-auto flex items-center justify-between border-t border-outline-variant/10 pt-6">
                     <div>
                       <span className="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Starts from</span>
-                      <div className="text-2xl font-bold text-primary">{pkg.price}</div>
+                      <div className="text-2xl font-bold text-primary">{formatStringPrice(pkg.price)}</div>
                     </div>
                     <Link href={`/quote?package=${pkg.id}`} className="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
                       <span className="material-symbols-outlined">add</span>
@@ -440,20 +442,20 @@ function TreatmentsContent() {
               <tbody className="divide-y divide-outline-variant/10">
                 <tr className="hover:bg-surface-container-high/50 transition-colors">
                   <td className="py-6 px-8 font-semibold">Knee Replacement (Single)</td>
-                  <td className="py-6 px-8 text-on-surface-variant line-through">$35,000</td>
-                  <td className="py-6 px-8 font-bold text-primary">$6,500</td>
+                  <td className="py-6 px-8 text-on-surface-variant line-through">{formatStringPrice("$35,000")}</td>
+                  <td className="py-6 px-8 font-bold text-primary">{formatStringPrice("$6,500")}</td>
                   <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 81%</span></td>
                 </tr>
                 <tr className="hover:bg-surface-container-high/50 transition-colors">
                   <td className="py-6 px-8 font-semibold">Heart Bypass (CABG)</td>
-                  <td className="py-6 px-8 text-on-surface-variant line-through">$120,000</td>
-                  <td className="py-6 px-8 font-bold text-primary">$9,800</td>
+                  <td className="py-6 px-8 text-on-surface-variant line-through">{formatStringPrice("$120,000")}</td>
+                  <td className="py-6 px-8 font-bold text-primary">{formatStringPrice("$9,800")}</td>
                   <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 92%</span></td>
                 </tr>
                 <tr className="hover:bg-surface-container-high/50 transition-colors">
                   <td className="py-6 px-8 font-semibold">IVF Treatment Cycle</td>
-                  <td className="py-6 px-8 text-on-surface-variant line-through">$15,000</td>
-                  <td className="py-6 px-8 font-bold text-primary">$4,200</td>
+                  <td className="py-6 px-8 text-on-surface-variant line-through">{formatStringPrice("$15,000")}</td>
+                  <td className="py-6 px-8 font-bold text-primary">{formatStringPrice("$4,200")}</td>
                   <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 72%</span></td>
                 </tr>
               </tbody>

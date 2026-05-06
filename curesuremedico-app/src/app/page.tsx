@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { countries } from "@/utils/countries";
 import { supabase } from "@/utils/supabaseClient";
+import { useCurrency } from "@/components/CurrencyProvider";
 
 // Mock data (This will later come from Supabase)
 const PACKAGES = [
@@ -78,6 +79,7 @@ function HomeContent() {
   const [phoneCode, setPhoneCode] = useState("+234");
   const [videoOpen, setVideoOpen] = useState<string | null>(null);
   const [patientStories, setPatientStories] = useState<any[]>(STATIC_STORIES);
+  const { formatStringPrice } = useCurrency();
 
   // Form State
   const [fullName, setFullName] = useState("");
@@ -448,7 +450,7 @@ function HomeContent() {
                   <div className="mt-auto flex items-center justify-between">
                     <div>
                       <span className="block text-xs text-outline font-bold uppercase">Package Price</span>
-                      <span className="text-2xl font-extrabold text-secondary">{pkg.price}</span>
+                      <span className="text-2xl font-extrabold text-secondary">{formatStringPrice(pkg.price)}</span>
                     </div>
                     <button className="p-3 bg-primary/10 text-primary rounded-xl hover:bg-primary hover:text-white transition-colors">
                       <span className="material-symbols-outlined">add</span>
@@ -530,7 +532,7 @@ function HomeContent() {
           <p className="text-sm text-on-surface-variant mb-6">{trt.short_description}</p>
           <div className="flex items-center justify-between mt-auto">
             <span className="text-xs font-bold text-outline">Starting at</span>
-            <span className="text-lg font-extrabold text-secondary">{trt.starting_price}</span>
+            <span className="text-lg font-extrabold text-secondary">{formatStringPrice(trt.starting_price)}</span>
           </div>
         </div>
       ))}
