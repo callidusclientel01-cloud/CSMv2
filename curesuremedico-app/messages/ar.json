@@ -1,0 +1,14 @@
+{
+  "Index": {
+    "title": "CureSureMedico"
+  },
+  "Navigation": {
+    "treatments": "العلاجات",
+    "hospitals": "المستشفيات",
+    "destinations": "الوجهات",
+    "blog": "المدونة",
+    "about": "معلومات عنا",
+    "quote": "احصل على عرض سعر",
+    "contact": "تحدث إلى خبير طبي"
+  }
+}

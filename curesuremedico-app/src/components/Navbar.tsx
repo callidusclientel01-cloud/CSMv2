@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, Link } from "@/i18n/routing";
+import { useTranslations, useLocale } from "next-intl";
 import { useState, useRef, useEffect } from "react";
 import { useCurrency } from "@/components/CurrencyProvider";
 
@@ -10,6 +11,8 @@ export default function Navbar() {
   const { currencies, selectedCurrency, setSelectedCurrency, isLoaded } = useCurrency();
   const pathname = usePathname();
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations("Navigation");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -40,11 +43,10 @@ export default function Navbar() {
   if (pathname.startsWith("/dashboard")) return null;
 
   const links = [
-    { name: "Home", href: "/" },
-    { name: "Treatments", href: "/treatments" },
-    { name: "Hospitals", href: "/hospitals" },
-    { name: "Destinations", href: "/destinations" },
-    { name: "Blog", href: "/blog" },
+    { name: t("treatments"), href: "/treatments" },
+    { name: t("hospitals"), href: "/hospitals" },
+    { name: t("destinations"), href: "/destinations" },
+    { name: t("blog"), href: "/blog" },
   ];
 
   return (
@@ -58,9 +60,14 @@ export default function Navbar() {
           <div className="flex items-center gap-3 md:gap-6 w-full sm:w-auto justify-between sm:justify-end">
             <div className="flex items-center gap-1">
               <span className="material-symbols-outlined text-[14px] text-secondary-fixed">language</span>
-              <select className="bg-transparent text-white border-none py-1 pr-4 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold">
+              <select 
+                value={locale} 
+                onChange={(e) => router.replace(pathname, { locale: e.target.value })}
+                className="bg-transparent text-white border-none py-1 pr-4 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold"
+              >
                 <option className="text-on-surface" value="en">English</option>
                 <option className="text-on-surface" value="fr">Français</option>
+                <option className="text-on-surface" value="ar">العربية</option>
               </select>
             </div>
             <div className="flex items-center gap-1">
@@ -140,7 +147,7 @@ export default function Navbar() {
             <input name="search" className="bg-transparent border-none focus:outline-none text-sm placeholder:text-on-surface-variant w-40" placeholder="Search insights..." type="text" />
           </form>
           <Link href="/quote" className="bg-primary text-on-primary px-4 md:px-6 py-2 md:py-2.5 rounded-full font-semibold text-xs md:text-sm hover:opacity-90 active:scale-95 transition-all whitespace-nowrap">
-            Get a Quote
+            {t("quote")}
           </Link>
           
           {/* Profile Dropdown */}

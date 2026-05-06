@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Cairo } from "next/font/google";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import ToasterProvider from "@/components/ToasterProvider";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getLocale } from 'next-intl/server';
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const cairo = Cairo({
+  subsets: ["arabic"],
+  variable: "--font-cairo",
 });
 
 export const metadata: Metadata = {
@@ -46,26 +53,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={`${inter.variable} scroll-smooth`}>
+    <html lang={locale} dir={dir} className={`${inter.variable} ${cairo.variable} scroll-smooth`}>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="font-body text-on-surface bg-surface min-h-screen flex flex-col">
-        <CurrencyProvider>
-          <NavigationWrapper>
-            <ToasterProvider />
-            {children}
-          </NavigationWrapper>
-        </CurrencyProvider>
+      <body className={`font-body text-on-surface bg-surface min-h-screen flex flex-col ${locale === 'ar' ? 'font-arabic' : 'font-sans'}`}>
+        <NextIntlClientProvider messages={messages}>
+          <CurrencyProvider>
+            <NavigationWrapper>
+              <ToasterProvider />
+              {children}
+            </NavigationWrapper>
+          </CurrencyProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,0 +1,14 @@
+{
+  "Index": {
+    "title": "CureSureMedico"
+  },
+  "Navigation": {
+    "treatments": "Treatments",
+    "hospitals": "Hospitals",
+    "destinations": "Destinations",
+    "blog": "Blog",
+    "about": "About Us",
+    "quote": "Get a Quote",
+    "contact": "Talk to Medical Expert"
+  }
+}
