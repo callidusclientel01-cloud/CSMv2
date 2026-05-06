@@ -2,7 +2,8 @@
 
 
 import Image from "next/image";
-import { usePathname, useRouter, Link } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { useState, useRef, useEffect, useTransition } from "react";
 import { useCurrency } from "@/components/CurrencyProvider";
@@ -66,7 +67,33 @@ export default function Navbar() {
                 onChange={(e) => {
                   const nextLocale = e.target.value;
                   startTransition(() => {
-                    router.replace(pathname, { locale: nextLocale });
+                    // Manually handle locale switching using standard Next.js router
+                    // This prevents next-intl from causing double locales like /fr/fr
+                    let newPathname = pathname;
+                    const segments = pathname.split('/');
+                    
+                    // Check if the first segment is an existing locale
+                    if (segments[1] === 'en' || segments[1] === 'fr' || segments[1] === 'ar') {
+                      if (nextLocale === 'en') {
+                        // Remove the locale prefix because 'en' is the default ('as-needed')
+                        segments.splice(1, 1);
+                        newPathname = segments.join('/') || '/';
+                      } else {
+                        // Replace the existing locale
+                        segments[1] = nextLocale;
+                        newPathname = segments.join('/');
+                      }
+                    } else {
+                      // It's currently the default locale ('en') which has no prefix
+                      if (nextLocale !== 'en') {
+                        // Add the new locale prefix
+                        newPathname = `/${nextLocale}${pathname === '/' ? '' : pathname}`;
+                      }
+                    }
+                    
+                    // Add any search params back
+                    const search = window.location.search;
+                    router.replace(`${newPathname}${search}`);
                   });
                 }}
                 disabled={isPending}
