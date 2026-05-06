@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { usePathname, useRouter, Link } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useTransition } from "react";
 import { useCurrency } from "@/components/CurrencyProvider";
 
 export default function Navbar() {
@@ -17,6 +17,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     async function loadUser() {
@@ -62,7 +63,13 @@ export default function Navbar() {
               <span className="material-symbols-outlined text-[14px] text-secondary-fixed">language</span>
               <select 
                 value={locale} 
-                onChange={(e) => router.replace(pathname, { locale: e.target.value })}
+                onChange={(e) => {
+                  const nextLocale = e.target.value;
+                  startTransition(() => {
+                    router.replace(pathname, { locale: nextLocale });
+                  });
+                }}
+                disabled={isPending}
                 className="bg-transparent text-white border-none py-1 pr-4 pl-1 focus:ring-0 cursor-pointer text-xs font-semibold"
               >
                 <option className="text-on-surface" value="en">English</option>
