@@ -3,9 +3,6 @@ import fs from "fs";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: "./"
-  },
   async redirects() {
     try {
       const redirectsPath = path.join(process.cwd(), 'redirects.json');
