@@ -8,7 +8,7 @@ import { useAdmin } from "@/components/admin/AdminContext";
 
 export default function CurrencyForm({ currencyId }: { currencyId?: string }) {
   const router = useRouter();
-  const { session } = useAdmin();
+  const session = useAdmin();
   const isEditing = !!currencyId;
 
   const [formData, setFormData] = useState({
