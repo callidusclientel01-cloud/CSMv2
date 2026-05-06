@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import { countries } from "@/utils/countries";
 import { useCurrency } from "@/components/CurrencyProvider";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
 
 interface Treatment {
@@ -50,6 +50,7 @@ function TreatmentsContent() {
   const isPreview = searchParams.get('preview') === 'true';
   const { formatStringPrice } = useCurrency();
   const locale = useLocale();
+  const t = useTranslations("TreatmentsPage");
 
   useEffect(() => {
     async function fetchData() {
@@ -160,7 +161,7 @@ function TreatmentsContent() {
     setSubmitSuccess(false);
 
     if (parseInt(userCaptcha) !== num1 + num2) {
-      setSubmitError("Incorrect math answer. Please try again.");
+      setSubmitError(t("errorMsg"));
       setNum1(Math.floor(Math.random() * 10) + 1);
       setNum2(Math.floor(Math.random() * 10) + 1);
       setUserCaptcha("");
@@ -216,29 +217,29 @@ function TreatmentsContent() {
         <div className="relative z-10 max-w-screen-2xl mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="text-on-primary">
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 leading-[1.1]">
-              World-Class Treatments at <span className="text-secondary-container">Transparent Prices</span>
+              {t("heroTitle")} <span className="text-secondary-container">{t("heroTitleHighlight")}</span>
             </h1>
             <p className="text-lg md:text-xl opacity-90 max-w-xl mb-8 leading-relaxed font-light">
-              Access top-tier medical care across our global network of accredited hospitals. High-quality outcomes, curated for the African patient.
+              {t("heroSubtitle")}
             </p>
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg">
                 <span className="material-symbols-outlined mr-2">verified_user</span>
-                <span className="text-sm font-medium">JCI Accredited</span>
+                <span className="text-sm font-medium">{t("jciAccredited")}</span>
               </div>
               <div className="flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg">
                 <span className="material-symbols-outlined mr-2">payments</span>
-                <span className="text-sm font-medium">Up to 70% Savings</span>
+                <span className="text-sm font-medium">{t("savings")}</span>
               </div>
             </div>
           </div>
           <div className="bg-surface-container-lowest p-6 md:p-10 flex-col flex rounded-xl shadow-2xl max-w-md mx-auto lg:ml-auto w-full">
-            <h3 className="text-2xl font-bold text-primary mb-2">Request a Consultation</h3>
-            <p className="text-on-surface-variant text-sm mb-6">Get a personalized medical quote within 24 hours.</p>
+            <h3 className="text-2xl font-bold text-primary mb-2">{t("formTitle")}</h3>
+            <p className="text-on-surface-variant text-sm mb-6">{t("formSubtitle")}</p>
             <form onSubmit={handleLeadSubmit} className="space-y-4">
               {submitSuccess && (
                 <div className="bg-green-100 text-green-800 p-3 rounded-lg text-sm font-medium">
-                  Thank you! Your inquiry has been sent.
+                  {t("successMsg")}
                 </div>
               )}
               {submitError && (
@@ -247,12 +248,12 @@ function TreatmentsContent() {
                 </div>
               )}
               <div>
-                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Full Name</label>
+                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">{t("formFullName")}</label>
                 <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="John Doe" type="text" />
               </div>
               <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Country</label>
+                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">{t("formCountry")}</label>
                   <select
                     value={selectedCountryName}
                     onChange={handleCountryChange}
@@ -264,12 +265,12 @@ function TreatmentsContent() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Condition</label>
+                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">{t("formCondition")}</label>
                   <input required value={medicalCondition} onChange={(e) => setMedicalCondition(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="e.g. Cardiology" type="text" />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">WhatsApp Number</label>
+                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">{t("formPhone")}</label>
                 <div className="flex gap-2">
                   <span className="bg-surface-container-high px-3 flex items-center justify-center rounded-lg text-sm font-bold w-20 sm:w-24 shrink-0 text-on-surface-variant">
                     {phoneCode}
@@ -278,11 +279,11 @@ function TreatmentsContent() {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Human Check: {num1} + {num2} = ?</label>
+                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">{t("formCaptcha", { num1, num2 })}</label>
                 <input required value={userCaptcha} onChange={(e) => setUserCaptcha(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="Answer" type="number" />
               </div>
               <button disabled={isSubmitting} type="submit" className="w-full bg-primary text-on-primary py-4 rounded-full font-bold text-lg hover:bg-primary-container transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
-                <span className="whitespace-nowrap">{isSubmitting ? "Sending..." : "Get Quote"}</span> {!isSubmitting && <span className="material-symbols-outlined shrink-0">arrow_forward</span>}
+                <span className="whitespace-nowrap">{isSubmitting ? t("formSubmitting") : t("formSubmit")}</span> {!isSubmitting && <span className="material-symbols-outlined shrink-0">arrow_forward</span>}
               </button>
             </form>
           </div>
@@ -299,7 +300,7 @@ function TreatmentsContent() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0"
-              placeholder="Search by Treatment..."
+              placeholder={t("searchPlaceholder")}
               type="text"
             />
           </div>
@@ -310,14 +311,14 @@ function TreatmentsContent() {
               onChange={(e) => setSelectedDest(e.target.value)}
               className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer px-0"
             >
-              <option value="">Filter by Destination</option>
+              <option value="">{t("filterDestination")}</option>
               <option value="India">India</option>
               <option value="Dubai">Dubai</option>
               <option value="Turkey">Turkey</option>
             </select>
           </div>
           <button onClick={handleSearch} className="bg-secondary text-on-secondary px-8 py-3.5 rounded-2xl md:rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer block text-center min-h-[48px]">
-            Find Hospital
+            {t("findHospital")}
           </button>
         </div>
       </section>
@@ -325,8 +326,8 @@ function TreatmentsContent() {
       {/* Specialty Grid */}
       <section className="py-24 px-8 max-w-screen-2xl mx-auto">
         <div className="mb-16">
-          <h2 className="text-4xl font-bold tracking-tighter text-on-surface mb-4">Medical Specialties</h2>
-          <p className="text-on-surface-variant max-w-2xl text-lg">Specialized care paths designed for complex medical needs, delivered by globally recognized specialists.</p>
+          <h2 className="text-4xl font-bold tracking-tighter text-on-surface mb-4">{t("specialtiesTitle")}</h2>
+          <p className="text-on-surface-variant max-w-2xl text-lg">{t("specialtiesSubtitle")}</p>
         </div>
 
         {loading ? (
@@ -346,9 +347,9 @@ function TreatmentsContent() {
                   <h3 className="text-2xl font-bold mb-3">{getLocalizedField(treatment, 'name', locale)}</h3>
                   <p className="opacity-80 mb-8 line-clamp-2 min-h-[48px]">{getLocalizedField(treatment, 'short_description', locale)}</p>
                   <div className="mt-auto flex flex-col gap-4">
-                    <span className="text-xs font-bold uppercase tracking-widest opacity-80">Starting at {formatStringPrice(treatment.starting_price)}</span>
+                    <span className="text-xs font-bold uppercase tracking-widest opacity-80">{t("startingAt", { price: formatStringPrice(treatment.starting_price) })}</span>
                     <Link href={`/treatments/${treatment.slug || treatment.id}`} className="flex items-center justify-center font-bold text-sm uppercase tracking-widest gap-2 bg-white text-primary hover:bg-surface-container-lowest py-3 rounded-xl transition-all shadow-sm">
-                      Explore Speciality <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                      {t("exploreSpecialty")} <span className="material-symbols-outlined text-lg">arrow_forward</span>
                     </Link>
                   </div>
                 </div>
@@ -363,14 +364,14 @@ function TreatmentsContent() {
                   className="bg-surface-container-highest hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                  Voir Plus (See More Treatments)
+                  {t("seeMore")}
                 </button>
               </div>
             )}
           </>
         ) : (
           <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
-            <p className="text-on-surface-variant">No treatments found in the database.</p>
+            <p className="text-on-surface-variant">{t("noTreatments")}</p>
           </div>
         )}
       </section>
@@ -380,11 +381,11 @@ function TreatmentsContent() {
         <div className="max-w-screen-2xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
-              <h2 className="text-4xl font-bold tracking-tighter text-on-surface mb-4">Promotional Medical Packages</h2>
-              <p className="text-on-surface-variant max-w-2xl text-lg">Carefully curated all-inclusive medical experiences with significant value.</p>
+              <h2 className="text-4xl font-bold tracking-tighter text-on-surface mb-4">{t("packagesTitle")}</h2>
+              <p className="text-on-surface-variant max-w-2xl text-lg">{t("packagesSubtitle")}</p>
             </div>
             <button className="text-primary font-bold flex items-center gap-2 hover:underline">
-              View All Offers <span className="material-symbols-outlined">arrow_right_alt</span>
+              {t("viewAllOffers")} <span className="material-symbols-outlined">arrow_right_alt</span>
             </button>
           </div>
 
@@ -419,7 +420,7 @@ function TreatmentsContent() {
 
                   <div className="mt-auto flex items-center justify-between border-t border-outline-variant/10 pt-6">
                     <div>
-                      <span className="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Starts from</span>
+                      <span className="text-xs text-on-surface-variant uppercase font-bold tracking-wider">{t("startsFrom")}</span>
                       <div className="text-2xl font-bold text-primary">{formatStringPrice(pkg.price)}</div>
                     </div>
                     <Link href={`/quote?package=${pkg.id}`} className="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all">
@@ -437,42 +438,42 @@ function TreatmentsContent() {
       <section className="py-24 bg-surface-container-low">
         <div className="max-w-screen-xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold tracking-tighter text-on-surface mb-4">Estimated Treatment Costs</h2>
-            <p className="text-on-surface-variant max-w-xl mx-auto">See how much you can save by choosing our partner hospitals in premium medical destinations.</p>
+            <h2 className="text-4xl font-bold tracking-tighter text-on-surface mb-4">{t("costsTitle")}</h2>
+            <p className="text-on-surface-variant max-w-xl mx-auto">{t("costsSubtitle")}</p>
           </div>
           <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-outline-variant/20 overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[600px]">
               <thead>
                 <tr className="bg-primary text-on-primary">
-                  <th className="py-6 px-8 font-bold border-b border-primary-container">Procedure</th>
-                  <th className="py-6 px-8 font-bold border-b border-primary-container">UK / USA Cost</th>
-                  <th className="py-6 px-8 font-bold border-b border-primary-container">GlobalMed Avg.</th>
-                  <th className="py-6 px-8 font-bold text-secondary-container border-b border-primary-container">Your Savings</th>
+                  <th className="py-6 px-8 font-bold border-b border-primary-container">{t("tableProcedure")}</th>
+                  <th className="py-6 px-8 font-bold border-b border-primary-container">{t("tableUSA")}</th>
+                  <th className="py-6 px-8 font-bold border-b border-primary-container">{t("tableGlobal")}</th>
+                  <th className="py-6 px-8 font-bold text-secondary-container border-b border-primary-container">{t("tableSavings")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/10">
                 <tr className="hover:bg-surface-container-high/50 transition-colors">
-                  <td className="py-6 px-8 font-semibold">Knee Replacement (Single)</td>
+                  <td className="py-6 px-8 font-semibold">{t("kneeReplacement")}</td>
                   <td className="py-6 px-8 text-on-surface-variant line-through">{formatStringPrice("$35,000")}</td>
                   <td className="py-6 px-8 font-bold text-primary">{formatStringPrice("$6,500")}</td>
-                  <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 81%</span></td>
+                  <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">{t("save81")}</span></td>
                 </tr>
                 <tr className="hover:bg-surface-container-high/50 transition-colors">
-                  <td className="py-6 px-8 font-semibold">Heart Bypass (CABG)</td>
+                  <td className="py-6 px-8 font-semibold">{t("heartBypass")}</td>
                   <td className="py-6 px-8 text-on-surface-variant line-through">{formatStringPrice("$120,000")}</td>
                   <td className="py-6 px-8 font-bold text-primary">{formatStringPrice("$9,800")}</td>
-                  <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 92%</span></td>
+                  <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">{t("save92")}</span></td>
                 </tr>
                 <tr className="hover:bg-surface-container-high/50 transition-colors">
-                  <td className="py-6 px-8 font-semibold">IVF Treatment Cycle</td>
+                  <td className="py-6 px-8 font-semibold">{t("ivfCycle")}</td>
                   <td className="py-6 px-8 text-on-surface-variant line-through">{formatStringPrice("$15,000")}</td>
                   <td className="py-6 px-8 font-bold text-primary">{formatStringPrice("$4,200")}</td>
-                  <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">Save 72%</span></td>
+                  <td className="py-6 px-8"><span className="bg-secondary-container/30 text-secondary font-bold px-3 py-1 rounded-full text-sm">{t("save72")}</span></td>
                 </tr>
               </tbody>
             </table>
             <div className="p-6 bg-surface-container-high/30 text-xs text-on-surface-variant text-center">
-              *Prices are indicative and include hospital stay and surgery. Final quote depends on specific medical condition.
+              {t("costsDisclaimer")}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import { useTranslations } from "next-intl";
 
 interface BlogPost {
   id: string; // the database is mostly using integer here, but string represents it well in JS
@@ -31,6 +32,7 @@ function BlogContent() {
   const [email, setEmail] = useState("");
   const [subscribing, setSubscribing] = useState(false);
   const [subMessage, setSubMessage] = useState<string | null>(null);
+  const t = useTranslations("BlogPage");
 
   useEffect(() => {
     setSearchQuery(queryParam || "");
@@ -189,10 +191,10 @@ function BlogContent() {
       <section className="mb-16">
         <div className="max-w-3xl">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-primary mb-6 leading-tight">
-            Medical Insights & <span className="text-secondary">Patient Guides</span>
+            {t("heroTitle")} <span className="text-secondary">{t("heroTitleHighlight")}</span>
           </h1>
           <p className="text-xl text-on-surface-variant font-medium leading-relaxed max-w-2xl">
-            Expert advice on global healthcare, treatment breakthroughs, and medical travel tips curated specifically for the African community.
+            {t("heroSubtitle")}
           </p>
         </div>
       </section>
@@ -210,7 +212,7 @@ function BlogContent() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
               <div className="absolute bottom-0 p-8 md:p-12 text-white">
                 <div className="inline-flex items-center px-3 py-1 rounded-full bg-secondary text-white text-xs font-bold tracking-wider uppercase mb-4 shadow-sm">
-                   Featured Article
+                   {t("featuredArticle")}
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 max-w-2xl leading-tight">{featuredPost.title}</h2>
                 <p className="text-white/90 text-lg mb-6 max-w-xl hidden md:block">{featuredPost.excerpt}</p>
@@ -223,7 +225,7 @@ function BlogContent() {
                   </div>
                   <div className="text-sm">
                     <p className="font-bold">{featuredPost.author}</p>
-                    <p className="text-white/70">Medical Expert</p>
+                    <p className="text-white/70">{t("medicalExpert")}</p>
                   </div>
                 </div>
               </div>
@@ -235,15 +237,15 @@ function BlogContent() {
             <div className="bg-primary text-on-primary p-8 rounded-xl flex flex-col justify-center relative overflow-hidden">
               <div className="relative z-10">
                 <span className="material-symbols-outlined text-4xl mb-4 text-secondary-fixed">mail</span>
-                <h3 className="text-2xl font-bold mb-2">Stay Informed</h3>
-                <p className="text-primary-fixed text-sm mb-6 leading-relaxed">Join 15,000+ patients receiving monthly updates on healthcare breakthroughs and travel safety.</p>
+                <h3 className="text-2xl font-bold mb-2">{t("stayInformed")}</h3>
+                <p className="text-primary-fixed text-sm mb-6 leading-relaxed">{t("stayInformedDesc")}</p>
                 <form className="space-y-4" onSubmit={handleSubscribe}>
                   <input 
                     required 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all outline-none" 
-                    placeholder="Email address" 
+                    placeholder={t("emailPlaceholder")} 
                     type="email" 
                   />
                   <button 
@@ -251,7 +253,7 @@ function BlogContent() {
                     className="w-full bg-secondary-container text-on-secondary-container font-bold py-3 rounded-full hover:brightness-105 transition-all disabled:opacity-50" 
                     type="submit"
                   >
-                    {subscribing ? "Subscribing..." : "Subscribe Now"}
+                    {subscribing ? t("subscribing") : t("subscribeNow")}
                   </button>
                   {subMessage && <p className="text-xs text-secondary-fixed font-bold">{subMessage}</p>}
                 </form>
@@ -262,10 +264,10 @@ function BlogContent() {
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-bold flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>category</span>
-                  Top Categories
+                  {t("topCategories")}
                 </h3>
                 {selectedCategory && (
-                  <button onClick={() => setSelectedCategory(null)} className="text-xs text-primary font-bold hover:underline">Clear</button>
+                  <button onClick={() => setSelectedCategory(null)} className="text-xs text-primary font-bold hover:underline">{t("clear")}</button>
                 )}
               </div>
               <div className="space-y-3">
@@ -290,10 +292,10 @@ function BlogContent() {
         <div className="flex items-center justify-between border-b border-surface-container-high pb-4">
           <h2 className="text-3xl font-bold tracking-tight text-primary">
             {searchQuery 
-              ? `Search Results for "${searchQuery}"` 
+              ? t("searchResultsFor", { query: searchQuery }) 
               : selectedCategory 
-                ? `${selectedCategory} Articles` 
-                : "Latest Perspectives"}
+                ? t("articlesFor", { category: selectedCategory }) 
+                : t("latestPerspectives")}
           </h2>
           <div className="flex gap-2">
             <button className="p-2 rounded-full hover:bg-surface-container text-on-surface-variant">
@@ -329,14 +331,14 @@ function BlogContent() {
                     </div>
                   </div>
                   <div className="p-6 flex flex-col flex-grow">
-                    <div className="text-on-surface-variant text-xs font-medium mb-3">Published • 5 min read</div>
+                    <div className="text-on-surface-variant text-xs font-medium mb-3">{t("publishedRead")}</div>
                     <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors leading-snug">{post.title}</h3>
                     <p className="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">{post.excerpt}</p>
                     <div className="flex justify-between items-center text-xs mt-auto opacity-70 mb-3">
-                       <span>By {post.author}</span>
+                       <span>{t("byAuthor", { author: post.author })}</span>
                     </div>
                     <Link href={`/blog/${post.slug || post.id}`} className="inline-flex items-center text-primary font-bold text-sm group/link before:absolute before:inset-0 before:z-10">
-                      Read More 
+                      {t("readMore")} 
                       <span className="material-symbols-outlined ml-1 text-lg transition-transform group-hover/link:translate-x-1">arrow_forward</span>
                     </Link>
                   </div>
@@ -352,14 +354,14 @@ function BlogContent() {
                   className="bg-surface-container-high hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                  Voir plus
+                  {t("readMore")}
                 </button>
               </div>
             )}
           </>
         ) : (
           <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
-             <p className="text-on-surface-variant">No latest perspectives available at the moment.</p>
+             <p className="text-on-surface-variant">{t("noArticles")}</p>
           </div>
         )}
       </section>

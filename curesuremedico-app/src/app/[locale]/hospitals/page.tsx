@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
 
 interface Hospital {
@@ -35,6 +35,7 @@ function HospitalsList() {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
+  const t = useTranslations("HospitalsPage");
 
   // Filter States
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
@@ -197,7 +198,7 @@ function HospitalsList() {
       {/* Sidebar Filters */}
       <aside className="space-y-8">
         <div>
-          <h4 className="text-sm font-bold uppercase tracking-widest text-outline mb-6">Filter by Country</h4>
+          <h4 className="text-sm font-bold uppercase tracking-widest text-outline mb-6">{t("filterCountry")}</h4>
           <div className="space-y-3">
             {availableCountries.map((country, idx) => {
               const isSelected = selectedCountries.includes(country);
@@ -220,7 +221,7 @@ function HospitalsList() {
         </div>
 
         <div>
-          <h4 className="text-sm font-bold uppercase tracking-widest text-outline mb-6">Filter by City</h4>
+          <h4 className="text-sm font-bold uppercase tracking-widest text-outline mb-6">{t("filterCity")}</h4>
           <div className="space-y-3">
             {availableCities.map((city, idx) => {
               const isSelected = selectedCities.includes(city);
@@ -243,7 +244,7 @@ function HospitalsList() {
         </div>
         
         <div>
-          <h4 className="text-sm font-bold uppercase tracking-widest text-outline mb-6">Specializations</h4>
+          <h4 className="text-sm font-bold uppercase tracking-widest text-outline mb-6">{t("specializations")}</h4>
           <div className="flex flex-wrap gap-2">
             {['All Units', ...availableSpecialties].map((spec, idx) => {
               const isSelected = selectedSpecialty === spec;
@@ -261,11 +262,11 @@ function HospitalsList() {
         </div>
 
         <div className="bg-surface-container-low p-6 rounded-xl">
-          <h5 className="font-bold text-on-surface mb-2">Need Help?</h5>
-          <p className="text-sm text-on-surface-variant mb-4">Our medical advisors are available 24/7 to guide you.</p>
+          <h5 className="font-bold text-on-surface mb-2">{t("needHelp")}</h5>
+          <p className="text-sm text-on-surface-variant mb-4">{t("advisorsText")}</p>
           <button className="w-full flex items-center justify-center gap-2 bg-white border border-outline-variant text-on-surface py-3 rounded-lg text-sm font-bold hover:bg-surface-container-highest transition-colors">
             <span className="material-symbols-outlined text-primary">call</span>
-            Talk to an Advisor
+            {t("talkToAdvisor")}
           </button>
         </div>
       </aside>
@@ -274,15 +275,15 @@ function HospitalsList() {
       <section className="lg:col-span-3 space-y-8">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-on-surface">Top Accredited Hospitals</h2>
-            <p className="text-on-surface-variant">Showing verifying medical centers</p>
+            <h2 className="text-3xl font-bold text-on-surface">{t("topHospitalsTitle")}</h2>
+            <p className="text-on-surface-variant">{t("topHospitalsSubtitle")}</p>
           </div>
           <div className="flex items-center gap-2 text-sm font-semibold text-outline">
-            <span>Sort by:</span>
+            <span>{t("sortBy")}</span>
             <select className="bg-transparent border-none focus:ring-0 text-primary font-bold cursor-pointer">
-              <option>Top Rated</option>
-              <option>Recommended</option>
-              <option>Most Experience</option>
+              <option>{t("topRated")}</option>
+              <option>{t("recommended")}</option>
+              <option>{t("mostExperience")}</option>
             </select>
           </div>
         </div>
@@ -317,7 +318,7 @@ function HospitalsList() {
                         <div className="flex items-center gap-2 mb-1">
                           <span className="material-symbols-outlined text-yellow-500 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                           <span className="text-sm font-bold text-on-surface">{hospital.rating}</span>
-                          <span className="text-xs text-on-surface-variant">({hospital.reviews_count}+ Reviews)</span>
+                          <span className="text-xs text-on-surface-variant">{t("reviewsCount", { count: hospital.reviews_count })}</span>
                         </div>
                         <h3 className="text-2xl font-bold text-on-surface group-hover:text-primary transition-colors">{getLocalizedField(hospital, 'name', locale)}</h3>
                         <p className="text-sm text-on-surface-variant font-medium">{hospital.city}</p>
@@ -353,10 +354,10 @@ function HospitalsList() {
                       </div>
                       <div className="flex flex-wrap sm:flex-nowrap gap-4 w-full xl:w-auto mt-2 xl:mt-0 items-center justify-between xl:justify-end">
                         <Link href={`/hospitals/${hospital.slug || hospital.id}`} className="text-sm flex items-center gap-1 font-bold text-primary hover:underline whitespace-nowrap">
-                          View details <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                          {t("viewDetails")} <span className="material-symbols-outlined text-sm">arrow_forward</span>
                         </Link>
                         <Link href="/quote" className="bg-primary text-center w-full sm:w-auto text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:opacity-90 whitespace-nowrap">
-                          Book Consultation
+                          {t("bookConsultation")}
                         </Link>
                       </div>
                     </div>
@@ -373,14 +374,14 @@ function HospitalsList() {
                   className="bg-surface-container-high hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/50 flex items-center gap-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                  Voir Plus (See More)
+                  {t("seeMore")}
                 </button>
               </div>
             )}
           </>
         ) : (
           <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
-             <p className="text-on-surface-variant">No hospitals found in the database.</p>
+             <p className="text-on-surface-variant">{t("noHospitals")}</p>
           </div>
         )}
       </section>

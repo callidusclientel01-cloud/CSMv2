@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
 import { countries } from "@/utils/countries";
+import { useTranslations } from "next-intl";
 
 interface Destination {
   id: string; // the UI shows UUID
@@ -24,6 +25,7 @@ function DestinationsContent() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations("DestinationsPage");
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -181,18 +183,18 @@ function DestinationsContent() {
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest">
               <span className="material-symbols-outlined text-sm">public</span>
-              Global Healthcare Excellence
+              {t("globalHealthcare")}
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tighter text-on-surface leading-[1.1]">
-              World-Class Medical <span className="text-primary">Destinations</span> Within Your Reach
+              {t("heroTitle1")} <span className="text-primary">{t("heroTitleHighlight")}</span> {t("heroTitle2")}
             </h1>
             <p className="text-xl text-on-surface-variant max-w-xl leading-relaxed">
-              Bridging the gap between African patients and global medical expertise. From Lagos to Nairobi, our local support teams ensure your international treatment journey is seamless and safe.
+              {t("heroSubtitle")}
             </p>
           </div>
           
           <div className="bg-surface-container-lowest p-8 rounded-xl shadow-2xl border border-outline-variant/20 max-w-md ml-auto w-full">
-            <h3 className="text-2xl font-bold mb-6">Start Your Journey</h3>
+            <h3 className="text-2xl font-bold mb-6">{t("startJourney")}</h3>
             <form onSubmit={handleLeadSubmit} className="space-y-4">
               {submitSuccess && (
                 <div className="bg-green-100 text-green-800 p-3 rounded-md text-sm font-medium">
@@ -240,10 +242,10 @@ function DestinationsContent() {
                 <input required value={userCaptcha} onChange={(e) => setUserCaptcha(e.target.value)} className="w-full bg-surface-container-highest border-none rounded-md focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="Answer" type="number" />
               </div>
               <button disabled={isSubmitting} type="submit" className="w-full py-4 bg-primary text-on-primary rounded-full font-bold text-base md:text-lg hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
-                <span className="whitespace-nowrap">{isSubmitting ? "Sending..." : "Request Expert Consultation"}</span>
+                <span className="whitespace-nowrap">{isSubmitting ? "Sending..." : t("requestExpert")}</span>
                 {!isSubmitting && <span className="material-symbols-outlined shrink-0">arrow_forward</span>}
               </button>
-              <p className="text-center text-xs text-on-surface-variant mt-2">Confidential and secure. Your data is protected.</p>
+              <p className="text-center text-xs text-on-surface-variant mt-2">{t("confidentialText")}</p>
             </form>
           </div>
         </div>
@@ -254,8 +256,8 @@ function DestinationsContent() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="space-y-4">
-              <h2 className="text-4xl font-extrabold tracking-tight">Premier Medical Hubs</h2>
-              <p className="text-on-surface-variant text-lg">Vetted hospitals across the most trusted medical tourism destinations.</p>
+              <h2 className="text-4xl font-extrabold tracking-tight">{t("premierHubsTitle")}</h2>
+              <p className="text-on-surface-variant text-lg">{t("premierHubsSubtitle")}</p>
             </div>
           </div>
 
@@ -296,7 +298,7 @@ function DestinationsContent() {
                       )}
 
                       <Link href={`/destinations/${dest.slug || dest.id}`} className="mt-auto w-full py-3 text-center rounded-lg border border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all">
-                        Explore Medical Hubs
+                        {t("exploreHubs")}
                       </Link>
                     </div>
                   </div>
@@ -311,14 +313,14 @@ function DestinationsContent() {
                     className="bg-surface-container-highest hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
                   >
                     <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                    Voir Plus (See More Destinations)
+                    {t("seeMore")}
                   </button>
                 </div>
               )}
             </>
           ) : (
             <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
-               <p className="text-on-surface-variant">No destinations found in the database.</p>
+               <p className="text-on-surface-variant">{t("noDestinations")}</p>
             </div>
           )}
         </div>
@@ -334,9 +336,9 @@ function DestinationsContent() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8 text-on-primary">
-              <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight">The Africa Support Network</h2>
+              <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight">{t("africaNetworkTitle")}</h2>
               <p className="text-xl text-primary-fixed/80 leading-relaxed">
-                  We aren't just a website; we are on the ground. Our local concierge teams in major African hubs provide in-person guidance, document collection, and post-treatment follow-ups.
+                  {t("africaNetworkSubtitle")}
               </p>
               
               <div className="space-y-6">

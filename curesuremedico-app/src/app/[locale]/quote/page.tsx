@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { supabase } from "@/utils/supabaseClient";
 import { countries } from "@/utils/countries";
+import { useTranslations } from "next-intl";
 
 export default function QuotePage() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ export default function QuotePage() {
     preferred_destination: "",
     notes: ""
   });
+  const t = useTranslations("QuotePage");
   
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [countryCode, setCountryCode] = useState("+234");
@@ -124,13 +126,13 @@ export default function QuotePage() {
       {/* Hero Section */}
       <header className="mb-12 text-center md:text-left">
         <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-sm font-semibold mb-4">
-          Personalized Care
+          {t("personalizedCare")}
         </span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-on-surface tracking-tighter mb-6">
-          Start Your Medical Journey <br className="hidden md:block" /> with <span className="text-primary">Confidence</span>.
+          {t("heroTitle1")} <br className="hidden md:block" /> {t("heroTitle2")} <span className="text-primary">{t("heroTitleHighlight")}</span>.
         </h1>
         <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
-          Connect with world-class specialists and receive a comprehensive, cost-effective treatment plan tailored specifically to your needs.
+          {t("heroSubtitle")}
         </p>
       </header>
 
@@ -145,15 +147,15 @@ export default function QuotePage() {
                <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
                  <span className="material-symbols-outlined text-green-600 text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                </div>
-               <h3 className="text-3xl font-bold text-on-surface mb-4">Request Sent Successfully!</h3>
+               <h3 className="text-3xl font-bold text-on-surface mb-4">{t("requestSent")}</h3>
                <p className="text-on-surface-variant max-w-md mx-auto mb-8 text-lg">
-                 Thank you for your trust. Our medical team has received your details and will contact you via email or WhatsApp within 24 hours to schedule your consultation with our specialists.
+                 {t("requestSentDesc")}
                </p>
                <button 
                  onClick={() => setSuccess(false)}
                  className="bg-primary hover:bg-primary-container text-on-primary font-bold px-8 py-3 rounded-full transition-colors"
                >
-                 Send Another Request
+                 {t("sendAnother")}
                </button>
             </div>
           ) : null}
@@ -170,7 +172,7 @@ export default function QuotePage() {
               <div className="space-y-6">
                 <h2 className="text-xl font-bold flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary">person</span>
-                  Personal Information
+                  {t("personalInfo")}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
@@ -186,7 +188,7 @@ export default function QuotePage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-on-surface-variant px-1">Email Address *</label>
+                    <label className="text-sm font-medium text-on-surface-variant px-1">{t("emailAddress")}</label>
                     <input 
                       required
                       name="email"
@@ -198,7 +200,7 @@ export default function QuotePage() {
                     />
                   </div>
                   <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-medium text-on-surface-variant px-1">Country of Residence</label>
+                    <label className="text-sm font-medium text-on-surface-variant px-1">{t("residence")}</label>
                     <select 
                       value={selectedCountryName}
                       onChange={handleCountryChange}
@@ -233,11 +235,11 @@ export default function QuotePage() {
               <div className="space-y-6 pt-6">
                 <h2 className="text-xl font-bold flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary">medical_information</span>
-                  Medical Details
+                  {t("medicalDetails")}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-on-surface-variant px-1">Primary Condition</label>
+                    <label className="text-sm font-medium text-on-surface-variant px-1">{t("primaryCondition")}</label>
                     <input 
                       name="condition"
                       value={formData.condition}
@@ -248,14 +250,14 @@ export default function QuotePage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-on-surface-variant px-1">Preferred Destination</label>
+                    <label className="text-sm font-medium text-on-surface-variant px-1">{t("preferredDest")}</label>
                     <select 
                       name="preferred_destination"
                       value={formData.preferred_destination}
                       onChange={handleChange}
                       className="w-full bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 py-3 px-4 transition-all"
                     >
-                      <option value="">No preference / Advise Me</option>
+                      <option value="">{t("noPreference")}</option>
                       {availableDestinations.length > 0 ? (
                         availableDestinations.map(d => (
                           <option key={d.country_name} value={d.country_name}>{d.country_name}</option>
@@ -271,12 +273,12 @@ export default function QuotePage() {
                     </select>
                   </div>
                   <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-medium text-on-surface-variant px-1">Upload Medical Reports (Optional)</label>
+                    <label className="text-sm font-medium text-on-surface-variant px-1">{t("uploadReports")}</label>
                     <label className="flex flex-col items-center justify-center w-full h-14 px-4 bg-surface-container-highest border border-dashed border-outline-variant/40 rounded-xl cursor-pointer hover:bg-surface-container-high transition-colors">
                       <div className="flex items-center gap-2">
                         <span className="material-symbols-outlined text-primary">upload_file</span>
                         <span className="text-sm text-on-surface-variant font-medium truncate max-w-md">
-                          {file ? file.name : "Click to browse reports (PDF, JPG, PNG)"}
+                          {file ? file.name : t("uploadPrompt")}
                         </span>
                       </div>
                       <input 
@@ -292,13 +294,13 @@ export default function QuotePage() {
                     </label>
                   </div>
                   <div className="md:col-span-2 space-y-2">
-                    <label className="text-sm font-medium text-on-surface-variant px-1">Tell us more about your case</label>
+                    <label className="text-sm font-medium text-on-surface-variant px-1">{t("tellUsMore")}</label>
                     <textarea 
                       name="notes"
                       value={formData.notes}
                       onChange={handleChange}
                       className="w-full bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 py-3 px-4 transition-all resize-none" 
-                      placeholder="Briefly describe your symptoms, previous treatments, and goals..." 
+                      placeholder={t("tellUsMorePlaceholder")}
                       rows={4}
                     ></textarea>
                   </div>
@@ -322,12 +324,12 @@ export default function QuotePage() {
                   className={`w-full md:w-auto bg-primary text-on-primary text-lg font-bold px-12 py-4 rounded-full transition-all flex items-center justify-center gap-3 group ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-xl active:scale-95'}`} 
                   type="submit"
                 >
-                  {isSubmitting ? 'Sending...' : 'Get My Free Treatment Plan'}
+                  {isSubmitting ? 'Sending...' : t("getTreatmentPlan")}
                   {!isSubmitting && <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>}
                 </button>
                 <p className="mt-4 text-xs text-on-surface-variant flex items-center gap-2">
                   <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
-                  Your data is encrypted and 100% confidential.
+                  {t("encryptionText")}
                 </p>
               </div>
             </form>
@@ -337,15 +339,15 @@ export default function QuotePage() {
         {/* Right Side: Trust Sidebar */}
         <aside className="lg:col-span-4 space-y-8">
           <div className="bg-surface-container-low p-8 rounded-xl space-y-6">
-            <h3 className="text-xl font-bold text-on-surface">Why Trust Us?</h3>
+            <h3 className="text-xl font-bold text-on-surface">{t("whyTrustUs")}</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm">JCI Accredited Network</h4>
-                  <p className="text-xs text-on-surface-variant">All hospitals in our network maintain the highest global safety standards.</p>
+                  <h4 className="font-bold text-sm">{t("jciTitle")}</h4>
+                  <p className="text-xs text-on-surface-variant">{t("jciDesc")}</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -353,8 +355,8 @@ export default function QuotePage() {
                   <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>support_agent</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm">24/7 Dedicated Case Manager</h4>
-                  <p className="text-xs text-on-surface-variant">Personalized support from your first inquiry until you return home safely.</p>
+                  <h4 className="font-bold text-sm">{t("caseManagerTitle")}</h4>
+                  <p className="text-xs text-on-surface-variant">{t("caseManagerDesc")}</p>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -362,16 +364,16 @@ export default function QuotePage() {
                   <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm">100% Data Confidentiality</h4>
-                  <p className="text-xs text-on-surface-variant">We adhere to international health privacy regulations (HIPAA/GDPR).</p>
+                  <h4 className="font-bold text-sm">{t("confidentialityTitle")}</h4>
+                  <p className="text-xs text-on-surface-variant">{t("confidentialityDesc")}</p>
                 </div>
               </li>
             </ul>
           </div>
           
           <div className="bg-surface-container-low p-8 rounded-xl space-y-4">
-            <h3 className="text-xl font-bold text-on-surface">Local Support in Africa</h3>
-            <p className="text-sm text-on-surface-variant mb-4">Visit our local offices for in-person consultations and medical documentation assistance.</p>
+            <h3 className="text-xl font-bold text-on-surface">{t("localSupport")}</h3>
+            <p className="text-sm text-on-surface-variant mb-4">{t("localSupportDesc")}</p>
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2 bg-surface-container-highest px-3 py-2 rounded-lg">
                 <span className="font-bold text-xs">Lagos</span>
@@ -394,7 +396,7 @@ export default function QuotePage() {
             <div className="relative z-10">
               <span className="material-symbols-outlined text-4xl mb-4 text-secondary-container">format_quote</span>
               <p className="text-lg italic font-medium leading-relaxed mb-6">
-                  "The process was seamless. From Lagos to Mumbai, CureSureMedico handled every detail. I'm now pain-free and back to work!"
+                  {t("testimonial")}
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full overflow-hidden bg-white/20">
@@ -406,7 +408,7 @@ export default function QuotePage() {
                 </div>
                 <div>
                   <p className="font-bold text-sm">Amara O.</p>
-                  <p className="text-xs text-white/70">Knee Replacement Patient</p>
+                  <p className="text-xs text-white/70">{t("testimonialAuthor")}</p>
                 </div>
               </div>
             </div>
