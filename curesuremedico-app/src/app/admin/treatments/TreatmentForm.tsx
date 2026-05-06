@@ -51,6 +51,9 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
     e.preventDefault();
     setLoading(true);
 
+    // Force 'draft' status if the user is not a superadmin
+    const finalStatus = isSuperadmin ? formData.status : "draft";
+
     const payload = { 
       name: formData.name,
       slug: formData.slug,
@@ -64,7 +67,7 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
       quick_response_time: formData.quick_response_time,
       cost_saving: formData.cost_saving,
       procedures: (() => { try { return JSON.parse(formData.procedures) } catch(e) { return [] } })(),
-      status: formData.status
+      status: finalStatus
     };
 
     try {
@@ -108,19 +111,21 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
           <label className="block text-sm font-bold text-slate-700 mb-2">Starting Price</label>
           <input required type="text" name="starting_price" value={formData.starting_price} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="$3,500" />
         </div>
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
-          <select 
-            name="status" 
-            value={formData.status} 
-            onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none font-bold"
-          >
-            <option value="draft">Draft</option>
-            <option value="pending">Pending Approval</option>
-            {isSuperadmin && <option value="published">Published</option>}
-          </select>
-        </div>
+        {isSuperadmin && (
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
+            <select 
+              name="status" 
+              value={formData.status} 
+              onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none font-bold"
+            >
+              <option value="draft">Draft</option>
+              <option value="pending">Pending Approval</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
+        )}
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Icon Name (Google Material Symbols)</label>
           <input required type="text" name="icon_name" value={formData.icon_name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="cardiology" />
@@ -199,7 +204,7 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
             onClick={() => setIsPreviewAction(false)}
             className="px-6 py-3 font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-xl transition-colors disabled:opacity-50"
           >
-            {loading ? "Saving..." : "Save Treatment"}
+            {loading ? "Saving..." : (isSuperadmin ? "Save Treatment" : "Save as Draft")}
           </button>
         </div>
       </div>

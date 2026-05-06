@@ -79,6 +79,9 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
     e.preventDefault();
     setLoading(true);
 
+    // Force 'draft' status if the user is not a superadmin
+    const finalStatus = isSuperadmin ? formData.status : "draft";
+
     const payload = {
       name: formData.name,
       slug: formData.slug,
@@ -101,7 +104,7 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
       gallery_image_3: formData.gallery_image_3,
       gallery_image_4: formData.gallery_image_4,
       facilities: facilities,
-      status: formData.status
+      status: finalStatus
     };
 
     try {
@@ -143,19 +146,21 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
           <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
           <input required type="text" name="slug" value={formData.slug} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="apollo-hospitals" />
         </div>
-        <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
-          <select 
-            name="status" 
-            value={formData.status} 
-            onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold"
-          >
-            <option value="draft">Draft</option>
-            <option value="pending">Pending Approval</option>
-            {isSuperadmin && <option value="published">Published</option>}
-          </select>
-        </div>
+        {isSuperadmin && (
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-2">Status</label>
+            <select 
+              name="status" 
+              value={formData.status} 
+              onChange={(e) => setFormData({ ...formData, status: e.target.value })} 
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold"
+            >
+              <option value="draft">Draft</option>
+              <option value="pending">Pending Approval</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
+        )}
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">City</label>
           <input required type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Chennai" />
@@ -313,7 +318,7 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
             onClick={() => setIsPreviewAction(false)}
             className="px-6 py-3 font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors disabled:opacity-50"
           >
-            {loading ? "Saving..." : "Save Hospital"}
+            {loading ? "Saving..." : (isSuperadmin ? "Save Hospital" : "Save as Draft")}
           </button>
         </div>
       </div>
