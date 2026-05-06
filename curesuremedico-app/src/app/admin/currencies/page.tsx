@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useAdmin } from "@/components/admin/AdminContext";
 
 export default function CurrenciesPage() {
-  const { session } = useAdmin();
+  const session = useAdmin();
   const [currencies, setCurrencies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
