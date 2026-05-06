@@ -5,11 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import { useLocale } from "next-intl";
+import { getLocalizedField } from "@/utils/i18nHelper";
 
 interface Hospital {
   id: string;
   slug?: string;
   name: string;
+  name_fr?: string;
+  name_ar?: string;
   city: string;
   country?: string;
   rating: number;
@@ -17,6 +21,8 @@ interface Hospital {
   accreditations: string[];
   specialties?: string[];
   description: string;
+  description_fr?: string;
+  description_ar?: string;
   image_url: string;
   logo_url: string;
 }
@@ -26,6 +32,7 @@ function HospitalsList() {
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
 
@@ -117,10 +124,11 @@ function HospitalsList() {
     const dest = searchParams.get("dest")?.toLowerCase();
 
     if (q) {
-      filtered = filtered.filter(h => 
-        h.name.toLowerCase().includes(q) || 
-        (h.description && h.description.toLowerCase().includes(q))
-      );
+      filtered = filtered.filter(h => {
+        const hName = getLocalizedField(h, 'name', locale).toLowerCase();
+        const hDesc = getLocalizedField(h, 'description', locale).toLowerCase();
+        return hName.includes(q) || hDesc.includes(q);
+      });
     }
 
     // Destination / Country Match (from URL)
@@ -145,14 +153,15 @@ function HospitalsList() {
       );
     }
 
-    // Specialty Filter
     if (selectedSpecialty !== "All Units") {
-      filtered = filtered.filter(h => 
-        h.name.toLowerCase().includes(selectedSpecialty.toLowerCase()) || 
-        (h.description && h.description.toLowerCase().includes(selectedSpecialty.toLowerCase())) ||
-        (h.specialties && h.specialties.some(s => s.toLowerCase().includes(selectedSpecialty.toLowerCase()))) ||
-        (h.accreditations && h.accreditations.some(a => a.toLowerCase().includes(selectedSpecialty.toLowerCase())))
-      );
+      filtered = filtered.filter(h => {
+        const hName = getLocalizedField(h, 'name', locale).toLowerCase();
+        const hDesc = getLocalizedField(h, 'description', locale).toLowerCase();
+        return hName.includes(selectedSpecialty.toLowerCase()) || 
+          hDesc.includes(selectedSpecialty.toLowerCase()) ||
+          (h.specialties && h.specialties.some(s => s.toLowerCase().includes(selectedSpecialty.toLowerCase()))) ||
+          (h.accreditations && h.accreditations.some(a => a.toLowerCase().includes(selectedSpecialty.toLowerCase())));
+      });
     }
 
     setHospitals(filtered);
@@ -289,7 +298,7 @@ function HospitalsList() {
                 <div key={hospital.id} className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col md:flex-row border border-outline-variant/20">
                   <div className="md:w-72 h-64 md:h-auto overflow-hidden relative">
                     <img 
-                      alt={hospital.name} 
+                      alt={getLocalizedField(hospital, 'name', locale)} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                       src={hospital.image_url || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000"} 
                     />
@@ -310,7 +319,7 @@ function HospitalsList() {
                           <span className="text-sm font-bold text-on-surface">{hospital.rating}</span>
                           <span className="text-xs text-on-surface-variant">({hospital.reviews_count}+ Reviews)</span>
                         </div>
-                        <h3 className="text-2xl font-bold text-on-surface group-hover:text-primary transition-colors">{hospital.name}</h3>
+                        <h3 className="text-2xl font-bold text-on-surface group-hover:text-primary transition-colors">{getLocalizedField(hospital, 'name', locale)}</h3>
                         <p className="text-sm text-on-surface-variant font-medium">{hospital.city}</p>
                       </div>
                       {hospital.logo_url && (

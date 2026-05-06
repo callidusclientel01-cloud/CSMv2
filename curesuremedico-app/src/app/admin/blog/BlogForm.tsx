@@ -17,6 +17,7 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
     slug: initialData?.slug || "",
+    locale: initialData?.locale || "en",
     category: initialData?.category || "Medical Travel Tips",
     excerpt: initialData?.excerpt || "",
     content: initialData?.content || "",
@@ -112,6 +113,15 @@ export default function BlogForm({ initialData }: { initialData?: any }) {
             <option value="draft">Draft</option>
             <option value="pending">Pending Approval</option>
             {isSuperadmin && <option value="published">Published</option>}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-2">Post Language (Locale)</label>
+          <select name="locale" value={formData.locale} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none font-bold text-blue-700">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="ar">العربية (Arabic)</option>
           </select>
         </div>
 

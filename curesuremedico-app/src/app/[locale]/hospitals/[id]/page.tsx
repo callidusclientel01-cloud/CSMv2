@@ -5,10 +5,13 @@ import Image from "next/image";
 import { countries } from "@/utils/countries";
 import { useSearchParams, useParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import { useLocale } from "next-intl";
+import { getLocalizedField } from "@/utils/i18nHelper";
 
 export default function HospitalProfilePage() {
   const params = useParams();
   const id = params?.id as string;
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
   
@@ -85,7 +88,7 @@ export default function HospitalProfilePage() {
               </div>
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold text-on-surface tracking-tight mb-4 leading-[1.1]">
-              {hospital.name}, <br/><span className="text-primary">{hospital.short_location || "Medical Center"}</span>
+              {getLocalizedField(hospital, 'name', locale)}, <br/><span className="text-primary">{hospital.short_location || "Medical Center"}</span>
             </h1>
             <div className="flex items-center gap-2 text-on-surface-variant mb-8 text-lg">
               <span className="material-symbols-outlined text-primary">location_on</span>
@@ -159,7 +162,7 @@ export default function HospitalProfilePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 flex flex-col justify-center">
               <h2 className="text-3xl font-extrabold mb-6 tracking-tight">Clinical Excellence Since {hospital.established_year || "Inception"}</h2>
-              <div className="text-lg text-on-surface-variant leading-relaxed mb-6 prose max-w-none" dangerouslySetInnerHTML={{ __html: hospital.description || "" }}></div>
+              <div className="text-lg text-on-surface-variant leading-relaxed mb-6 prose max-w-none" dangerouslySetInnerHTML={{ __html: getLocalizedField(hospital, 'description', locale) || "" }}></div>
             </div>
             <div className="lg:col-span-4 bg-primary-container rounded-xl p-8 text-on-primary-container flex flex-col justify-between">
               <span className="material-symbols-outlined text-5xl mb-4">clinical_notes</span>
@@ -269,7 +272,7 @@ export default function HospitalProfilePage() {
           <div>
             <h2 className="text-4xl font-extrabold tracking-tight mb-6">Global Patient Support</h2>
             <p className="text-lg text-on-surface-variant leading-relaxed mb-8">
-              {hospital.name} is a preferred destination for international patients. Our dedicated International Patient Wing ensures a seamless journey from your home country to our hospital and back.
+              {getLocalizedField(hospital, 'name', locale)} is a preferred destination for international patients. Our dedicated International Patient Wing ensures a seamless journey from your home country to our hospital and back.
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-4">

@@ -7,6 +7,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { countries } from "@/utils/countries";
 import { supabase } from "@/utils/supabaseClient";
 import { useCurrency } from "@/components/CurrencyProvider";
+import { useLocale } from "next-intl";
+import { getLocalizedField } from "@/utils/i18nHelper";
 
 // Mock data (This will later come from Supabase)
 const PACKAGES = [
@@ -80,6 +82,7 @@ function HomeContent() {
   const [videoOpen, setVideoOpen] = useState<string | null>(null);
   const [patientStories, setPatientStories] = useState<any[]>(STATIC_STORIES);
   const { formatStringPrice } = useCurrency();
+  const locale = useLocale();
 
   // Form State
   const [fullName, setFullName] = useState("");
@@ -445,8 +448,8 @@ function HomeContent() {
                   </div>
                 </div>
                 <div className="p-8 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-primary mb-2">{pkg.title}</h3>
-                  <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">{pkg.description}</p>
+                  <h3 className="text-xl font-bold text-primary mb-2">{getLocalizedField(pkg, 'title', locale)}</h3>
+                  <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">{getLocalizedField(pkg, 'description', locale)}</p>
                   <div className="mt-auto flex items-center justify-between">
                     <div>
                       <span className="block text-xs text-outline font-bold uppercase">Package Price</span>
@@ -481,7 +484,7 @@ function HomeContent() {
             </div>
           </div>
           <div className="p-6 md:p-8 flex-1 flex flex-col">
-            <h3 className="text-xl font-bold text-primary mb-1">{hospital.name}</h3>
+            <h3 className="text-xl font-bold text-primary mb-1">{getLocalizedField(hospital, 'name', locale)}</h3>
             <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
               <span className="material-symbols-outlined text-base">location_on</span> {hospital.city}, {hospital.country}
             </p>
@@ -504,8 +507,8 @@ function HomeContent() {
         <div key={dest.id || idx} className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
           <img alt={dest.country_name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={dest.image_url}/>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
-            <h3 className="text-3xl font-bold text-white mb-2">{dest.country_name}</h3>
-            <p className="text-secondary-fixed font-bold text-sm mb-6">{dest.tagline || dest.description}</p>
+            <h3 className="text-3xl font-bold text-white mb-2">{getLocalizedField(dest, 'country_name', locale)}</h3>
+            <p className="text-secondary-fixed font-bold text-sm mb-6">{getLocalizedField(dest, 'tagline', locale) || getLocalizedField(dest, 'description', locale)}</p>
             <button onClick={() => router.push(`/destinations/${dest.slug || dest.id}`)} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
           </div>
         </div>
@@ -528,8 +531,8 @@ function HomeContent() {
           <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
             <span className="material-symbols-outlined">{trt.icon_name || 'medical_services'}</span>
           </div>
-          <h3 className="text-xl font-bold text-primary mb-2">{trt.name}</h3>
-          <p className="text-sm text-on-surface-variant mb-6">{trt.short_description}</p>
+          <h3 className="text-xl font-bold text-primary mb-2">{getLocalizedField(trt, 'name', locale)}</h3>
+          <p className="text-sm text-on-surface-variant mb-6">{getLocalizedField(trt, 'short_description', locale)}</p>
           <div className="flex items-center justify-between mt-auto">
             <span className="text-xs font-bold text-outline">Starting at</span>
             <span className="text-lg font-extrabold text-secondary">{formatStringPrice(trt.starting_price)}</span>

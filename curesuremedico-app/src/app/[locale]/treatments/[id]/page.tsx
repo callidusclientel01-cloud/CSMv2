@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
+import { useLocale } from "next-intl";
+import { getLocalizedField } from "@/utils/i18nHelper";
 
 interface Procedure {
   name: string;
@@ -16,16 +18,26 @@ interface Treatment {
   id: string;
   slug?: string;
   name: string;
+  name_fr?: string;
+  name_ar?: string;
   icon_name: string;
   short_description: string;
+  short_description_fr?: string;
+  short_description_ar?: string;
   starting_price: string;
   hero_image_url: string;
   overview_title: string;
+  overview_title_fr?: string;
+  overview_title_ar?: string;
   overview_description: string;
+  overview_description_fr?: string;
+  overview_description_ar?: string;
   success_rate: string;
   quick_response_time: string;
   cost_saving: string;
   procedures: Procedure[];
+  procedures_fr?: Procedure[];
+  procedures_ar?: Procedure[];
 }
 
 const fallbackTreatment: Treatment = {
@@ -67,6 +79,7 @@ export default function TreatmentDetailsPage() {
   const treatmentId = params?.id;
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
+  const locale = useLocale();
   const [treatment, setTreatment] = useState<Treatment | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -88,6 +101,12 @@ export default function TreatmentDetailsPage() {
           const parsedData = { ...data };
           if (typeof parsedData.procedures === 'string') {
              try { parsedData.procedures = JSON.parse(parsedData.procedures) } catch(e){}
+          }
+          if (typeof parsedData.procedures_fr === 'string') {
+             try { parsedData.procedures_fr = JSON.parse(parsedData.procedures_fr) } catch(e){}
+          }
+          if (typeof parsedData.procedures_ar === 'string') {
+             try { parsedData.procedures_ar = JSON.parse(parsedData.procedures_ar) } catch(e){}
           }
           setTreatment(parsedData);
           return;
@@ -116,6 +135,13 @@ export default function TreatmentDetailsPage() {
     );
   }
 
+  const activeProcedures = () => {
+    if (locale === 'fr' && treatment.procedures_fr && treatment.procedures_fr.length > 0) return treatment.procedures_fr;
+    if (locale === 'ar' && treatment.procedures_ar && treatment.procedures_ar.length > 0) return treatment.procedures_ar;
+    return treatment.procedures;
+  };
+  const proceduresToRender = activeProcedures() || [];
+
   return (
     <main className="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
       {/* Back link */}
@@ -142,16 +168,16 @@ export default function TreatmentDetailsPage() {
               <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
                 {treatment.icon_name || 'medical_services'}
               </span>
-              Excellence in {treatment.name} Care
+              Excellence in {getLocalizedField(treatment, 'name', locale)} Care
             </div>
             <h1 className="text-6xl lg:text-8xl font-extrabold tracking-tighter text-primary leading-[1.1]">
-              Advanced {treatment.name}
+              Advanced {getLocalizedField(treatment, 'name', locale)}
             </h1>
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-on-surface">
-              {treatment.overview_title || "Specialized Surgery & Global Care"}
+              {getLocalizedField(treatment, 'overview_title', locale) || "Specialized Surgery & Global Care"}
             </h2>
             <p className="text-xl text-on-surface-variant max-w-2xl leading-relaxed">
-              {treatment.short_description || "Access world-class specialists and JCI-accredited centers with significant cost savings. Comprehensive care from diagnosis to recovery."}
+              {getLocalizedField(treatment, 'short_description', locale) || "Access world-class specialists and JCI-accredited centers with significant cost savings. Comprehensive care from diagnosis to recovery."}
             </p>
             <div className="flex flex-wrap gap-6 pt-4">
               <div className="flex items-center gap-2 text-secondary font-semibold">
@@ -183,10 +209,8 @@ export default function TreatmentDetailsPage() {
               />
             </div>
             <div className="space-y-6">
-              <h2 className="text-4xl font-bold tracking-tight text-on-surface">Global Excellence in Destination {treatment.name}</h2>
-              <p className="text-lg text-on-surface-variant leading-relaxed whitespace-pre-line">
-                {treatment.overview_description || fallbackTreatment.overview_description}
-              </p>
+              <h2 className="text-4xl font-bold tracking-tight text-on-surface">Global Excellence in Destination {getLocalizedField(treatment, 'name', locale)}</h2>
+              <div className="text-lg text-on-surface-variant leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: getLocalizedField(treatment, 'overview_description', locale) || fallbackTreatment.overview_description }} />
               
               <div className="flex gap-8 pt-4">
                 <div className="text-center">
@@ -222,8 +246,8 @@ export default function TreatmentDetailsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {treatment.procedures && treatment.procedures.length > 0 ? (
-              treatment.procedures.map((proc, idx) => (
+            {proceduresToRender.length > 0 ? (
+              proceduresToRender.map((proc, idx) => (
                 <div key={idx} className="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group border border-transparent hover:border-primary/10 flex flex-col items-start">
                   <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
                     <span className="material-symbols-outlined">{proc.icon || 'medical_services'}</span>

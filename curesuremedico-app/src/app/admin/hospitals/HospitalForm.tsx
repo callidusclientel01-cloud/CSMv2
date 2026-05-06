@@ -14,8 +14,12 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
   
   const [loading, setLoading] = useState(false);
   const [isPreviewAction, setIsPreviewAction] = useState(false);
+  const [activeTab, setActiveTab] = useState("en");
+  
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
+    name_fr: initialData?.name_fr || "",
+    name_ar: initialData?.name_ar || "",
     slug: initialData?.slug || "",
     city: initialData?.city || "",
     country: initialData?.country || "",
@@ -23,6 +27,8 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
     reviews_count: initialData?.reviews_count || 0,
     accreditations: initialData?.accreditations?.join(", ") || "",
     description: initialData?.description || "",
+    description_fr: initialData?.description_fr || "",
+    description_ar: initialData?.description_ar || "",
     image_url: initialData?.image_url || "",
     logo_url: initialData?.logo_url || "",
     short_location: initialData?.short_location || "",
@@ -64,10 +70,16 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
-    if (!initialData?.id) {
-      setFormData({ ...formData, name: newName, slug: generateSlug(newName) });
-    } else {
-      setFormData({ ...formData, name: newName });
+    if (activeTab === "en") {
+      if (!initialData?.id) {
+        setFormData({ ...formData, name: newName, slug: generateSlug(newName) });
+      } else {
+        setFormData({ ...formData, name: newName });
+      }
+    } else if (activeTab === "fr") {
+      setFormData({ ...formData, name_fr: newName });
+    } else if (activeTab === "ar") {
+      setFormData({ ...formData, name_ar: newName });
     }
   };
 
@@ -84,6 +96,8 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
 
     const payload = {
       name: formData.name,
+      name_fr: formData.name_fr,
+      name_ar: formData.name_ar,
       slug: formData.slug,
       city: formData.city,
       country: formData.country,
@@ -91,6 +105,8 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
       reviews_count: parseInt(formData.reviews_count.toString(), 10),
       accreditations: formData.accreditations.split(',').map((a: string) => a.trim()).filter((a: string) => a),
       description: formData.description,
+      description_fr: formData.description_fr,
+      description_ar: formData.description_ar,
       image_url: formData.image_url,
       logo_url: formData.logo_url,
       short_location: formData.short_location,
@@ -137,10 +153,16 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 space-y-6">
+      <div className="flex border-b border-slate-200 mb-6 space-x-2">
+        <button type="button" onClick={() => setActiveTab("en")} className={`px-4 py-2 font-bold ${activeTab === "en" ? "text-blue-600 border-b-2 border-blue-600" : "text-slate-500 hover:text-slate-700"}`}>English (Default)</button>
+        <button type="button" onClick={() => setActiveTab("fr")} className={`px-4 py-2 font-bold ${activeTab === "fr" ? "text-blue-600 border-b-2 border-blue-600" : "text-slate-500 hover:text-slate-700"}`}>Français</button>
+        <button type="button" onClick={() => setActiveTab("ar")} className={`px-4 py-2 font-bold ${activeTab === "ar" ? "text-blue-600 border-b-2 border-blue-600" : "text-slate-500 hover:text-slate-700"}`}>العربية</button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Hospital Name</label>
-          <input required type="text" name="name" value={formData.name} onChange={handleNameChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Apollo Hospitals" />
+          <label className="block text-sm font-bold text-slate-700 mb-2">Hospital Name ({activeTab.toUpperCase()})</label>
+          <input required type="text" name="name" value={activeTab === 'en' ? formData.name : (activeTab === 'fr' ? formData.name_fr : formData.name_ar)} onChange={handleNameChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Apollo Hospitals" />
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
@@ -292,11 +314,15 @@ export default function HospitalForm({ initialData }: { initialData?: any }) {
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-slate-700 mb-2">Description</label>
+        <label className="block text-sm font-bold text-slate-700 mb-2">Description ({activeTab.toUpperCase()})</label>
         <RichTextEditor 
-          value={formData.description} 
-          onChange={(value) => setFormData({ ...formData, description: value })} 
-          placeholder="Description of the hospital..."
+          value={activeTab === 'en' ? formData.description : (activeTab === 'fr' ? formData.description_fr : formData.description_ar)} 
+          onChange={(value) => {
+            if (activeTab === 'en') setFormData({ ...formData, description: value });
+            else if (activeTab === 'fr') setFormData({ ...formData, description_fr: value });
+            else if (activeTab === 'ar') setFormData({ ...formData, description_ar: value });
+          }} 
+          placeholder={`Description of the hospital in ${activeTab}...`}
         />
       </div>
 

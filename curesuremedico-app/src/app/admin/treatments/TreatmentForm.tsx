@@ -14,19 +14,30 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
 
   const [loading, setLoading] = useState(false);
   const [isPreviewAction, setIsPreviewAction] = useState(false);
+  const [activeTab, setActiveTab] = useState("en");
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
+    name_fr: initialData?.name_fr || "",
+    name_ar: initialData?.name_ar || "",
     slug: initialData?.slug || "",
     icon_name: initialData?.icon_name || "medical_services",
     short_description: initialData?.short_description || "",
+    short_description_fr: initialData?.short_description_fr || "",
+    short_description_ar: initialData?.short_description_ar || "",
     starting_price: initialData?.starting_price || "",
     hero_image_url: initialData?.hero_image_url || "",
     overview_title: initialData?.overview_title || "",
+    overview_title_fr: initialData?.overview_title_fr || "",
+    overview_title_ar: initialData?.overview_title_ar || "",
     overview_description: initialData?.overview_description || "",
+    overview_description_fr: initialData?.overview_description_fr || "",
+    overview_description_ar: initialData?.overview_description_ar || "",
     success_rate: initialData?.success_rate || "15k+",
     quick_response_time: initialData?.quick_response_time || "24h",
     cost_saving: initialData?.cost_saving || "80%",
-    procedures: initialData?.procedures ? JSON.stringify(initialData.procedures, null, 2) : "[\n  {\n    \"name\": \"Procedure Name\",\n    \"description\": \"Description...\",\n    \"price\": \"$5,000\",\n    \"icon\": \"medical_services\"\n  }\n]",
+    procedures: initialData?.procedures ? JSON.stringify(initialData.procedures, null, 2) : "[]",
+    procedures_fr: initialData?.procedures_fr ? JSON.stringify(initialData.procedures_fr, null, 2) : "[]",
+    procedures_ar: initialData?.procedures_ar ? JSON.stringify(initialData.procedures_ar, null, 2) : "[]",
     status: initialData?.status || "draft"
   });
 
@@ -36,10 +47,16 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
-    if (!initialData?.id) {
-      setFormData({ ...formData, name: newName, slug: generateSlug(newName) });
-    } else {
-      setFormData({ ...formData, name: newName });
+    if (activeTab === "en") {
+      if (!initialData?.id) {
+        setFormData({ ...formData, name: newName, slug: generateSlug(newName) });
+      } else {
+        setFormData({ ...formData, name: newName });
+      }
+    } else if (activeTab === "fr") {
+      setFormData({ ...formData, name_fr: newName });
+    } else if (activeTab === "ar") {
+      setFormData({ ...formData, name_ar: newName });
     }
   };
 
@@ -56,17 +73,27 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
 
     const payload = { 
       name: formData.name,
+      name_fr: formData.name_fr,
+      name_ar: formData.name_ar,
       slug: formData.slug,
       icon_name: formData.icon_name,
       short_description: formData.short_description,
+      short_description_fr: formData.short_description_fr,
+      short_description_ar: formData.short_description_ar,
       starting_price: formData.starting_price,
       hero_image_url: formData.hero_image_url,
       overview_title: formData.overview_title,
+      overview_title_fr: formData.overview_title_fr,
+      overview_title_ar: formData.overview_title_ar,
       overview_description: formData.overview_description,
+      overview_description_fr: formData.overview_description_fr,
+      overview_description_ar: formData.overview_description_ar,
       success_rate: formData.success_rate,
       quick_response_time: formData.quick_response_time,
       cost_saving: formData.cost_saving,
       procedures: (() => { try { return JSON.parse(formData.procedures) } catch(e) { return [] } })(),
+      procedures_fr: (() => { try { return JSON.parse(formData.procedures_fr) } catch(e) { return [] } })(),
+      procedures_ar: (() => { try { return JSON.parse(formData.procedures_ar) } catch(e) { return [] } })(),
       status: finalStatus
     };
 
@@ -98,10 +125,16 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 space-y-6">
+      <div className="flex border-b border-slate-200 mb-6 space-x-2">
+        <button type="button" onClick={() => setActiveTab("en")} className={`px-4 py-2 font-bold ${activeTab === "en" ? "text-teal-600 border-b-2 border-teal-600" : "text-slate-500 hover:text-slate-700"}`}>English (Default)</button>
+        <button type="button" onClick={() => setActiveTab("fr")} className={`px-4 py-2 font-bold ${activeTab === "fr" ? "text-teal-600 border-b-2 border-teal-600" : "text-slate-500 hover:text-slate-700"}`}>Français</button>
+        <button type="button" onClick={() => setActiveTab("ar")} className={`px-4 py-2 font-bold ${activeTab === "ar" ? "text-teal-600 border-b-2 border-teal-600" : "text-slate-500 hover:text-slate-700"}`}>العربية</button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Treatment Name</label>
-          <input required type="text" name="name" value={formData.name} onChange={handleNameChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Cardiology" />
+          <label className="block text-sm font-bold text-slate-700 mb-2">Treatment Name ({activeTab.toUpperCase()})</label>
+          <input required type="text" name="name" value={activeTab === 'en' ? formData.name : (activeTab === 'fr' ? formData.name_fr : formData.name_ar)} onChange={handleNameChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Cardiology" />
         </div>
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">URL Slug</label>
@@ -133,8 +166,15 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-slate-700 mb-2">Short Description</label>
-        <textarea required name="short_description" value={formData.short_description} onChange={handleChange} rows={3} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Description of the treatment..."></textarea>
+        <label className="block text-sm font-bold text-slate-700 mb-2">Short Description ({activeTab.toUpperCase()})</label>
+        <textarea required name="short_description" 
+          value={activeTab === 'en' ? formData.short_description : (activeTab === 'fr' ? formData.short_description_fr : formData.short_description_ar)} 
+          onChange={(e) => {
+            if (activeTab === 'en') setFormData({ ...formData, short_description: e.target.value });
+            else if (activeTab === 'fr') setFormData({ ...formData, short_description_fr: e.target.value });
+            else if (activeTab === 'ar') setFormData({ ...formData, short_description_ar: e.target.value });
+          }} 
+          rows={3} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Description of the treatment..." />
       </div>
 
       <div className="pt-6 border-t border-slate-200 mt-6">
@@ -150,16 +190,27 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">Overview Title</label>
-            <input type="text" name="overview_title" value={formData.overview_title} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Specialized Surgery & Global Care" />
+            <label className="block text-sm font-bold text-slate-700 mb-2">Overview Title ({activeTab.toUpperCase()})</label>
+            <input type="text" name="overview_title" 
+              value={activeTab === 'en' ? formData.overview_title : (activeTab === 'fr' ? formData.overview_title_fr : formData.overview_title_ar)} 
+              onChange={(e) => {
+                if (activeTab === 'en') setFormData({ ...formData, overview_title: e.target.value });
+                else if (activeTab === 'fr') setFormData({ ...formData, overview_title_fr: e.target.value });
+                else if (activeTab === 'ar') setFormData({ ...formData, overview_title_ar: e.target.value });
+              }} 
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Specialized Surgery & Global Care" />
           </div>
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-bold text-slate-700 mb-2">Overview Description</label>
+          <label className="block text-sm font-bold text-slate-700 mb-2">Overview Description ({activeTab.toUpperCase()})</label>
           <RichTextEditor 
-            value={formData.overview_description} 
-            onChange={(value) => setFormData({ ...formData, overview_description: value })} 
+            value={activeTab === 'en' ? formData.overview_description : (activeTab === 'fr' ? formData.overview_description_fr : formData.overview_description_ar)} 
+            onChange={(value) => {
+              if (activeTab === 'en') setFormData({ ...formData, overview_description: value });
+              else if (activeTab === 'fr') setFormData({ ...formData, overview_description_fr: value });
+              else if (activeTab === 'ar') setFormData({ ...formData, overview_description_ar: value });
+            }} 
             placeholder="Detailed description for the full page..."
           />
         </div>
@@ -180,9 +231,16 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
         </div>
 
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Procedures (JSON Format)</label>
+          <label className="block text-sm font-bold text-slate-700 mb-2">Procedures (JSON Format) ({activeTab.toUpperCase()})</label>
           <p className="text-xs text-slate-500 mb-2">Must be a valid JSON array of objects with fields: name, description, price, icon.</p>
-          <textarea name="procedures" value={formData.procedures} onChange={handleChange} rows={8} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none font-mono text-sm" placeholder="[]"></textarea>
+          <textarea name="procedures" 
+            value={activeTab === 'en' ? formData.procedures : (activeTab === 'fr' ? formData.procedures_fr : formData.procedures_ar)} 
+            onChange={(e) => {
+              if (activeTab === 'en') setFormData({ ...formData, procedures: e.target.value });
+              else if (activeTab === 'fr') setFormData({ ...formData, procedures_fr: e.target.value });
+              else if (activeTab === 'ar') setFormData({ ...formData, procedures_ar: e.target.value });
+            }} 
+            rows={8} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none font-mono text-sm" placeholder="[]"></textarea>
         </div>
       </div>
 

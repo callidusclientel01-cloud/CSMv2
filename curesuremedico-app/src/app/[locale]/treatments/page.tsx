@@ -6,13 +6,19 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import { countries } from "@/utils/countries";
 import { useCurrency } from "@/components/CurrencyProvider";
+import { useLocale } from "next-intl";
+import { getLocalizedField } from "@/utils/i18nHelper";
 
 interface Treatment {
   id: string;
   slug?: string;
   name: string;
+  name_fr?: string;
+  name_ar?: string;
   icon_name: string;
   short_description: string;
+  short_description_fr?: string;
+  short_description_ar?: string;
   starting_price: string;
 }
 
@@ -20,8 +26,12 @@ interface Package {
   id: string;
   slug?: string;
   title: string;
+  title_fr?: string;
+  title_ar?: string;
   badge_text: string;
   description: string;
+  description_fr?: string;
+  description_ar?: string;
   price: string;
   features: string[];
   image_url: string;
@@ -39,6 +49,7 @@ function TreatmentsContent() {
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
   const { formatStringPrice } = useCurrency();
+  const locale = useLocale();
 
   useEffect(() => {
     async function fetchData() {
@@ -56,7 +67,7 @@ function TreatmentsContent() {
         if (treatmentErr) {
           console.error("Error fetching treatments:", treatmentErr);
         }
-        
+
         let finalTreatments: Treatment[] = [];
         if (treatmentData && treatmentData.length > 0) {
           finalTreatments = treatmentData;
@@ -114,7 +125,7 @@ function TreatmentsContent() {
 
   const [selectedCountryName, setSelectedCountryName] = useState("Nigeria");
   const [phoneCode, setPhoneCode] = useState("+234");
-  
+
   // Form State
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -159,7 +170,7 @@ function TreatmentsContent() {
 
     try {
       const fullPhone = `${phoneCode} ${phoneNumber}`;
-      
+
       const { error } = await supabase.from('leads').insert([{
         name: fullName,
         phone: fullPhone,
@@ -173,7 +184,7 @@ function TreatmentsContent() {
       setFullName("");
       setPhoneNumber("");
       setMedicalCondition("");
-      
+
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
@@ -195,10 +206,10 @@ function TreatmentsContent() {
       {/* Hero Section */}
       <section className="relative min-h-[500px] md:min-h-[700px] flex items-center overflow-hidden pt-36">
         <div className="absolute inset-0 z-0">
-          <img 
-            className="w-full h-full object-cover object-center" 
-            alt="Medical Professional" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2Lay85eV3GaIWbr5Jt4hOcybqbHu0znPNDf3KkqWRWY9Ou8S6FoPpvBv1KwPdUp8Uq1bfFOQY8WkUkgnSiWy9y9kRyDXEjuKv1RpRCZWSFTIsY_Q_c6yp4wVI_KwEElGNW_cg85DgkVK827JaOVXJnU-t-DFTyT8ThooNTxADbhmrpyA7w4-A1eYgUqH0VtG55XssmYRBiyR2I8ASWu268xlL5bgEeXI6YQhx3MRQZWpZXnDgSLE1TDgSX-hzDrOSjOZRUt_uv-w" 
+          <img
+            className="w-full h-full object-cover object-center"
+            alt="Medical Professional"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2Lay85eV3GaIWbr5Jt4hOcybqbHu0znPNDf3KkqWRWY9Ou8S6FoPpvBv1KwPdUp8Uq1bfFOQY8WkUkgnSiWy9y9kRyDXEjuKv1RpRCZWSFTIsY_Q_c6yp4wVI_KwEElGNW_cg85DgkVK827JaOVXJnU-t-DFTyT8ThooNTxADbhmrpyA7w4-A1eYgUqH0VtG55XssmYRBiyR2I8ASWu268xlL5bgEeXI6YQhx3MRQZWpZXnDgSLE1TDgSX-hzDrOSjOZRUt_uv-w"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary-container/70"></div>
         </div>
@@ -242,14 +253,14 @@ function TreatmentsContent() {
               <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Country</label>
-                  <select 
+                  <select
                     value={selectedCountryName}
                     onChange={handleCountryChange}
                     className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm"
                   >
-                     {countries.map(c => (
-                       <option key={c.name} value={c.name}>{c.name}</option>
-                     ))}
+                    {countries.map(c => (
+                      <option key={c.name} value={c.name}>{c.name}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
@@ -283,18 +294,18 @@ function TreatmentsContent() {
         <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full overflow-hidden shadow-lg border border-outline-variant/10 p-4 shrink-0 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2">
           <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto border-b md:border-b-0 md:border-r border-outline-variant/20 pb-4 md:pb-0">
             <span className="material-symbols-outlined text-primary mr-3">stethoscope</span>
-            <input 
+            <input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0" 
-              placeholder="Search by Treatment..." 
-              type="text" 
+              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0"
+              placeholder="Search by Treatment..."
+              type="text"
             />
           </div>
           <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto pb-2 md:pb-0">
             <span className="material-symbols-outlined text-tertiary mr-3">public</span>
-            <select 
+            <select
               value={selectedDest}
               onChange={(e) => setSelectedDest(e.target.value)}
               className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer px-0"
@@ -332,8 +343,8 @@ function TreatmentsContent() {
                       {treatment.icon_name || "medical_services"}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-3">{treatment.name}</h3>
-                  <p className="opacity-80 mb-8 line-clamp-2 min-h-[48px]">{treatment.short_description}</p>
+                  <h3 className="text-2xl font-bold mb-3">{getLocalizedField(treatment, 'name', locale)}</h3>
+                  <p className="opacity-80 mb-8 line-clamp-2 min-h-[48px]">{getLocalizedField(treatment, 'short_description', locale)}</p>
                   <div className="mt-auto flex flex-col gap-4">
                     <span className="text-xs font-bold uppercase tracking-widest opacity-80">Starting at {formatStringPrice(treatment.starting_price)}</span>
                     <Link href={`/treatments/${treatment.slug || treatment.id}`} className="flex items-center justify-center font-bold text-sm uppercase tracking-widest gap-2 bg-white text-primary hover:bg-surface-container-lowest py-3 rounded-xl transition-all shadow-sm">
@@ -347,7 +358,7 @@ function TreatmentsContent() {
             {/* Load More Button */}
             {visibleTreatments < treatments.length && (
               <div className="flex justify-center pt-12">
-                <button 
+                <button
                   onClick={handleLoadMoreTreatments}
                   className="bg-surface-container-highest hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
                 >
@@ -359,7 +370,7 @@ function TreatmentsContent() {
           </>
         ) : (
           <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
-             <p className="text-on-surface-variant">No treatments found in the database.</p>
+            <p className="text-on-surface-variant">No treatments found in the database.</p>
           </div>
         )}
       </section>
@@ -381,10 +392,10 @@ function TreatmentsContent() {
             {packages.map((pkg, idx) => (
               <div key={pkg.id} className={`bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full ${idx === 1 ? 'border-2 border-primary/10' : 'border border-outline-variant/20'}`}>
                 <div className="relative h-64 overflow-hidden">
-                  <img 
-                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                     alt={pkg.title} 
-                     src={pkg.image_url || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000"} 
+                  <img
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    alt={pkg.title}
+                    src={pkg.image_url || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000"}
                   />
                   {pkg.badge_text && (
                     <div className={`absolute top-4 right-4 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${idx === 1 ? 'bg-primary' : (idx === 2 ? 'bg-tertiary' : 'bg-secondary')}`}>
@@ -393,12 +404,12 @@ function TreatmentsContent() {
                   )}
                 </div>
                 <div className="p-8 flex-1 flex flex-col">
-                  <h3 className="text-2xl font-bold mb-3 text-on-surface">{pkg.title}</h3>
-                  <p className="text-on-surface-variant mb-4 line-clamp-3">{pkg.description}</p>
-                  
+                  <h3 className="text-2xl font-bold mb-3 text-on-surface">{getLocalizedField(pkg, 'title', locale)}</h3>
+                  <p className="text-on-surface-variant mb-4 line-clamp-3">{getLocalizedField(pkg, 'description', locale)}</p>
+
                   {pkg.features && pkg.features.length > 0 && (
                     <ul className="mb-8 space-y-1">
-                      {pkg.features.slice(0,3).map((f, i) => (
+                      {pkg.features.slice(0, 3).map((f, i) => (
                         <li key={i} className="text-sm text-on-surface-variant flex items-center gap-2">
                           <span className="material-symbols-outlined text-[14px] text-primary">check_circle</span> {f}
                         </li>
