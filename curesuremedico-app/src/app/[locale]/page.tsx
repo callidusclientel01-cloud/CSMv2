@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { countries } from "@/utils/countries";
 import { supabase } from "@/utils/supabaseClient";
 import { useCurrency } from "@/components/CurrencyProvider";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
 
 // Mock data (This will later come from Supabase)
@@ -83,6 +83,7 @@ function HomeContent() {
   const [patientStories, setPatientStories] = useState<any[]>(STATIC_STORIES);
   const { formatStringPrice } = useCurrency();
   const locale = useLocale();
+  const t = useTranslations("Home");
 
   // Form State
   const [fullName, setFullName] = useState("");
@@ -210,7 +211,7 @@ function HomeContent() {
     setSubmitSuccess(false);
 
     if (parseInt(userCaptcha) !== num1 + num2) {
-      setSubmitError("Incorrect math answer. Please try again.");
+      setSubmitError(t("form.errorMath"));
       setNum1(Math.floor(Math.random() * 10) + 1);
       setNum2(Math.floor(Math.random() * 10) + 1);
       setUserCaptcha("");
@@ -234,12 +235,13 @@ function HomeContent() {
       setFullName("");
       setPhoneNumber("");
       setMedicalCondition("");
+      setUserCaptcha("");
       
       // Optional: hide success message after a few seconds
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
-      setSubmitError(err.message || "Something went wrong. Please try again.");
+      setSubmitError(err.message || t("form.errorGeneric"));
     } finally {
       setIsSubmitting(false);
     }
@@ -263,30 +265,30 @@ function HomeContent() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           <div className="lg:col-span-7 z-10">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest mb-6">World-Class Healthcare</span>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest mb-6">{t('hero.badge')}</span>
             <h1 className="font-headline text-5xl md:text-6xl font-extrabold text-primary leading-[1.1] tracking-tight mb-8">
-              Get World-Class Treatment at <span className="text-secondary">Affordable Costs</span>
+              {t('hero.title1')} <span className="text-secondary">{t('hero.title2')}</span>
             </h1>
             <p className="text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
-              Personalized medical travel support for international patients. From consultation to recovery, we guide you every step of the way.
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-12 z-10 relative">
               <button onClick={() => router.push('/quote')} className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-2xl font-bold shadow-lg flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
-                Get Free Treatment Plan <span className="material-symbols-outlined text-base">arrow_forward</span>
+                {t('hero.btnPlan')} <span className="material-symbols-outlined text-base">arrow_forward</span>
               </button>
               <button onClick={() => window.open('https://wa.me/919148297106', '_blank')} className="w-full sm:w-auto px-8 py-4 bg-surface-container-low text-primary rounded-2xl font-bold hover:bg-surface-container-high transition-colors flex justify-center items-center">
-                Talk to Medical Expert
+                {t('hero.btnExpert')}
               </button>
             </div>
           </div>
           <div className="lg:col-span-5 relative">
             <div className="absolute -top-12 -right-12 w-64 h-64 bg-secondary-container/30 rounded-full blur-3xl"></div>
             <div className="relative bg-surface-container-lowest p-6 md:p-8 rounded-2xl shadow-xl border border-outline-variant/10">
-              <h3 className="text-xl font-bold text-primary mb-6">Inquire About Treatment</h3>
+              <h3 className="text-xl font-bold text-primary mb-6">{t('form.title')}</h3>
               <form onSubmit={handleLeadSubmit} className="space-y-4">
                 {submitSuccess && (
                   <div className="bg-green-100 text-green-800 p-3 rounded-xl text-sm font-medium">
-                    Thank you! Your inquiry has been sent. We will contact you shortly.
+                    {t('form.successMsg')}
                   </div>
                 )}
                 {submitError && (
@@ -295,11 +297,11 @@ function HomeContent() {
                   </div>
                 )}
                 <div>
-                  <label className="block text-xs font-bold text-outline uppercase mb-1">Full Name</label>
-                  <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Your Name" type="text" />
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">{t('form.name')}</label>
+                  <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder={t('form.namePlaceholder')} type="text" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-outline uppercase mb-1">Country</label>
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">{t('form.country')}</label>
                   <select 
                     value={selectedCountryName}
                     onChange={handleCountryChange}
@@ -311,24 +313,24 @@ function HomeContent() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-outline uppercase mb-1">WhatsApp</label>
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">{t('form.whatsapp')}</label>
                   <div className="flex gap-2">
                      <span className="bg-surface-container border-none rounded-xl flex items-center justify-center px-4 text-sm font-bold w-24 shrink-0 text-on-surface-variant">
                        {phoneCode}
                      </span>
-                    <input required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="flex-1 w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Phone Number..." type="tel" />
+                    <input required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="flex-1 w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder={t('form.whatsappPlaceholder')} type="tel" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-outline uppercase mb-1">Medical Condition</label>
-                  <input required value={medicalCondition} onChange={(e) => setMedicalCondition(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="e.g. Cardiac Surgery" type="text" />
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">{t('form.condition')}</label>
+                  <input required value={medicalCondition} onChange={(e) => setMedicalCondition(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder={t('form.conditionPlaceholder')} type="text" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-outline uppercase mb-1">Human Check: {num1} + {num2} = ?</label>
-                  <input required value={userCaptcha} onChange={(e) => setUserCaptcha(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="Answer" type="number" />
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">{t('form.humanCheck', { num1, num2 })}</label>
+                  <input required value={userCaptcha} onChange={(e) => setUserCaptcha(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder={t('form.answerPlaceholder')} type="number" />
                 </div>
                 <button disabled={isSubmitting} className="w-full py-4 bg-primary text-white font-bold rounded-xl mt-4 hover:bg-primary-container transition-colors tracking-wide disabled:opacity-70 disabled:cursor-not-allowed" type="submit">
-                  {isSubmitting ? "Sending..." : "Complete Inquiry"}
+                  {isSubmitting ? t('form.btnSending') : t('form.btnComplete')}
                 </button>
               </form>
             </div>
@@ -336,7 +338,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* Global Search & Filter Bar (Added per user request) */}
+      {/* Global Search & Filter Bar */}
       <section className="bg-surface py-8 md:py-12 -mt-10 relative z-20 px-4 md:px-8">
         <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full overflow-hidden shadow-lg border border-outline-variant/10 p-4 shrink-0 2xl:p-3 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2">
           <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto border-b md:border-b-0 md:border-r border-outline-variant/20 pb-4 md:pb-0">
@@ -346,7 +348,7 @@ function HomeContent() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0 py-1" 
-              placeholder="Search by Treatment..." 
+              placeholder={t('search.placeholder')} 
               type="text" 
             />
           </div>
@@ -357,14 +359,14 @@ function HomeContent() {
               onChange={(e) => setSelectedDest(e.target.value)}
               className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer px-0 py-1"
             >
-              <option value="">Filter by Destination</option>
+              <option value="">{t('search.filterDest')}</option>
               <option value="India">India</option>
               <option value="Dubai">Dubai</option>
               <option value="Turkey">Turkey</option>
             </select>
           </div>
           <button onClick={handleSearch} className="bg-secondary text-on-secondary px-8 py-3.5 rounded-2xl md:rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer flex-shrink-0">
-            Find Hospital
+            {t('search.btnFind')}
           </button>
         </div>
       </section>
@@ -374,10 +376,10 @@ function HomeContent() {
         <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -ml-20 -mt-20 blur-3xl z-0"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <span className="text-secondary font-bold uppercase text-xs tracking-widest">How It Works</span>
-            <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">Your Journey to Recovery</h2>
+            <span className="text-secondary font-bold uppercase text-xs tracking-widest">{t('howItWorks.badge')}</span>
+            <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">{t('howItWorks.title')}</h2>
             <p className="text-on-surface-variant max-w-xl mx-auto mt-4 text-lg">
-              We handle everything, so you can focus on healing. A step-by-step guidance.
+              {t('howItWorks.subtitle')}
             </p>
           </div>
 
@@ -391,8 +393,8 @@ function HomeContent() {
                 <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
                   <span className="material-symbols-outlined text-4xl">assignment</span>
                 </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">1. Consultation</h3>
-                <p className="text-sm text-on-surface-variant">Send your medical reports for a free evaluation by our partnering specialists.</p>
+                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step1Title')}</h3>
+                <p className="text-sm text-on-surface-variant">{t('howItWorks.step1Desc')}</p>
               </div>
               
               {/* Step 2 */}
@@ -400,8 +402,8 @@ function HomeContent() {
                 <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
                   <span className="material-symbols-outlined text-4xl">travel_explore</span>
                 </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">2. Travel &amp; Visa</h3>
-                <p className="text-sm text-on-surface-variant">We organize your entire trip, including visa letters, flights, and accommodation.</p>
+                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step2Title')}</h3>
+                <p className="text-sm text-on-surface-variant">{t('howItWorks.step2Desc')}</p>
               </div>
 
               {/* Step 3 */}
@@ -409,8 +411,8 @@ function HomeContent() {
                 <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
                   <span className="material-symbols-outlined text-4xl">health_and_safety</span>
                 </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">3. Treatment</h3>
-                <p className="text-sm text-on-surface-variant">Receive world-class care at top accredited hospitals with dedicated interpreters.</p>
+                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step3Title')}</h3>
+                <p className="text-sm text-on-surface-variant">{t('howItWorks.step3Desc')}</p>
               </div>
 
               {/* Step 4 */}
@@ -418,8 +420,8 @@ function HomeContent() {
                 <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
                   <span className="material-symbols-outlined text-4xl">volunteer_activism</span>
                 </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">4. Recovery</h3>
-                <p className="text-sm text-on-surface-variant">Enjoy a safe recovery and continuous post-treatment follow-ups back home.</p>
+                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step4Title')}</h3>
+                <p className="text-sm text-on-surface-variant">{t('howItWorks.step4Desc')}</p>
               </div>
             </div>
           </div>
@@ -431,11 +433,11 @@ function HomeContent() {
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6 md:gap-4">
             <div>
-              <span className="text-secondary font-bold uppercase text-xs tracking-widest">Curated Healthcare</span>
-              <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">Promotional Medical Packages</h2>
-              <p className="text-on-surface-variant mt-2">All-inclusive healthcare bundles designed for your peace of mind.</p>
+              <span className="text-secondary font-bold uppercase text-xs tracking-widest">{t('packages.badge')}</span>
+              <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">{t('packages.title')}</h2>
+              <p className="text-on-surface-variant mt-2">{t('packages.subtitle')}</p>
             </div>
-            <button className="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">Explore All Packages <span className="material-symbols-outlined">arrow_forward</span></button>
+            <button className="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">{t('packages.btnExplore')} <span className="material-symbols-outlined">arrow_forward</span></button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -444,7 +446,7 @@ function HomeContent() {
                 <div className="relative h-48">
                   <img alt={pkg.title} className="w-full h-full object-cover" src={pkg.image_url || pkg.image} />
                   <div className={`absolute top-4 left-4 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${pkg.badge_text === 'Limited Time' || pkg.badge === 'Limited Time' ? 'bg-error' : 'bg-primary'}`}>
-                    {pkg.badge_text || pkg.badge || "Offer"}
+                    {pkg.badge_text || pkg.badge || t('packages.offer')}
                   </div>
                 </div>
                 <div className="p-8 flex-1 flex flex-col">
@@ -452,7 +454,7 @@ function HomeContent() {
                   <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">{getLocalizedField(pkg, 'description', locale)}</p>
                   <div className="mt-auto flex items-center justify-between">
                     <div>
-                      <span className="block text-xs text-outline font-bold uppercase">Package Price</span>
+                      <span className="block text-xs text-outline font-bold uppercase">{t('packages.priceLabel')}</span>
                       <span className="text-2xl font-extrabold text-secondary">{formatStringPrice(pkg.price)}</span>
                     </div>
                     <button className="p-3 bg-primary/10 text-primary rounded-xl hover:bg-primary hover:text-white transition-colors">
@@ -470,8 +472,8 @@ function HomeContent() {
       <section className="py-16 md:py-24 bg-surface">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="text-center mb-12 md:mb-16">
-      <h2 className="text-4xl font-headline font-extrabold text-primary">Elite Accredited Hospitals</h2>
-      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">Global centers of excellence with JCI and ISO certifications, specifically chosen for our African patients.</p>
+      <h2 className="text-4xl font-headline font-extrabold text-primary">{t('hospitals.title')}</h2>
+      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">{t('hospitals.subtitle')}</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {hospitals.map((hospital, idx) => (
@@ -488,19 +490,20 @@ function HomeContent() {
             <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
               <span className="material-symbols-outlined text-base">location_on</span> {hospital.city}, {hospital.country}
             </p>
-            <button onClick={() => router.push(`/hospitals/${hospital.slug || hospital.id}`)} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">View Details</button>
+            <button onClick={() => router.push(`/hospitals/${hospital.slug || hospital.id}`)} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">{t('hospitals.btnDetails')}</button>
           </div>
         </div>
       ))}
       </div>
       </div>
       </section>
+      
       {/* Top Medical Destinations Section */}
       <section className="py-16 md:py-24 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="text-center mb-16">
-      <h2 className="text-4xl font-headline font-extrabold text-primary">Top Medical Destinations</h2>
-      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">Experience world-class care in the world&apos;s leading medical hubs with complete concierge support.</p>
+      <h2 className="text-4xl font-headline font-extrabold text-primary">{t('destinations.title')}</h2>
+      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">{t('destinations.subtitle')}</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {destinations.map((dest, idx) => (
@@ -509,7 +512,7 @@ function HomeContent() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
             <h3 className="text-3xl font-bold text-white mb-2">{getLocalizedField(dest, 'country_name', locale)}</h3>
             <p className="text-secondary-fixed font-bold text-sm mb-6">{getLocalizedField(dest, 'tagline', locale) || getLocalizedField(dest, 'description', locale)}</p>
-            <button onClick={() => router.push(`/destinations/${dest.slug || dest.id}`)} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">Explore Treatments</button>
+            <button onClick={() => router.push(`/destinations/${dest.slug || dest.id}`)} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">{t('destinations.btnExplore')}</button>
           </div>
         </div>
       ))}
@@ -522,8 +525,8 @@ function HomeContent() {
       <section className="py-16 md:py-24 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="mb-16">
-      <span className="text-secondary font-bold uppercase text-xs tracking-widest">Centers of Excellence</span>
-      <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">Specialty Treatments</h2>
+      <span className="text-secondary font-bold uppercase text-xs tracking-widest">{t('treatments.badge')}</span>
+      <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">{t('treatments.title')}</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {treatments.map((trt, idx) => (
@@ -534,7 +537,7 @@ function HomeContent() {
           <h3 className="text-xl font-bold text-primary mb-2">{getLocalizedField(trt, 'name', locale)}</h3>
           <p className="text-sm text-on-surface-variant mb-6">{getLocalizedField(trt, 'short_description', locale)}</p>
           <div className="flex items-center justify-between mt-auto">
-            <span className="text-xs font-bold text-outline">Starting at</span>
+            <span className="text-xs font-bold text-outline">{t('treatments.startingAt')}</span>
             <span className="text-lg font-extrabold text-secondary">{formatStringPrice(trt.starting_price)}</span>
           </div>
         </div>
@@ -542,7 +545,7 @@ function HomeContent() {
       </div>
       <div className="mt-12 text-center">
       <button onClick={() => router.push('/treatments')} className="text-primary font-bold flex items-center gap-2 mx-auto hover:gap-4 transition-all">
-                          View All 30+ Specialties <span className="material-symbols-outlined">arrow_forward</span>
+        {t('treatments.btnViewAll')} <span className="material-symbols-outlined">arrow_forward</span>
       </button>
       </div>
       </div>
@@ -556,15 +559,15 @@ function HomeContent() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div>
-      <span className="text-secondary-fixed font-bold uppercase text-xs tracking-widest">Real Experiences</span>
-      <h2 className="text-4xl font-headline font-extrabold mt-4 mb-6 leading-tight">Patient Stories &amp; Virtual Tours</h2>
-      <p className="text-primary-fixed/80 text-lg mb-10 leading-relaxed">Hear from families across Africa who chose CureSureMedico for their life-changing treatments. Take a virtual walk through our partner JCI-accredited facilities.</p>
+      <span className="text-secondary-fixed font-bold uppercase text-xs tracking-widest">{t('stories.badge')}</span>
+      <h2 className="text-4xl font-headline font-extrabold mt-4 mb-6 leading-tight">{t('stories.title')}</h2>
+      <p className="text-primary-fixed/80 text-lg mb-10 leading-relaxed">{t('stories.subtitle')}</p>
       <button className="flex items-center gap-3 font-bold group">
       <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
       <span className="material-symbols-outlined fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
       </div>
-                              Watch All Testimonials
-                          </button>
+      {t('stories.btnWatchAll')}
+      </button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {patientStories.map((story) => (
@@ -591,7 +594,7 @@ function HomeContent() {
       <section className="py-16 md:py-24 bg-surface">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
       <div className="text-center mb-12 md:mb-16">
-      <h2 className="text-4xl font-headline font-extrabold text-primary">The CureSureMedico Advantage</h2>
+      <h2 className="text-4xl font-headline font-extrabold text-primary">{t('advantage.title')}</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-2 bg-surface-container p-10 rounded-2xl flex flex-col md:flex-row gap-8 items-center">
@@ -599,8 +602,8 @@ function HomeContent() {
       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white mb-6">
       <span className="material-symbols-outlined">verified</span>
       </div>
-      <h3 className="text-2xl font-bold text-primary mb-4">Verified JCI-Accredited Hospitals</h3>
-      <p className="text-on-surface-variant leading-relaxed">We only partner with hospitals that meet the gold standard of international healthcare. Each facility is personally vetted by our medical board.</p>
+      <h3 className="text-2xl font-bold text-primary mb-4">{t('advantage.adv1Title')}</h3>
+      <p className="text-on-surface-variant leading-relaxed">{t('advantage.adv1Desc')}</p>
       </div>
       <div className="flex-1 relative aspect-square rounded-2xl overflow-hidden">
       <img alt="Hospital exterior" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"/>
@@ -610,24 +613,24 @@ function HomeContent() {
       <div className="w-12 h-12 bg-on-secondary-container rounded-xl flex items-center justify-center text-white mb-6">
       <span className="material-symbols-outlined">payments</span>
       </div>
-      <h3 className="text-xl font-bold text-on-secondary-container mb-4">Transparent Pricing</h3>
-      <p className="text-on-secondary-container/80 text-sm leading-relaxed">No hidden costs. Get detailed medical quotes and financial breakdown before you leave your home country.</p>
+      <h3 className="text-xl font-bold text-on-secondary-container mb-4">{t('advantage.adv2Title')}</h3>
+      <p className="text-on-secondary-container/80 text-sm leading-relaxed">{t('advantage.adv2Desc')}</p>
       </div>
       <div className="bg-surface-container-high p-8 rounded-2xl flex flex-col">
       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white mb-6">
       <span className="material-symbols-outlined">public</span>
       </div>
-      <h3 className="text-xl font-bold text-primary mb-4">Africa Support Network</h3>
-      <p className="text-on-surface-variant text-sm leading-relaxed">Local support offices in Lagos, Nairobi, and Addis Ababa for seamless pre-travel coordination.</p>
+      <h3 className="text-xl font-bold text-primary mb-4">{t('advantage.adv3Title')}</h3>
+      <p className="text-on-surface-variant text-sm leading-relaxed">{t('advantage.adv3Desc')}</p>
       </div>
       <div className="bg-primary text-white p-8 rounded-2xl md:col-span-2 flex flex-col md:flex-row gap-8 items-center">
       <div className="flex-1 order-2 md:order-1">
-      <h3 className="text-2xl font-bold mb-4">24/7 Dedicated Case Manager</h3>
-      <p className="text-primary-fixed/70 leading-relaxed mb-6">Your personal advocate in the hospital who speaks your language and understands your cultural needs.</p>
+      <h3 className="text-2xl font-bold mb-4">{t('advantage.adv4Title')}</h3>
+      <p className="text-primary-fixed/70 leading-relaxed mb-6">{t('advantage.adv4Desc')}</p>
       <ul className="space-y-3">
-      <li className="flex items-center gap-2 text-sm"><span className="material-symbols-outlined text-secondary-fixed text-lg">check_circle</span> 24/7 Bedside support</li>
-      <li className="flex items-center gap-2 text-sm"><span className="material-symbols-outlined text-secondary-fixed text-lg">check_circle</span> Linguistic assistance</li>
-      <li className="flex items-center gap-2 text-sm"><span className="material-symbols-outlined text-secondary-fixed text-lg">check_circle</span> Discharge planning</li>
+      <li className="flex items-center gap-2 text-sm"><span className="material-symbols-outlined text-secondary-fixed text-lg">check_circle</span> {t('advantage.adv4Item1')}</li>
+      <li className="flex items-center gap-2 text-sm"><span className="material-symbols-outlined text-secondary-fixed text-lg">check_circle</span> {t('advantage.adv4Item2')}</li>
+      <li className="flex items-center gap-2 text-sm"><span className="material-symbols-outlined text-secondary-fixed text-lg">check_circle</span> {t('advantage.adv4Item3')}</li>
       </ul>
       </div>
       </div></div></div></section>
@@ -646,7 +649,7 @@ function HomeContent() {
               onClick={() => setVideoOpen(null)} 
               className="absolute -top-12 right-0 text-white hover:text-secondary-fixed transition-colors flex items-center gap-1 font-bold z-50 cursor-pointer"
             >
-              <span className="material-symbols-outlined">close</span> Close
+              <span className="material-symbols-outlined">close</span> {t('stories.close')}
             </button>
             <iframe 
               className="w-full h-full"

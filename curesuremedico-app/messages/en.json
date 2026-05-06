@@ -10,5 +10,95 @@
     "about": "About Us",
     "quote": "Get a Quote",
     "contact": "Talk to Medical Expert"
+  },
+  "Home": {
+    "hero": {
+      "badge": "World-Class Healthcare",
+      "title1": "Get World-Class Treatment at ",
+      "title2": "Affordable Costs",
+      "subtitle": "Personalized medical travel support for international patients. From consultation to recovery, we guide you every step of the way.",
+      "btnPlan": "Get Free Treatment Plan",
+      "btnExpert": "Talk to Medical Expert"
+    },
+    "form": {
+      "title": "Inquire About Treatment",
+      "name": "Full Name",
+      "namePlaceholder": "Your Name",
+      "country": "Country",
+      "whatsapp": "WhatsApp",
+      "whatsappPlaceholder": "Phone Number...",
+      "condition": "Medical Condition",
+      "conditionPlaceholder": "e.g. Cardiac Surgery",
+      "humanCheck": "Human Check: {num1} + {num2} = ?",
+      "answerPlaceholder": "Answer",
+      "btnSending": "Sending...",
+      "btnComplete": "Complete Inquiry",
+      "successMsg": "Thank you! Your inquiry has been sent. We will contact you shortly.",
+      "errorMath": "Incorrect math answer. Please try again.",
+      "errorGeneric": "Something went wrong. Please try again."
+    },
+    "search": {
+      "placeholder": "Search by Treatment...",
+      "filterDest": "Filter by Destination",
+      "btnFind": "Find Hospital"
+    },
+    "howItWorks": {
+      "badge": "How It Works",
+      "title": "Your Journey to Recovery",
+      "subtitle": "We handle everything, so you can focus on healing. A step-by-step guidance.",
+      "step1Title": "1. Consultation",
+      "step1Desc": "Send your medical reports for a free evaluation by our partnering specialists.",
+      "step2Title": "2. Travel & Visa",
+      "step2Desc": "We organize your entire trip, including visa letters, flights, and accommodation.",
+      "step3Title": "3. Treatment",
+      "step3Desc": "Receive world-class care at top accredited hospitals with dedicated interpreters.",
+      "step4Title": "4. Recovery",
+      "step4Desc": "Enjoy a safe recovery and continuous post-treatment follow-ups back home."
+    },
+    "packages": {
+      "badge": "Curated Healthcare",
+      "title": "Promotional Medical Packages",
+      "subtitle": "All-inclusive healthcare bundles designed for your peace of mind.",
+      "btnExplore": "Explore All Packages",
+      "offer": "Offer",
+      "priceLabel": "Package Price"
+    },
+    "hospitals": {
+      "title": "Elite Accredited Hospitals",
+      "subtitle": "Global centers of excellence with JCI and ISO certifications, specifically chosen for our African patients.",
+      "btnDetails": "View Details"
+    },
+    "destinations": {
+      "title": "Top Medical Destinations",
+      "subtitle": "Experience world-class care in the world's leading medical hubs with complete concierge support.",
+      "btnExplore": "Explore Treatments"
+    },
+    "treatments": {
+      "badge": "Centers of Excellence",
+      "title": "Specialty Treatments",
+      "startingAt": "Starting at",
+      "btnViewAll": "View All 30+ Specialties"
+    },
+    "stories": {
+      "badge": "Real Experiences",
+      "title": "Patient Stories & Virtual Tours",
+      "subtitle": "Hear from families across Africa who chose CureSureMedico for their life-changing treatments. Take a virtual walk through our partner JCI-accredited facilities.",
+      "btnWatchAll": "Watch All Testimonials",
+      "close": "Close"
+    },
+    "advantage": {
+      "title": "The CureSureMedico Advantage",
+      "adv1Title": "Verified JCI-Accredited Hospitals",
+      "adv1Desc": "We only partner with hospitals that meet the gold standard of international healthcare. Each facility is personally vetted by our medical board.",
+      "adv2Title": "Transparent Pricing",
+      "adv2Desc": "No hidden costs. Get detailed medical quotes and financial breakdown before you leave your home country.",
+      "adv3Title": "Africa Support Network",
+      "adv3Desc": "Local support offices in Lagos, Nairobi, and Addis Ababa for seamless pre-travel coordination.",
+      "adv4Title": "24/7 Dedicated Case Manager",
+      "adv4Desc": "Your personal advocate in the hospital who speaks your language and understands your cultural needs.",
+      "adv4Item1": "24/7 Bedside support",
+      "adv4Item2": "Linguistic assistance",
+      "adv4Item3": "Discharge planning"
+    }
   }
 }

@@ -10,5 +10,95 @@
     "about": "À Propos",
     "quote": "Obtenir un Devis",
     "contact": "Parler à un Expert"
+  },
+  "Home": {
+    "hero": {
+      "badge": "Soins de Santé de Classe Mondiale",
+      "title1": "Obtenez des soins de classe mondiale à des ",
+      "title2": "Coûts Abordables",
+      "subtitle": "Accompagnement personnalisé pour les patients internationaux. De la consultation à la guérison, nous vous guidons à chaque étape.",
+      "btnPlan": "Obtenir un plan de traitement gratuit",
+      "btnExpert": "Parler à un expert médical"
+    },
+    "form": {
+      "title": "Demande de traitement",
+      "name": "Nom complet",
+      "namePlaceholder": "Votre nom",
+      "country": "Pays",
+      "whatsapp": "WhatsApp",
+      "whatsappPlaceholder": "Numéro de téléphone...",
+      "condition": "Condition Médicale",
+      "conditionPlaceholder": "ex: Chirurgie Cardiaque",
+      "humanCheck": "Vérification Humaine : {num1} + {num2} = ?",
+      "answerPlaceholder": "Réponse",
+      "btnSending": "Envoi...",
+      "btnComplete": "Compléter la demande",
+      "successMsg": "Merci ! Votre demande a été envoyée. Nous vous contacterons sous peu.",
+      "errorMath": "Réponse mathématique incorrecte. Veuillez réessayer.",
+      "errorGeneric": "Une erreur est survenue. Veuillez réessayer."
+    },
+    "search": {
+      "placeholder": "Rechercher un traitement...",
+      "filterDest": "Filtrer par destination",
+      "btnFind": "Trouver un hôpital"
+    },
+    "howItWorks": {
+      "badge": "Comment ça marche",
+      "title": "Votre parcours vers la guérison",
+      "subtitle": "Nous nous occupons de tout pour que vous puissiez vous concentrer sur votre guérison. Un accompagnement étape par étape.",
+      "step1Title": "1. Consultation",
+      "step1Desc": "Envoyez vos rapports médicaux pour une évaluation gratuite par nos spécialistes partenaires.",
+      "step2Title": "2. Voyage & Visa",
+      "step2Desc": "Nous organisons l'intégralité de votre voyage, y compris les lettres de visa, les vols et l'hébergement.",
+      "step3Title": "3. Traitement",
+      "step3Desc": "Recevez des soins de classe mondiale dans les meilleurs hôpitaux accrédités avec des interprètes dédiés.",
+      "step4Title": "4. Rétablissement",
+      "step4Desc": "Profitez d'un rétablissement sûr et de suivis continus après le traitement de retour chez vous."
+    },
+    "packages": {
+      "badge": "Soins sur mesure",
+      "title": "Forfaits Médicaux Promotionnels",
+      "subtitle": "Des forfaits de soins complets conçus pour votre tranquillité d'esprit.",
+      "btnExplore": "Explorer tous les forfaits",
+      "offer": "Offre",
+      "priceLabel": "Prix du forfait"
+    },
+    "hospitals": {
+      "title": "Hôpitaux d'élite accrédités",
+      "subtitle": "Centres d'excellence mondiaux certifiés JCI et ISO, spécifiquement choisis pour nos patients africains.",
+      "btnDetails": "Voir les détails"
+    },
+    "destinations": {
+      "title": "Top Destinations Médicales",
+      "subtitle": "Faites l'expérience de soins de classe mondiale dans les principaux centres médicaux du monde avec un service de conciergerie complet.",
+      "btnExplore": "Explorer les traitements"
+    },
+    "treatments": {
+      "badge": "Centres d'excellence",
+      "title": "Traitements Spécialisés",
+      "startingAt": "À partir de",
+      "btnViewAll": "Voir les 30+ spécialités"
+    },
+    "stories": {
+      "badge": "Expériences Réelles",
+      "title": "Histoires de patients & Visites Virtuelles",
+      "subtitle": "Écoutez des familles de toute l'Afrique qui ont choisi CureSureMedico pour leurs traitements qui ont changé leur vie. Faites une promenade virtuelle dans nos établissements partenaires accrédités JCI.",
+      "btnWatchAll": "Voir tous les témoignages",
+      "close": "Fermer"
+    },
+    "advantage": {
+      "title": "L'Avantage CureSureMedico",
+      "adv1Title": "Hôpitaux vérifiés accrédités JCI",
+      "adv1Desc": "Nous ne travaillons qu'avec des hôpitaux qui respectent la norme d'or des soins de santé internationaux. Chaque établissement est personnellement contrôlé par notre conseil médical.",
+      "adv2Title": "Tarification Transparente",
+      "adv2Desc": "Aucun coût caché. Obtenez des devis médicaux détaillés et une ventilation financière avant de quitter votre pays.",
+      "adv3Title": "Réseau de soutien en Afrique",
+      "adv3Desc": "Bureaux d'assistance locaux à Lagos, Nairobi et Addis-Abeba pour une coordination fluide avant le voyage.",
+      "adv4Title": "Gestionnaire de cas dédié 24/7",
+      "adv4Desc": "Votre avocat personnel à l'hôpital qui parle votre langue et comprend vos besoins culturels.",
+      "adv4Item1": "Soutien au chevet 24/7",
+      "adv4Item2": "Assistance linguistique",
+      "adv4Item3": "Planification de la sortie"
+    }
   }
 }
