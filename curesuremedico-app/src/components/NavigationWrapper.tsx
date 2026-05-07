@@ -8,8 +8,9 @@ export default function NavigationWrapper({ children }: { children: React.ReactN
   const pathname = usePathname();
   
   // Hide global Navbar and Footer on admin and patient dashboard routes
-  // because they have their own dedicated sidebars and layouts.
-  const isHiddenRoute = pathname?.startsWith("/admin") || pathname?.startsWith("/dashboard");
+  // Account for optional locale prefixes (e.g. /fr/dashboard)
+  const isDashboardRoute = pathname?.startsWith("/dashboard") || pathname?.match(/^\/(en|fr|ar)\/dashboard/);
+  const isHiddenRoute = pathname?.startsWith("/admin") || !!isDashboardRoute;
 
   return (
     <>

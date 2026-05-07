@@ -42,7 +42,8 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (pathname.startsWith("/dashboard")) return null;
+  const isDashboardRoute = pathname.startsWith("/dashboard") || pathname.match(/^\/(en|fr|ar)\/dashboard/);
+  if (isDashboardRoute) return null;
 
   const links = [
     { name: t("treatments"), href: "/treatments" },
