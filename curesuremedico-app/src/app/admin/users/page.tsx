@@ -13,6 +13,7 @@ interface AdminUser {
 }
 
 const PERMISSIONS_LIST = [
+  { id: "/admin/patients", label: "Patients" },
   { id: "/admin/hospitals", label: "Hospitals" },
   { id: "/admin/treatments", label: "Treatments" },
   { id: "/admin/destinations", label: "Destinations" },

@@ -82,6 +82,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const allMenuItems = [
     { name: "Overview", path: "/admin", icon: "dashboard" },
     { name: "Users", path: "/admin/users", icon: "group", superadminOnly: true },
+    { name: "Patients", path: "/admin/patients", icon: "recent_patient" },
     { name: "Hospitals", path: "/admin/hospitals", icon: "local_hospital" },
     { name: "Treatments", path: "/admin/treatments", icon: "medical_services" },
     { name: "Destinations", path: "/admin/destinations", icon: "flight_takeoff" },
