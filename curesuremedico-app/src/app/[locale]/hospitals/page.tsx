@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
+import Pagination from "@/components/Pagination";
 
 interface Hospital {
   id: string;
@@ -30,7 +31,8 @@ interface Hospital {
 function HospitalsList() {
   const [allHospitals, setAllHospitals] = useState<Hospital[]>([]);
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const [loading, setLoading] = useState(true);
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -174,11 +176,8 @@ function HospitalsList() {
     }
 
     setHospitals(filtered);
+    setCurrentPage(1); // Reset to first page on filter change
   }, [allHospitals, searchParams, selectedCities, selectedSpecialty, selectedCountries]);
-
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 6);
-  };
 
   const toggleCity = (city: string) => {
     setSelectedCities(prev => 
@@ -304,7 +303,7 @@ function HospitalsList() {
         ) : hospitals.length > 0 ? (
           <>
             <div className="space-y-8">
-              {hospitals.slice(0, visibleCount).map((hospital) => (
+              {hospitals.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((hospital) => (
                 <div key={hospital.id} className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col md:flex-row border border-outline-variant/20">
                   <div className="md:w-72 h-64 md:h-auto overflow-hidden relative">
                     <img 
@@ -375,18 +374,11 @@ function HospitalsList() {
               ))}
             </div>
 
-            {/* Load More Button */}
-            {visibleCount < hospitals.length && (
-              <div className="flex justify-center pt-10">
-                <button 
-                  onClick={handleLoadMore}
-                  className="bg-surface-container-high hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/50 flex items-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                  {t("seeMore")}
-                </button>
-              </div>
-            )}
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={Math.ceil(hospitals.length / itemsPerPage)}
+              onPageChange={setCurrentPage}
+            />
           </>
         ) : (
           <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">

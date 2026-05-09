@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import { useTranslations } from "next-intl";
+import Pagination from "@/components/Pagination";
 
 interface BlogPost {
   id: string; // the database is mostly using integer here, but string represents it well in JS
@@ -23,7 +24,8 @@ function BlogContent() {
   const isPreview = searchParams.get('preview') === 'true';
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const [loading, setLoading] = useState(true);
   
   // New state
@@ -170,9 +172,10 @@ function BlogContent() {
     fetchPosts();
   }, [isPreview]);
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 6);
-  };
+  // Reset page to 1 on category/search change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, searchQuery]);
 
   let filteredPosts = selectedCategory ? posts.filter(p => p.category === selectedCategory) : posts;
   if (searchQuery) {
@@ -314,7 +317,7 @@ function BlogContent() {
         ) : gridPosts.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {gridPosts.slice(0, visibleCount).map((post) => (
+              {gridPosts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((post) => (
                 <article key={post.id} className="relative flex flex-col h-full bg-surface-container-lowest rounded-xl overflow-hidden group shadow-sm hover:shadow-xl border border-outline-variant/10 transition-all">
                   <div className="relative h-56 overflow-hidden">
                     <img 
@@ -346,18 +349,11 @@ function BlogContent() {
               ))}
             </div>
 
-            {/* Load More Button instead of Pagination */}
-            {visibleCount < gridPosts.length && (
-              <div className="flex justify-center pt-8">
-                <button 
-                  onClick={handleLoadMore}
-                  className="bg-surface-container-high hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                  {t("readMore")}
-                </button>
-              </div>
-            )}
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={Math.ceil(gridPosts.length / itemsPerPage)}
+              onPageChange={setCurrentPage}
+            />
           </>
         ) : (
           <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">

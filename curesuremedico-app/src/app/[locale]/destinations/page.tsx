@@ -7,6 +7,7 @@ import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
 import { countries } from "@/utils/countries";
 import { useTranslations } from "next-intl";
+import Pagination from "@/components/Pagination";
 
 interface Destination {
   id: string; // the UI shows UUID
@@ -23,7 +24,8 @@ function DestinationsContent() {
   const searchParams = useSearchParams();
   const isPreview = searchParams.get('preview') === 'true';
   const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const [loading, setLoading] = useState(true);
   const t = useTranslations("DestinationsPage");
 
@@ -163,10 +165,6 @@ function DestinationsContent() {
     fetchDestinations();
   }, [isPreview]);
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 6);
-  };
-
   return (
     <>
       {/* Hero Section */}
@@ -268,7 +266,7 @@ function DestinationsContent() {
           ) : destinations.length > 0 ? (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {destinations.slice(0, visibleCount).map((dest) => (
+                {destinations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((dest) => (
                   <div key={dest.id} className="group bg-surface-container-low rounded-xl overflow-hidden flex flex-col shadow-sm border border-outline-variant/10 hover:shadow-xl transition-all">
                     <div className="h-56 overflow-hidden relative">
                       <img 
@@ -305,18 +303,11 @@ function DestinationsContent() {
                 ))}
               </div>
 
-              {/* Load More Button */}
-              {visibleCount < destinations.length && (
-                <div className="flex justify-center pt-12">
-                  <button 
-                    onClick={handleLoadMore}
-                    className="bg-surface-container-highest hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
-                  >
-                    <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                    {t("seeMore")}
-                  </button>
-                </div>
-              )}
+              <Pagination 
+                currentPage={currentPage}
+                totalPages={Math.ceil(destinations.length / itemsPerPage)}
+                onPageChange={setCurrentPage}
+              />
             </>
           ) : (
             <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">

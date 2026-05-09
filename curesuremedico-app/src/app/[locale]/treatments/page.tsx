@@ -8,6 +8,7 @@ import { countries } from "@/utils/countries";
 import { useCurrency } from "@/components/CurrencyProvider";
 import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
+import Pagination from "@/components/Pagination";
 
 interface Treatment {
   id: string;
@@ -40,7 +41,8 @@ interface Package {
 function TreatmentsContent() {
   const [treatments, setTreatments] = useState<Treatment[]>([]);
   const [packages, setPackages] = useState<Package[]>([]);
-  const [visibleTreatments, setVisibleTreatments] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -149,10 +151,6 @@ function TreatmentsContent() {
     setSelectedCountryName(name);
     const countryObj = countries.find(c => c.name === name);
     if (countryObj) setPhoneCode(countryObj.code);
-  };
-
-  const handleLoadMoreTreatments = () => {
-    setVisibleTreatments((prev) => prev + 6);
   };
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
@@ -343,7 +341,7 @@ function TreatmentsContent() {
         ) : treatments.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {treatments.slice(0, visibleTreatments).map((treatment) => (
+              {treatments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((treatment) => (
                 <div key={treatment.id} className="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300 shadow-sm border border-outline-variant/10 hover:shadow-xl">
                   <div className="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
                     <span className="material-symbols-outlined text-primary text-3xl group-hover:text-white" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -362,18 +360,11 @@ function TreatmentsContent() {
               ))}
             </div>
 
-            {/* Load More Button */}
-            {visibleTreatments < treatments.length && (
-              <div className="flex justify-center pt-12">
-                <button
-                  onClick={handleLoadMoreTreatments}
-                  className="bg-surface-container-highest hover:bg-surface-dim text-on-surface px-8 py-3 rounded-full font-bold transition-all border border-outline-variant/30 flex items-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[18px]">expand_more</span>
-                  {t("seeMore")}
-                </button>
-              </div>
-            )}
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={Math.ceil(treatments.length / itemsPerPage)}
+              onPageChange={setCurrentPage}
+            />
           </>
         ) : (
           <div className="p-8 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
