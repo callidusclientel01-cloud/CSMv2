@@ -39,7 +39,19 @@ export default function DashboardPage() {
         .eq('id', user.id)
         .single();
         
-      if (profile) setCurrentPhase(profile.roadmap_phase || 0);
+      if (profile) {
+        setCurrentPhase(profile.roadmap_phase || 0);
+      } else {
+        // Fallback for existing users created before the profiles table
+        await supabase.from('profiles').insert({
+          id: user.id,
+          email: user.email,
+          full_name: user?.user_metadata?.full_name || user?.email || '',
+          phone: user?.user_metadata?.phone || '',
+          roadmap_phase: 1
+        });
+        setCurrentPhase(1);
+      }
 
       // Load documents
       const { data: docs } = await supabase
