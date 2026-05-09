@@ -160,9 +160,9 @@ export default function HospitalProfilePage() {
       <section className="py-24 bg-surface px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8 flex flex-col justify-center">
+            <div className="lg:col-span-8 flex flex-col justify-center min-w-0">
               <h2 className="text-3xl font-extrabold mb-6 tracking-tight">Clinical Excellence Since {hospital.established_year || "Inception"}</h2>
-              <div className="text-lg text-on-surface-variant leading-relaxed mb-6 prose max-w-none" dangerouslySetInnerHTML={{ __html: getLocalizedField(hospital, 'description', locale) || "" }}></div>
+              <div className="text-lg text-on-surface-variant leading-relaxed mb-6 prose max-w-none break-words overflow-hidden" dangerouslySetInnerHTML={{ __html: getLocalizedField(hospital, 'description', locale) || "" }}></div>
             </div>
             <div className="lg:col-span-4 bg-primary-container rounded-xl p-8 text-on-primary-container flex flex-col justify-between">
               <span className="material-symbols-outlined text-5xl mb-4">clinical_notes</span>
