@@ -327,7 +327,7 @@ function HospitalsList() {
                         <div className="flex items-center gap-2 mb-1">
                           <span className="material-symbols-outlined text-yellow-500 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                           <span className="text-sm font-bold text-on-surface">{hospital.rating}</span>
-                          <span className="text-xs text-on-surface-variant">{t("reviewsCount", { count: hospital.reviews_count })}</span>
+                          <span className="text-xs text-on-surface-variant">{t("reviewsCount", { count: hospital.reviews_count || 0 })}</span>
                         </div>
                         <h3 className="text-2xl font-bold text-on-surface group-hover:text-primary transition-colors">{getLocalizedField(hospital, 'name', locale)}</h3>
                         <p className="text-sm text-on-surface-variant font-medium">{hospital.city}</p>
