@@ -114,6 +114,10 @@ export default function HospitalProfilePage() {
                   <input required className="w-full bg-surface-container-highest border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline" placeholder="John Doe" type="text" />
                 </div>
                 <div>
+                  <label className="block text-sm font-medium text-on-surface-variant mb-1.5 ml-1">Email Address</label>
+                  <input required className="w-full bg-surface-container-highest border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline" placeholder="john@example.com" type="email" />
+                </div>
+                <div>
                   <label className="block text-sm font-medium text-on-surface-variant mb-1.5 ml-1">Country of Residence</label>
                   <select 
                     value={selectedCountryName}

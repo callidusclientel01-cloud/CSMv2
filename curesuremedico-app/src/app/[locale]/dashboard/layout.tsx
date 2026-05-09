@@ -50,37 +50,50 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex w-full min-h-screen bg-surface">
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 z-30 md:hidden transition-opacity"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar Navigation */}
-      <aside className="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-slate-50 border-r border-slate-100 flex-col p-4 z-40">
-        <Link href="/" className="mb-8 px-4 flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <img src="/logo.png" alt="CureSureMedico Logo" className="h-8 object-contain" />
-          <div>
-            <h2 className="text-xl font-bold tracking-tighter">
-              <span className="text-blue-800 dark:text-blue-400">Cure</span>
-              <span className="text-emerald-600 dark:text-emerald-400">Sure</span>
-              <span className="text-blue-800 dark:text-blue-400">Medico</span>
-            </h2>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Medical Tourism Excellence</p>
-          </div>
-        </Link>
+      <aside className={`fixed h-screen w-64 left-0 top-0 bg-slate-50 border-r border-slate-100 flex-col p-4 z-40 transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:flex`}>
+        <div className="flex justify-between items-center mb-8 px-4">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <img src="/logo.png" alt="CureSureMedico Logo" className="h-8 object-contain" />
+            <div>
+              <h2 className="text-xl font-bold tracking-tighter">
+                <span className="text-blue-800 dark:text-blue-400">Cure</span>
+                <span className="text-emerald-600 dark:text-emerald-400">Sure</span>
+                <span className="text-blue-800 dark:text-blue-400">Medico</span>
+              </h2>
+              <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Medical Tourism Excellence</p>
+            </div>
+          </Link>
+          <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden text-slate-500 p-1">
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
         <nav className="flex-1 space-y-1">
-          <Link href="/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname === '/dashboard' ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname === '/dashboard' ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">dashboard</span>
             <span className="text-sm font-medium">Back to Dashboard</span>
           </Link>
-          <Link href="/dashboard/consultation" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/consultation') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/dashboard/consultation" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/consultation') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">calendar_today</span>
             <span className="text-sm font-medium">Book a Consultation</span>
           </Link>
-          <Link href="/dashboard/enquiries" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/enquiries') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/dashboard/enquiries" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/enquiries') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">chat_bubble</span>
             <span className="text-sm font-medium">My Enquiries</span>
           </Link>
-          <Link href="/dashboard/second-opinion" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/second-opinion') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/dashboard/second-opinion" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/second-opinion') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">assignment_turned_in</span>
             <span className="text-sm font-medium">Second Opinion</span>
           </Link>
-          <Link href="/dashboard/records" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/records') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
+          <Link onClick={() => setIsMobileMenuOpen(false)} href="/dashboard/records" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${pathname.startsWith('/dashboard/records') ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100'}`}>
             <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">folder_shared</span>
             <span className="text-sm font-medium">Medical Records</span>
           </Link>
@@ -96,14 +109,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main Content Canvas */}
       <main className="md:ml-64 flex-1 min-h-screen pb-16 md:pb-0">
         {/* Top App Bar */}
-        <header className="w-full sticky top-0 z-30 bg-white/80 backdrop-blur-md px-6 py-3 flex justify-between items-center shadow-sm">
+        <header className="w-full sticky top-0 z-20 bg-white/80 backdrop-blur-md px-6 py-3 flex justify-between items-center shadow-sm">
           <div className="flex items-center gap-4">
+            <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden text-slate-600 p-2 hover:bg-slate-100 rounded-lg">
+              <span className="material-symbols-outlined">menu</span>
+            </button>
             <Link href="/" className="flex items-center gap-2 md:hidden hover:opacity-80">
-              <img src="/logo.png" alt="CureSureMedico Logo" className="h-6 object-contain" />
               <h1 className="text-lg font-bold tracking-tighter">
                 <span className="text-blue-800">Cure</span>
                 <span className="text-emerald-600">Sure</span>
-                <span className="text-blue-800">Medico</span>
               </h1>
             </Link>
             <div className="relative hidden sm:block">
@@ -172,30 +186,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Dynamic Content */}
         {children}
-
-        <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t px-6 py-2 flex justify-around items-center z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
-          <Link href="/dashboard" className={`flex flex-col items-center gap-1 ${pathname === '/dashboard' ? 'text-primary' : 'text-slate-500'}`}>
-            <span className="material-symbols-outlined">dashboard</span>
-            <span className="text-[10px] font-medium">Home</span>
-          </Link>
-          <Link href="/dashboard/enquiries" className={`flex flex-col items-center gap-1 ${pathname.startsWith('/dashboard/enquiries') ? 'text-primary' : 'text-slate-500'}`}>
-            <span className="material-symbols-outlined">chat_bubble</span>
-            <span className="text-[10px] font-medium">Enquiries</span>
-          </Link>
-          <Link href="/dashboard/consultation" className="flex flex-col items-center gap-1 -mt-8">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg mt-2 transition-all ${pathname.startsWith('/dashboard/consultation') ? 'bg-blue-800 text-white shadow-blue-400 scale-110' : 'bg-primary text-white shadow-blue-200'}`}>
-              <span className="material-symbols-outlined">calendar_today</span>
-            </div>
-          </Link>
-          <Link href="/dashboard/records" className={`flex flex-col items-center gap-1 ${pathname.startsWith('/dashboard/records') ? 'text-primary' : 'text-slate-500'}`}>
-            <span className="material-symbols-outlined">folder_shared</span>
-            <span className="text-[10px] font-medium">Records</span>
-          </Link>
-          <button onClick={handleLogout} className="flex flex-col items-center gap-1 text-slate-500">
-            <span className="material-symbols-outlined">logout</span>
-            <span className="text-[10px] font-medium">Out</span>
-          </button>
-        </nav>
       </main>
     </div>
   );

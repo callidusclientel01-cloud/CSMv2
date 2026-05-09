@@ -129,6 +129,7 @@ function TreatmentsContent() {
 
   // Form State
   const [fullName, setFullName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [medicalCondition, setMedicalCondition] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -176,13 +177,14 @@ function TreatmentsContent() {
         name: fullName,
         phone: fullPhone,
         condition: medicalCondition,
-        notes: `From Treatments Form. Country selected: ${selectedCountryName}`
+        notes: `Email: ${emailAddress}\nFrom Treatments Form. Country selected: ${selectedCountryName}`
       }]);
 
       if (error) throw error;
 
       setSubmitSuccess(true);
       setFullName("");
+      setEmailAddress("");
       setPhoneNumber("");
       setMedicalCondition("");
 
@@ -250,6 +252,10 @@ function TreatmentsContent() {
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">{t("formFullName")}</label>
                 <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="John Doe" type="text" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Email Address</label>
+                <input required value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/40 p-3 text-sm" placeholder="john@example.com" type="email" />
               </div>
               <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                 <div>

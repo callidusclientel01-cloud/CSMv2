@@ -61,6 +61,7 @@ export default function Navbar() {
             <span className="text-white/80 hidden sm:inline-block">📞 +91 91482 97106 (International)</span>
           </div>
           <div className="flex items-center gap-3 md:gap-6 w-full sm:w-auto justify-between sm:justify-end">
+            {/*
             <div className="flex items-center gap-1">
               <span className="material-symbols-outlined text-[14px] text-secondary-fixed">language</span>
               <select 
@@ -105,6 +106,7 @@ export default function Navbar() {
                 <option className="text-on-surface" value="ar">العربية</option>
               </select>
             </div>
+            */}
             <div className="flex items-center gap-1">
               <span className="material-symbols-outlined text-[14px] text-secondary-fixed">payments</span>
               {isLoaded ? (

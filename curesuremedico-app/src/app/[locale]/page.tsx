@@ -87,6 +87,7 @@ function HomeContent() {
 
   // Form State
   const [fullName, setFullName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [medicalCondition, setMedicalCondition] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -226,13 +227,14 @@ function HomeContent() {
         name: fullName,
         phone: fullPhone,
         condition: medicalCondition,
-        notes: `From Hero Form. Country selected: ${selectedCountryName}`
+        notes: `Email: ${emailAddress}\nFrom Hero Form. Country selected: ${selectedCountryName}`
       }]);
 
       if (error) throw error;
 
       setSubmitSuccess(true);
       setFullName("");
+      setEmailAddress("");
       setPhoneNumber("");
       setMedicalCondition("");
       setUserCaptcha("");
@@ -299,6 +301,10 @@ function HomeContent() {
                 <div>
                   <label className="block text-xs font-bold text-outline uppercase mb-1">{t('form.name')}</label>
                   <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder={t('form.namePlaceholder')} type="text" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-outline uppercase mb-1">Email Address</label>
+                  <input required value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} className="w-full bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary py-3 px-4" placeholder="john@example.com" type="email" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-outline uppercase mb-1">{t('form.country')}</label>
