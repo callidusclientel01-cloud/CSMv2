@@ -270,6 +270,65 @@ export default function HospitalProfilePage() {
         </div>
       </section>
 
+      {/* Branches / Network Section */}
+      {hospital.branches && hospital.branches.length > 0 && (
+        <section className="py-24 bg-surface px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-extrabold tracking-tight mb-4 text-primary">Our Hospitals in the Network</h2>
+              <p className="text-on-surface-variant max-w-xl mx-auto">Explore our world-class branches across different cities, equipped with specialized facilities and expert care.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {hospital.branches.map((branch: any, index: number) => (
+                <div key={index} className="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-lg transition-shadow flex flex-col">
+                  {branch.image_url && (
+                    <div className="h-48 overflow-hidden relative">
+                      <img src={branch.image_url} alt={branch.name} className="w-full h-full object-cover" />
+                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary flex items-center gap-1 shadow-sm">
+                        <span className="material-symbols-outlined text-[14px]">location_on</span>
+                        {branch.city}
+                      </div>
+                    </div>
+                  )}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">{branch.name}</h3>
+                    {!branch.image_url && (
+                      <div className="text-xs font-bold text-primary flex items-center gap-1 mb-2">
+                        <span className="material-symbols-outlined text-[14px]">location_on</span>
+                        {branch.city}
+                      </div>
+                    )}
+                    <p className="text-sm text-slate-600 mb-6 leading-relaxed line-clamp-3">{branch.description}</p>
+                    
+                    <div className="grid grid-cols-2 gap-4 mb-6 mt-auto">
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center gap-3">
+                        <span className="material-symbols-outlined text-tertiary">bed</span>
+                        <div>
+                          <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Beds</div>
+                          <div className="font-bold text-slate-800">{branch.beds_count || "N/A"}</div>
+                        </div>
+                      </div>
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center gap-3">
+                        <span className="material-symbols-outlined text-tertiary">medical_services</span>
+                        <div>
+                          <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">OTs</div>
+                          <div className="font-bold text-slate-800">{branch.ots_count || "N/A"}</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <button className="w-full py-3 bg-primary/10 text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2">
+                      <span className="material-symbols-outlined text-sm">event_available</span>
+                      Book at {branch.city}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Patient Support Services (International) */}
       <section className="py-24 bg-surface-container px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
