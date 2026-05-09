@@ -70,6 +70,19 @@ export default function AdminHospitals() {
     });
   };
 
+  const handleDownloadCSV = () => {
+    if (hospitals.length === 0) return;
+    const csv = Papa.unparse(hospitals);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `hospitals_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
@@ -85,6 +98,10 @@ export default function AdminHospitals() {
             onChange={handleImportCSV} 
             className="hidden" 
           />
+          <button onClick={handleDownloadCSV} className="bg-white text-slate-700 px-6 py-3 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-colors flex items-center shadow-sm">
+            <span className="material-symbols-outlined mr-2">download</span>
+            Export CSV
+          </button>
           <button onClick={() => fileInputRef.current?.click()} className="bg-white text-slate-700 px-6 py-3 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-colors flex items-center shadow-sm">
             <span className="material-symbols-outlined mr-2">upload_file</span>
             Import CSV
