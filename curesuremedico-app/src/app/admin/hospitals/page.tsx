@@ -50,7 +50,7 @@ export default function AdminHospitals() {
             reviews_count: parseInt(row.reviews_count) || 0
           }));
 
-          const { error } = await supabase.from('hospitals').insert(rowsToInsert);
+          const { error } = await supabase.from('hospitals').upsert(rowsToInsert);
           
           if (error) throw error;
           

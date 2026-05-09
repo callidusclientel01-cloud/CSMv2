@@ -43,7 +43,7 @@ export default function AdminTreatments() {
             ...row,
             status: row.status || 'draft'
           }));
-          const { error } = await supabase.from('treatments').insert(rowsToInsert);
+          const { error } = await supabase.from('treatments').upsert(rowsToInsert);
           if (error) throw error;
           toast.success("Import successful!", { id: "import" });
           fetchTreatments();

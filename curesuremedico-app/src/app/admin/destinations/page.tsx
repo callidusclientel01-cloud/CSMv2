@@ -43,7 +43,7 @@ export default function AdminDestinations() {
             ...row,
             status: row.status || 'draft'
           }));
-          const { error } = await supabase.from('destinations').insert(rowsToInsert);
+          const { error } = await supabase.from('destinations').upsert(rowsToInsert);
           if (error) throw error;
           toast.success("Import successful!", { id: "import" });
           fetchDestinations();
