@@ -474,59 +474,6 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* Elite Accredited Hospitals Section */}
-      <section className="py-16 md:py-24 bg-surface">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-      <div className="text-center mb-12 md:mb-16">
-      <h2 className="text-4xl font-headline font-extrabold text-primary">{t('hospitals.title')}</h2>
-      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">{t('hospitals.subtitle')}</p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {hospitals.map((hospital, idx) => (
-        <div key={hospital.id || idx} className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
-          <div className="relative h-56">
-            <img alt={hospital.name} className="w-full h-full object-cover" src={hospital.image_url || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"}/>
-            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
-              <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-              <span className="text-xs font-bold text-on-surface">{hospital.rating}/5</span>
-            </div>
-          </div>
-          <div className="p-6 md:p-8 flex-1 flex flex-col">
-            <h3 className="text-xl font-bold text-primary mb-1">{getLocalizedField(hospital, 'name', locale)}</h3>
-            <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
-              <span className="material-symbols-outlined text-base">location_on</span> {hospital.city}, {hospital.country}
-            </p>
-            <button onClick={() => router.push(`/hospitals/${hospital.slug || hospital.id}`)} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">{t('hospitals.btnDetails')}</button>
-          </div>
-        </div>
-      ))}
-      </div>
-      </div>
-      </section>
-      
-      {/* Top Medical Destinations Section */}
-      <section className="py-16 md:py-24 bg-surface-container-low">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-      <div className="text-center mb-16">
-      <h2 className="text-4xl font-headline font-extrabold text-primary">{t('destinations.title')}</h2>
-      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">{t('destinations.subtitle')}</p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {destinations.map((dest, idx) => (
-        <div key={dest.id || idx} className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
-          <img alt={dest.country_name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={dest.image_url}/>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
-            <h3 className="text-3xl font-bold text-white mb-2">{getLocalizedField(dest, 'country_name', locale)}</h3>
-            <p className="text-secondary-fixed font-bold text-sm mb-6">{getLocalizedField(dest, 'tagline', locale) || getLocalizedField(dest, 'description', locale)}</p>
-            <button onClick={() => router.push(`/destinations/${dest.slug || dest.id}`)} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">{t('destinations.btnExplore')}</button>
-          </div>
-        </div>
-      ))}
-      </div>
-      </div>
-      </section>
-
-
       {/* Specialty Treatments */}
       <section className="py-16 md:py-24 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -553,6 +500,58 @@ function HomeContent() {
       <button onClick={() => router.push('/treatments')} className="text-primary font-bold flex items-center gap-2 mx-auto hover:gap-4 transition-all">
         {t('treatments.btnViewAll')} <span className="material-symbols-outlined">arrow_forward</span>
       </button>
+      </div>
+      </div>
+      </section>
+
+      {/* Top Medical Destinations Section */}
+      <section className="py-16 md:py-24 bg-surface-container-lowest">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="text-center mb-16">
+      <h2 className="text-4xl font-headline font-extrabold text-primary">{t('destinations.title')}</h2>
+      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">{t('destinations.subtitle')}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {destinations.map((dest, idx) => (
+        <div key={dest.id || idx} className="group relative h-96 rounded-3xl overflow-hidden shadow-xl">
+          <img alt={dest.country_name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={dest.image_url}/>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-8 flex flex-col justify-end">
+            <h3 className="text-3xl font-bold text-white mb-2">{getLocalizedField(dest, 'country_name', locale)}</h3>
+            <p className="text-secondary-fixed font-bold text-sm mb-6">{getLocalizedField(dest, 'tagline', locale) || getLocalizedField(dest, 'description', locale)}</p>
+            <button onClick={() => router.push(`/destinations/${dest.slug || dest.id}`)} className="w-full sm:w-fit px-6 py-3 bg-white text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">{t('destinations.btnExplore')}</button>
+          </div>
+        </div>
+      ))}
+      </div>
+      </div>
+      </section>
+
+      {/* Elite Accredited Hospitals Section */}
+      <section className="py-16 md:py-24 bg-surface">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="text-center mb-12 md:mb-16">
+      <h2 className="text-4xl font-headline font-extrabold text-primary">{t('hospitals.title')}</h2>
+      <p className="text-on-surface-variant mt-4 max-w-2xl mx-auto">{t('hospitals.subtitle')}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {hospitals.map((hospital, idx) => (
+        <div key={hospital.id || idx} className="bg-surface-container-lowest rounded-3xl overflow-hidden no-line-card shadow-sm border border-outline-variant/10 flex flex-col">
+          <div className="relative h-56">
+            <img alt={hospital.name} className="w-full h-full object-cover" src={hospital.image_url || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"}/>
+            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
+              <span className="material-symbols-outlined text-secondary text-sm fill-1" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+              <span className="text-xs font-bold text-on-surface">{hospital.rating}/5</span>
+            </div>
+          </div>
+          <div className="p-6 md:p-8 flex-1 flex flex-col">
+            <h3 className="text-xl font-bold text-primary mb-1">{getLocalizedField(hospital, 'name', locale)}</h3>
+            <p className="text-sm text-on-surface-variant mb-6 flex items-center gap-1">
+              <span className="material-symbols-outlined text-base">location_on</span> {hospital.city}, {hospital.country}
+            </p>
+            <button onClick={() => router.push(`/hospitals/${hospital.slug || hospital.id}`)} className="w-full mt-auto py-3 border-2 border-primary text-primary font-bold rounded-xl hover:bg-primary hover:text-white transition-all flex justify-center items-center">{t('hospitals.btnDetails')}</button>
+          </div>
+        </div>
+      ))}
       </div>
       </div>
       </section>
