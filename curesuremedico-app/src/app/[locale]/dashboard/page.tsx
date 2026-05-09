@@ -9,7 +9,8 @@ export default function DashboardPage() {
   const router = useRouter();
   const [userName, setUserName] = useState("Patient");
   const [enquiries, setEnquiries] = useState<any[]>([]);
-  const [documentsCount, setDocumentsCount] = useState(0);
+  const [currentPhase, setCurrentPhase] = useState(0);
+  const [sharedDocuments, setSharedDocuments] = useState<any[]>([]);
 
   useEffect(() => {
     async function loadData() {
@@ -31,34 +32,26 @@ export default function DashboardPage() {
         
       if (enqData) setEnquiries(enqData);
 
-      // Load documents count
-      const { count } = await supabase
-        .from('patient_documents')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id);
+      // Load profile for roadmap
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('roadmap_phase')
+        .eq('id', user.id)
+        .single();
         
-      if (count !== null) setDocumentsCount(count);
+      if (profile) setCurrentPhase(profile.roadmap_phase || 0);
+
+      // Load documents
+      const { data: docs } = await supabase
+        .from('shared_documents')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+        
+      if (docs) setSharedDocuments(docs);
     }
     loadData();
   }, []);
-
-  // Compute roadmap phase (1 to 5) based on latest enquiry
-  const latestEnquiry = enquiries[0];
-  let currentPhase = 0; // 0 means no roadmap started
-  if (latestEnquiry) {
-    const status = latestEnquiry.status.toLowerCase();
-    if (status.includes('quote received')) {
-        currentPhase = 2;
-    } else if (status.includes('visa')) {
-        currentPhase = 3;
-    } else if (status.includes('treatment')) {
-        currentPhase = 4;
-    } else if (status.includes('recovery')) {
-        currentPhase = 5;
-    } else {
-        currentPhase = 1; // Default to Inquiry for "Pending Review" or "Awaiting Quote"
-    }
-  }
 
   const getPhaseStyles = (phaseNumber: number, currentPhase: number) => {
     if (phaseNumber < currentPhase) { // Completed
@@ -130,12 +123,12 @@ export default function DashboardPage() {
         <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-slate-50 flex flex-col justify-between">
           <div className="flex justify-between items-start mb-4">
             <div className="p-2 bg-tertiary-container text-on-tertiary-container rounded-lg">
-              <span className="material-symbols-outlined">description</span>
+              <span className="material-symbols-outlined">folder_shared</span>
             </div>
           </div>
           <div>
-            <p className="text-4xl font-black text-on-surface">{documentsCount}</p>
-            <p className="text-on-surface-variant font-medium">Records Uploaded</p>
+            <p className="text-4xl font-black text-on-surface">{sharedDocuments.length}</p>
+            <p className="text-on-surface-variant font-medium">Documents Shared</p>
           </div>
         </div>
       </section>
@@ -241,12 +234,34 @@ export default function DashboardPage() {
                 <span className="material-symbols-outlined text-primary">add_box</span>
                 Book a Consultation
               </Link>
-              <Link href="/dashboard/records" className="flex items-center justify-start gap-3 w-full p-3 bg-white rounded-lg text-sm text-on-surface font-medium hover:bg-slate-50 transition-colors">
-                <span className="material-symbols-outlined text-primary">cloud_upload</span>
-                Upload New Report
-              </Link>
             </div>
           </div>
+
+          <div className="bg-surface-container-low p-6 rounded-xl space-y-4">
+            <h4 className="text-sm font-bold text-on-surface flex items-center gap-2">
+              <span className="material-symbols-outlined text-blue-600">folder_shared</span>
+              Your Documents
+            </h4>
+            {sharedDocuments.length === 0 ? (
+              <p className="text-sm text-on-surface-variant">No documents available yet.</p>
+            ) : (
+              <ul className="space-y-3">
+                {sharedDocuments.map((doc) => (
+                  <li key={doc.id} className="flex flex-col gap-1 p-3 bg-white rounded-lg border border-slate-100 shadow-sm transition-all hover:shadow-md">
+                    <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-primary hover:underline flex items-center gap-2">
+                      <span className="material-symbols-outlined text-sm">download</span>
+                      <span className="truncate">{doc.file_name}</span>
+                    </a>
+                    <div className="text-[10px] text-on-surface-variant flex justify-between mt-1 px-1">
+                      <span>{new Date(doc.created_at).toLocaleDateString()}</span>
+                      <span className="font-bold text-indigo-600">{doc.uploaded_by === 'admin' ? 'From Admin' : 'You'}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
         </div>
       </div>
     </div>
