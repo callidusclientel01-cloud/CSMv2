@@ -67,7 +67,7 @@ export default function AdminHospitals() {
                         </div>
                         <div>
                           <div className="font-bold text-slate-900">{hospital.name}</div>
-                          <div className="text-xs text-slate-500 max-w-xs truncate">{hospital.accreditations?.join(', ')}</div>
+                          <div className="text-xs text-slate-500 max-w-xs truncate">{Array.isArray(hospital.accreditations) ? hospital.accreditations.join(', ') : (hospital.accreditations || '')}</div>
                         </div>
                       </div>
                     </td>
