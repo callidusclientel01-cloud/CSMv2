@@ -53,7 +53,15 @@ function HospitalsList() {
         }
         
         if (data && data.length > 0) {
-          fetchedData = data;
+          fetchedData = data.map((h: any) => ({
+            ...h,
+            specialties: typeof h.specialties === 'string' 
+              ? h.specialties.split(',').map((s: string) => s.trim()).filter(Boolean) 
+              : (Array.isArray(h.specialties) ? h.specialties : []),
+            accreditations: typeof h.accreditations === 'string' 
+              ? h.accreditations.split(',').map((s: string) => s.trim()).filter(Boolean) 
+              : (Array.isArray(h.accreditations) ? h.accreditations : [])
+          }));
         } else {
           // STATIC FALLBACK
           fetchedData = [
