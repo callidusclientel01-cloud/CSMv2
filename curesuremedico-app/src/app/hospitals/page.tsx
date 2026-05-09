@@ -135,7 +135,7 @@ function HospitalsList() {
     if (dest) {
         filtered = filtered.filter(h => 
           (h.country && h.country.toLowerCase().includes(dest)) || 
-          h.city.toLowerCase().includes(dest)
+          (h.city && h.city.toLowerCase().includes(dest))
         );
     }
 
@@ -149,7 +149,7 @@ function HospitalsList() {
     // City Filter
     if (selectedCities.length > 0) {
       filtered = filtered.filter(h => 
-        selectedCities.some(city => h.city.toLowerCase().includes(city.toLowerCase()))
+        h.city && selectedCities.some(city => h.city.toLowerCase().includes(city.toLowerCase()))
       );
     }
 
@@ -184,6 +184,7 @@ function HospitalsList() {
 
   // Only take the text before a comma for the city filter
   const availableCities = Array.from(new Set(allHospitals.map(h => {
+    if (!h.city) return null;
     const parts = h.city.split(',');
     return parts[0].trim();
   }))).filter(Boolean).sort();
