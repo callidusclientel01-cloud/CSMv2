@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabaseClient";
+import Papa from "papaparse";
 
 export default function AdminLeads() {
   const [leads, setLeads] = useState<any[]>([]);
@@ -24,6 +25,30 @@ export default function AdminLeads() {
     }
   };
 
+  const handleDownloadCSV = () => {
+    if (leads.length === 0) return;
+    const csvData = leads.map(lead => ({
+      ID: lead.id,
+      Date: new Date(lead.created_at).toLocaleString(),
+      Name: lead.name,
+      Email: lead.email,
+      Phone: lead.phone,
+      Condition: lead.condition || '',
+      Destination: lead.preferred_destination || '',
+      Notes: lead.notes || ''
+    }));
+    
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8">
@@ -31,9 +56,15 @@ export default function AdminLeads() {
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Patient Inquiries (Leads)</h1>
           <p className="text-slate-600">Review and manage contact requests and quote inquiries from patients.</p>
         </div>
-        <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-xl font-bold border border-blue-100 flex items-center">
-          <span className="material-symbols-outlined mr-2">group</span>
-          {leads.length} Total Leads
+        <div className="flex gap-4">
+          <button onClick={handleDownloadCSV} className="bg-white text-slate-700 px-4 py-2 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-colors flex items-center shadow-sm">
+            <span className="material-symbols-outlined mr-2">download</span>
+            Download CSV
+          </button>
+          <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-xl font-bold border border-blue-100 flex items-center">
+            <span className="material-symbols-outlined mr-2">group</span>
+            {leads.length} Total Leads
+          </div>
         </div>
       </div>
 

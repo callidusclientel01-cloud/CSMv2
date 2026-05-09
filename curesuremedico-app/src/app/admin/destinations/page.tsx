@@ -1,7 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
+import Papa from "papaparse";
+import toast from "react-hot-toast";
 
 export default function AdminDestinations() {
   const [destinations, setDestinations] = useState<any[]>([]);
@@ -25,6 +27,36 @@ export default function AdminDestinations() {
     }
   };
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: async (results) => {
+        try {
+          toast.loading("Importing destinations...", { id: "import" });
+          const rowsToInsert = results.data.map((row: any) => ({
+            ...row,
+            status: row.status || 'draft'
+          }));
+          const { error } = await supabase.from('destinations').insert(rowsToInsert);
+          if (error) throw error;
+          toast.success("Import successful!", { id: "import" });
+          fetchDestinations();
+        } catch (err: any) {
+          console.error("Import error:", err);
+          toast.error("Import failed: " + err.message, { id: "import" });
+        }
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      },
+      error: (error) => toast.error("Error parsing CSV: " + error.message)
+    });
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
@@ -32,10 +64,23 @@ export default function AdminDestinations() {
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Destinations</h1>
           <p className="text-slate-600">Manage medical tourism destinations and countries.</p>
         </div>
-        <Link href="/admin/destinations/new" className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center shadow-sm">
-          <span className="material-symbols-outlined mr-2">add</span>
-          Add Destination
-        </Link>
+        <div className="flex gap-4">
+          <input 
+            type="file" 
+            accept=".csv" 
+            ref={fileInputRef} 
+            onChange={handleImportCSV} 
+            className="hidden" 
+          />
+          <button onClick={() => fileInputRef.current?.click()} className="bg-white text-slate-700 px-6 py-3 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-colors flex items-center shadow-sm">
+            <span className="material-symbols-outlined mr-2">upload_file</span>
+            Import CSV
+          </button>
+          <Link href="/admin/destinations/new" className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center shadow-sm">
+            <span className="material-symbols-outlined mr-2">add</span>
+            Add Destination
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
