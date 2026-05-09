@@ -197,7 +197,7 @@ function HospitalsList() {
     if (!h.city) return null;
     const parts = h.city.split(',');
     return parts[0].trim();
-  }))).filter(Boolean).sort();
+  }))).filter(Boolean).sort() as string[];
   
   const availableCountries = Array.from(new Set(allHospitals.map(h => h.country))).filter(Boolean).sort() as string[];
   const availableSpecialties = Array.from(new Set(allHospitals.flatMap(h => h.specialties || []))).filter(Boolean).sort();
