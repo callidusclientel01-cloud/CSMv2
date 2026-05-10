@@ -15,6 +15,7 @@ interface Enquiry {
 export default function EnquiriesPage() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedTimelineEnq, setSelectedTimelineEnq] = useState<Enquiry | null>(null);
 
   useEffect(() => {
     async function fetchEnquiries() {
@@ -157,12 +158,12 @@ export default function EnquiriesPage() {
                   ) : enq.status === 'Quote Received' ? (
                      <div className="flex gap-2">
                       <button className="bg-tertiary text-on-tertiary px-6 py-2.5 rounded-full text-sm font-bold transition-all active:scale-95">Review Quote</button>
-                      <button className="p-2.5 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors flex items-center justify-center">
-                        <span className="material-symbols-outlined">more_vert</span>
+                      <button onClick={() => setSelectedTimelineEnq(enq)} className="p-2.5 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors flex items-center justify-center" title="View Timeline">
+                        <span className="material-symbols-outlined">timeline</span>
                       </button>
                     </div>
                   ) : (
-                    <button onClick={() => alert("Detailed timeline tracking will be available soon.")} className="bg-primary text-on-primary px-6 py-2.5 rounded-full text-sm font-bold transition-all hover:bg-primary-container active:scale-95">View Timeline</button>
+                    <button onClick={() => setSelectedTimelineEnq(enq)} className="bg-primary text-on-primary px-6 py-2.5 rounded-full text-sm font-bold transition-all hover:bg-primary-container active:scale-95">View Timeline</button>
                   )}
                 </div>
               </div>
@@ -182,6 +183,96 @@ export default function EnquiriesPage() {
         </div>
         <button onClick={() => window.open('https://wa.me/919148297106', '_blank')} className="ml-auto bg-white text-primary border border-primary/20 px-6 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow transition-all whitespace-nowrap">Contact Support</button>
       </div>
+
+      {/* Timeline Modal */}
+      {selectedTimelineEnq && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-surface-container-lowest w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            <div className="px-6 py-5 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
+              <div>
+                <h3 className="text-xl font-bold text-on-surface">Enquiry Timeline</h3>
+                <p className="text-sm text-on-surface-variant mt-0.5">{selectedTimelineEnq.inquiry_id || 'Tracking Progress'}</p>
+              </div>
+              <button onClick={() => setSelectedTimelineEnq(null)} className="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            
+            <div className="p-8 overflow-y-auto">
+              <div className="relative border-l-2 border-surface-container-highest ml-4 space-y-8 pb-4">
+                {(() => {
+                  let currentStep = 0;
+                  const s = selectedTimelineEnq.status;
+                  if (s === 'In Progress') currentStep = 1;
+                  else if (s === 'Quote Received') currentStep = 2;
+                  else if (s === 'Completed' || s === 'Closed') currentStep = 3;
+
+                  const steps = [
+                    {
+                      title: "Request Submitted",
+                      description: `We received your request on ${new Date(selectedTimelineEnq.submitted_at).toLocaleDateString()}.`,
+                      icon: "inbox",
+                      isCompleted: currentStep >= 0,
+                      isActive: currentStep === 0
+                    },
+                    {
+                      title: "Clinical Review",
+                      description: "Our medical team is evaluating your case and coordinating with specialists.",
+                      icon: "clinical_notes",
+                      isCompleted: currentStep >= 1,
+                      isActive: currentStep === 1
+                    },
+                    {
+                      title: "Quote Ready",
+                      description: "Your personalized treatment plan and estimated cost are ready for review.",
+                      icon: "request_quote",
+                      isCompleted: currentStep >= 2,
+                      isActive: currentStep === 2
+                    },
+                    {
+                      title: "Treatment Booked",
+                      description: "Coordination complete. We are preparing for your arrival and journey.",
+                      icon: "flight_takeoff",
+                      isCompleted: currentStep >= 3,
+                      isActive: currentStep === 3
+                    }
+                  ];
+
+                  return steps.map((step, idx) => (
+                    <div key={idx} className={`relative pl-8 transition-opacity duration-500 ${!step.isCompleted && !step.isActive ? 'opacity-40' : 'opacity-100'}`}>
+                      {/* Node circle */}
+                      <div className={`absolute -left-[17px] top-1 w-8 h-8 rounded-full flex items-center justify-center border-4 border-surface-container-lowest ${
+                        step.isActive 
+                          ? 'bg-primary text-on-primary shadow-[0_0_0_4px_rgba(var(--color-primary),0.2)] animate-pulse' 
+                          : step.isCompleted 
+                            ? 'bg-secondary text-on-secondary' 
+                            : 'bg-surface-container-highest text-on-surface-variant'
+                      }`}>
+                        {step.isCompleted && !step.isActive ? (
+                          <span className="material-symbols-outlined text-sm font-bold">check</span>
+                        ) : (
+                          <span className="material-symbols-outlined text-[14px]">{step.icon}</span>
+                        )}
+                      </div>
+                      
+                      <div className="pt-1">
+                        <h4 className={`text-base font-bold ${step.isActive ? 'text-primary' : 'text-on-surface'}`}>{step.title}</h4>
+                        <p className="text-sm text-on-surface-variant mt-1 leading-relaxed">{step.description}</p>
+                      </div>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+
+            <div className="px-6 py-4 bg-surface-container-low border-t border-outline-variant/10 flex justify-end">
+              <button onClick={() => setSelectedTimelineEnq(null)} className="px-6 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-bold rounded-full transition-colors text-sm">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
