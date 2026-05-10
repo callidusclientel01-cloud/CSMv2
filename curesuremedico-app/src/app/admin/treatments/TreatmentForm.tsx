@@ -35,9 +35,9 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
     success_rate: initialData?.success_rate || "15k+",
     quick_response_time: initialData?.quick_response_time || "24h",
     cost_saving: initialData?.cost_saving || "80%",
-    procedures: initialData?.procedures ? JSON.stringify(initialData.procedures, null, 2) : "[]",
-    procedures_fr: initialData?.procedures_fr ? JSON.stringify(initialData.procedures_fr, null, 2) : "[]",
-    procedures_ar: initialData?.procedures_ar ? JSON.stringify(initialData.procedures_ar, null, 2) : "[]",
+    procedures: initialData?.procedures || [],
+    procedures_fr: initialData?.procedures_fr || [],
+    procedures_ar: initialData?.procedures_ar || [],
     status: initialData?.status || "draft"
   });
 
@@ -62,6 +62,45 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleAddProcedure = () => {
+    const newProcedure = { name: "", description: "", price: "", icon: "medical_services" };
+    if (activeTab === 'en') setFormData({ ...formData, procedures: [...formData.procedures, newProcedure] });
+    else if (activeTab === 'fr') setFormData({ ...formData, procedures_fr: [...formData.procedures_fr, newProcedure] });
+    else if (activeTab === 'ar') setFormData({ ...formData, procedures_ar: [...formData.procedures_ar, newProcedure] });
+  };
+
+  const handleRemoveProcedure = (index: number) => {
+    if (activeTab === 'en') {
+      const newProcedures = [...formData.procedures];
+      newProcedures.splice(index, 1);
+      setFormData({ ...formData, procedures: newProcedures });
+    } else if (activeTab === 'fr') {
+      const newProcedures = [...formData.procedures_fr];
+      newProcedures.splice(index, 1);
+      setFormData({ ...formData, procedures_fr: newProcedures });
+    } else if (activeTab === 'ar') {
+      const newProcedures = [...formData.procedures_ar];
+      newProcedures.splice(index, 1);
+      setFormData({ ...formData, procedures_ar: newProcedures });
+    }
+  };
+
+  const handleProcedureChange = (index: number, field: string, value: string) => {
+    if (activeTab === 'en') {
+      const newProcedures = [...formData.procedures];
+      newProcedures[index] = { ...newProcedures[index], [field]: value };
+      setFormData({ ...formData, procedures: newProcedures });
+    } else if (activeTab === 'fr') {
+      const newProcedures = [...formData.procedures_fr];
+      newProcedures[index] = { ...newProcedures[index], [field]: value };
+      setFormData({ ...formData, procedures_fr: newProcedures });
+    } else if (activeTab === 'ar') {
+      const newProcedures = [...formData.procedures_ar];
+      newProcedures[index] = { ...newProcedures[index], [field]: value };
+      setFormData({ ...formData, procedures_ar: newProcedures });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,9 +130,9 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
       success_rate: formData.success_rate,
       quick_response_time: formData.quick_response_time,
       cost_saving: formData.cost_saving,
-      procedures: (() => { try { return JSON.parse(formData.procedures) } catch(e) { return [] } })(),
-      procedures_fr: (() => { try { return JSON.parse(formData.procedures_fr) } catch(e) { return [] } })(),
-      procedures_ar: (() => { try { return JSON.parse(formData.procedures_ar) } catch(e) { return [] } })(),
+      procedures: formData.procedures,
+      procedures_fr: formData.procedures_fr,
+      procedures_ar: formData.procedures_ar,
       status: finalStatus
     };
 
@@ -231,16 +270,83 @@ export default function TreatmentForm({ initialData }: { initialData?: any }) {
         </div>
 
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-2">Procedures (JSON Format) ({activeTab.toUpperCase()})</label>
-          <p className="text-xs text-slate-500 mb-2">Must be a valid JSON array of objects with fields: name, description, price, icon.</p>
-          <textarea name="procedures" 
-            value={activeTab === 'en' ? formData.procedures : (activeTab === 'fr' ? formData.procedures_fr : formData.procedures_ar)} 
-            onChange={(e) => {
-              if (activeTab === 'en') setFormData({ ...formData, procedures: e.target.value });
-              else if (activeTab === 'fr') setFormData({ ...formData, procedures_fr: e.target.value });
-              else if (activeTab === 'ar') setFormData({ ...formData, procedures_ar: e.target.value });
-            }} 
-            rows={8} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none font-mono text-sm" placeholder="[]"></textarea>
+          <div className="flex justify-between items-center mb-4">
+            <label className="block text-sm font-bold text-slate-700">Procedures ({activeTab.toUpperCase()})</label>
+            <button 
+              type="button" 
+              onClick={handleAddProcedure}
+              className="px-3 py-1 bg-teal-50 text-teal-600 rounded-lg text-sm font-medium hover:bg-teal-100 flex items-center gap-1"
+            >
+              <span className="material-symbols-outlined text-sm">add</span>
+              Add Procedure
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            {(() => {
+              const currentProcedures = activeTab === 'en' ? formData.procedures : (activeTab === 'fr' ? formData.procedures_fr : formData.procedures_ar);
+              return currentProcedures.length === 0 ? (
+                <div className="p-8 border-2 border-dashed border-slate-200 rounded-xl text-center text-slate-500">
+                  No procedures added yet. Click "Add Procedure" to create one.
+                </div>
+              ) : currentProcedures.map((proc: any, index: number) => (
+                <div key={index} className="p-4 bg-slate-50 border border-slate-200 rounded-xl relative group">
+                  <button 
+                    type="button" 
+                    onClick={() => handleRemoveProcedure(index)}
+                    className="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors"
+                    title="Remove Procedure"
+                  >
+                    <span className="material-symbols-outlined">delete</span>
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 pr-8">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">Procedure Name</label>
+                      <input 
+                        type="text" 
+                        value={proc.name || ''} 
+                        onChange={(e) => handleProcedureChange(index, 'name', e.target.value)}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm"
+                        placeholder="E.g., Heart Bypass"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">Estimated Price</label>
+                      <input 
+                        type="text" 
+                        value={proc.price || ''} 
+                        onChange={(e) => handleProcedureChange(index, 'price', e.target.value)}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm"
+                        placeholder="E.g., $15,000"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">Description</label>
+                      <textarea 
+                        value={proc.description || ''} 
+                        onChange={(e) => handleProcedureChange(index, 'description', e.target.value)}
+                        rows={2}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm"
+                        placeholder="Brief description of the procedure..."
+                      ></textarea>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">Icon Name (Material Symbols)</label>
+                      <input 
+                        type="text" 
+                        value={proc.icon || 'medical_services'} 
+                        onChange={(e) => handleProcedureChange(index, 'icon', e.target.value)}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm"
+                        placeholder="medical_services"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ));
+            })()}
+          </div>
         </div>
       </div>
 
