@@ -6,11 +6,12 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
   // Fetch basic counts for the overview dashboard
-  const [hospitalsRes, treatmentsRes, destinationsRes, leadsRes] = await Promise.all([
+  const [hospitalsRes, treatmentsRes, destinationsRes, leadsRes, patientsRes] = await Promise.all([
     supabase.from('hospitals').select('*', { count: 'exact', head: true }),
     supabase.from('treatments').select('*', { count: 'exact', head: true }),
     supabase.from('destinations').select('*', { count: 'exact', head: true }),
     supabase.from('leads').select('*', { count: 'exact', head: true }),
+    supabase.from('profiles').select('id, email, full_name, created_at').order('created_at', { ascending: false }).limit(5),
   ]);
 
   if (hospitalsRes.error) console.error("Error fetching hospitals count:", hospitalsRes.error);
@@ -20,6 +21,8 @@ export default async function AdminDashboard() {
   const treatmentsCount = treatmentsRes.count || 0;
   const destinationsCount = destinationsRes.count || 0;
   const leadsCount = leadsRes.count || 0;
+
+  const recentPatients = patientsRes.data || [];
 
   const statCards = [
     { title: "Total Hospitals", count: hospitalsCount || 0, icon: "local_hospital", color: "bg-blue-500", link: "/admin/hospitals" },
@@ -104,6 +107,50 @@ export default async function AdminDashboard() {
               <span className="text-sm text-slate-500">Today</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Recent Registrations Table */}
+      <div className="mt-8 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-slate-900">Recent Patient Registrations</h2>
+          <Link href="/admin/patients" className="text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+            View All Patients
+          </Link>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 text-sm font-semibold uppercase tracking-wider">
+                <th className="p-4">Patient Name</th>
+                <th className="p-4">Email Address</th>
+                <th className="p-4">Registered Date</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {recentPatients.length > 0 ? (
+                recentPatients.map((patient) => (
+                  <tr key={patient.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="p-4">
+                      <div className="font-bold text-slate-900">{patient.full_name || 'No Name'}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="text-sm text-slate-600">{patient.email}</div>
+                    </td>
+                    <td className="p-4 text-sm text-slate-500">
+                      {new Date(patient.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={3} className="p-8 text-center text-slate-500">
+                    No recent registrations found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
