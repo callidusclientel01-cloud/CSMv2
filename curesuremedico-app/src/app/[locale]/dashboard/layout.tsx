@@ -13,11 +13,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) {
         router.push("/login");
       } else {
-        setLoading(false);
+        // Verify that the user's profile still exists in the database
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('id', session.user.id)
+          .single();
+
+        if (error || !profile) {
+          // If the profile was deleted by an admin, force logout
+          await supabase.auth.signOut();
+          router.push("/login");
+        } else {
+          setLoading(false);
+        }
       }
     });
 
