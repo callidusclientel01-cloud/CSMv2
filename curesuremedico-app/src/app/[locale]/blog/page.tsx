@@ -161,8 +161,8 @@ function BlogContent() {
           ];
         }
         
-        // Filter out posts that have no content
-        finalPosts = finalPosts.filter(post => post.content && post.content.trim().length > 0);
+        // Removing content filter to allow posts without content to render
+        // finalPosts = finalPosts.filter(post => post.content && post.content.trim().length > 0);
         
         setPosts(finalPosts);
       } finally {

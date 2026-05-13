@@ -4,6 +4,7 @@ import Link from "next/link";
 import { supabase } from "@/utils/supabaseClient";
 import Papa from "papaparse";
 import toast from "react-hot-toast";
+import { getValidIcon } from "@/utils/iconMapper";
 
 export default function AdminTreatments() {
   const [treatments, setTreatments] = useState<any[]>([]);
@@ -121,7 +122,9 @@ export default function AdminTreatments() {
                     <td className="p-4">
                       <div className="flex items-center">
                         <div className="w-10 h-10 rounded-full bg-teal-50 text-teal-600 mr-3 flex-shrink-0 flex items-center justify-center">
-                          <span className="material-symbols-outlined">{treatment.icon_name || 'medical_services'}</span>
+                          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+                            {getValidIcon(treatment.icon_name)}
+                          </span>
                         </div>
                         <div className="font-bold text-slate-900">{treatment.name}</div>
                       </div>

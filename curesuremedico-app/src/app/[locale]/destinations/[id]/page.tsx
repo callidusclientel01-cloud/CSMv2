@@ -1,8 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 
 interface Hospital {
@@ -50,137 +46,110 @@ const fallbackDestination: Destination = {
   ]
 };
 
-export default function DestinationDetailsPage() {
-  const params = useParams<{ id: string }>();
-  const destinationId = params?.id;
-  const searchParams = useSearchParams();
-  const isPreview = searchParams.get('preview') === 'true';
+type Props = {
+  params: Promise<{ locale: string; id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
-  const [destination, setDestination] = useState<Destination | null>(null);
-  const [hospitals, setHospitals] = useState<Hospital[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function DestinationDetailsPage(props: Props) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+  const destinationId = params.id;
+  const isPreview = searchParams.preview === 'true';
 
-  useEffect(() => {
-    async function loadData() {
-      if (!destinationId) return;
-      try {
-        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
-        const showDrafts = isPreview && isAdmin;
+  let destination: Destination | null = null;
+  let hospitals: Hospital[] = [];
 
-        // Fetch Destination
-        let destQuery = supabase.from("destinations").select("*").eq("slug", destinationId);
-        if (!showDrafts) {
-          destQuery = destQuery.eq('status', 'published');
-        }
-        const { data: destData } = await destQuery.maybeSingle();
+  try {
+    let destQuery = supabase.from("destinations").select("*").eq("slug", destinationId);
+    if (!isPreview) {
+      destQuery = destQuery.eq('status', 'published');
+    }
+    const { data: destData } = await destQuery.maybeSingle();
 
-        let finalDest = fallbackDestination;
-        if (destData) {
-          const parsedData = { ...destData };
-          if (typeof parsedData.key_specialists === 'string') {
-             try { parsedData.key_specialists = JSON.parse(parsedData.key_specialists) } catch(e){}
-          }
-          if (typeof parsedData.why_choose_us === 'string') {
-             try { parsedData.why_choose_us = JSON.parse(parsedData.why_choose_us) } catch(e){}
-          }
-          finalDest = parsedData;
-        }
+    let finalDest = fallbackDestination;
+    if (destData) {
+      const parsedData = { ...destData };
+      if (typeof parsedData.key_specialists === 'string') {
+          try { parsedData.key_specialists = JSON.parse(parsedData.key_specialists) } catch(e){}
+      }
+      if (typeof parsedData.why_choose_us === 'string') {
+          try { parsedData.why_choose_us = JSON.parse(parsedData.why_choose_us) } catch(e){}
+      }
+      finalDest = parsedData;
+    }
+    
+    destination = finalDest;
+
+    // Fetch Hospitals in this country
+    if (finalDest && finalDest.country_name) {
+      let hospQuery = supabase.from("hospitals").select("*").eq("country", finalDest.country_name);
+      if (!isPreview) {
+        hospQuery = hospQuery.eq('status', 'published');
+      }
+      const { data: hospData } = await hospQuery;
         
-        setDestination(finalDest);
-
-        // Fetch Hospitals in this country
-        if (finalDest && finalDest.country_name) {
-          let hospQuery = supabase.from("hospitals").select("*").eq("country", finalDest.country_name);
-          if (!showDrafts) {
-            hospQuery = hospQuery.eq('status', 'published');
-          }
-          const { data: hospData } = await hospQuery;
-            
-          if (hospData && hospData.length > 0) {
-             const parsedHospitals = hospData.map(h => {
-               const parsed = { ...h };
-               if (typeof parsed.accreditations === 'string') {
-                 try { parsed.accreditations = JSON.parse(parsed.accreditations); } catch(e) {}
-               }
-               if (typeof parsed.features === 'string') {
-                 try { parsed.features = JSON.parse(parsed.features); } catch(e) {}
-               }
-               return parsed;
-             });
-             setHospitals(parsedHospitals);
-          } else {
-             // Fallback hospitals matched with this country to replicate the /hospitals page behavior
-             const fallbackHospitals = [
-                {
-                  id: "1",
-                  slug: "apollo-health-city",
-                  name: "Apollo Health City",
-                  city: "Hyderabad, Telangana",
-                  country: "India",
-                  rating: 4.9,
-                  reviews_count: 1200,
-                  accreditations: ["JCI", "NABH"],
-                  specialties: ["Cardiology", "Organ Transplant", "Robotic Surgery"],
-                  description: "",
-                  image_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuAhS8wv2mp2q20ScsT9B3h8Re5YosDUpM2tIXUrV7uL7Qbdf2YW3WasMawumIuMYycUQPQsaiO5b-ZD538kBkzzCSuWFcWMNcDlm6TAwxQGrqP0eaCpqfMHpDmxB9P2UxFEe-qrgGzJ5Mgvr904FTF0fGx2V05a2olQp-eYWuOTcwvx6UfYx98rjF8cUPQ7akx58ZTpz0xG3VNGnxCHUrhgs2Taodvb_ESb_TkkZt1Jc-beZ_0fPMc5d3oz41wMS6H_XNp1KGmb8_c",
-                  logo_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDM1TwXGSRsaOT7-_SAM7r6uu7aEA3l4PDMUoXtyNY_61OOoE48eXkBpOKHyNdxCFxQeyJtd1mhAA-INJXhtTfOGGzOG3b_HtuLB4KBZUoWHfulGdEe-opj7al0e_-mdIR54gF8hKAUkTD6uSiYMhRoagXZIYn796GNPZZUalhA0qI0JA1DKCr556_m5XJjNdpfQ7seLKOb8Ze5afcuCsxMgI4XKbCLIKfckZPh68zvXOyLeTunOenTkhjoXG3UcpvFXCuQlC987_8",
-                  features: ["International Patient Wing", "24/7 Virtual Support"],
-                  doctor_count: "200+ Specialists"
-                },
-                {
-                  id: "2",
-                  slug: "fortis-memorial-research-institute",
-                  name: "Fortis Memorial Research Institute",
-                  city: "Gurgaon, Delhi NCR",
-                  country: "India",
-                  rating: 4.8,
-                  reviews_count: 850,
-                  accreditations: ["JCI", "NABH"],
-                  specialties: ["Oncology", "Neuroscience", "Orthopedics"],
-                  description: "",
-                  image_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRP9T0WEEMHFoN1jKmyvG2UI3BP0FZWA4B9ApTAFt7UzOU4wKMawG8LyTvngvRciqTFwluL6DnYBPBiDTs4CCyQbn3xp8N_5Lizbzuq2OeSOvJp0PQS4V8LMk3uTA_e0pqyvgxH9l4QRQCtGNDAMKPhcSE8I-x82kz8H6bsYsENk9B66lruJq2N3vT0uDwGYNBosV5ZDVTbp2kQ_32vvBpUXe5hYvK1FYgh812dY6055Kt5JNmVd6rOKdTmaJzxj_jo8rELV9Jlmk",
-                  logo_url: "",
-                  features: ["Advanced Robotic Center", "Concierge Travel Desk"],
-                  doctor_count: "150+ Specialists"
-                },
-                {
-                  id: "3",
-                  slug: "medanta-the-medicity",
-                  name: "Medanta - The Medicity",
-                  city: "Gurugram, Haryana",
-                  country: "India",
-                  rating: 4.7,
-                  reviews_count: 920,
-                  accreditations: ["NABH"],
-                  specialties: ["Cardiology", "Transplants", "Gastroenterology"],
-                  description: "",
-                  image_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuAFWOdU9YR-5Qy2OQgu66Tfkz9PKOKFDsh0b5i0KPjAx0HDYQBEP0285Va_aYwjVVtMbTYwkMZjWwgLx6riRm08BU06CxVQTpKHVfonH99rydaX7JqHaZ8SXvpbb8wK0TXe1Q0h1_At_4qgTFh5Bg7GCyHW1hrdoI2vGTAD9DH1sTmt-dcfRDRLBSwIobc1XaomevEgp9enDT331oe8JZJg_FwT6iDMO3dzUq4G3Ldoqq0hljZAMcvjVDp1KIZ-xBzJ9HZ5LX1yQ7I",
-                  logo_url: "",
-                  features: ["Integrated Wellness Suites", "Multilingual Translation Support"],
-                  doctor_count: "300+ Specialists"
-                }
-             ];
-             
-             setHospitals(fallbackHospitals.filter(h => h.country === finalDest?.country_name));
-          }
-        }
-        
-      } finally {
-        setLoading(false);
+      if (hospData && hospData.length > 0) {
+          const parsedHospitals = hospData.map(h => {
+            const parsed = { ...h };
+            if (typeof parsed.accreditations === 'string') {
+              try { parsed.accreditations = JSON.parse(parsed.accreditations); } catch(e) {}
+            }
+            if (typeof parsed.features === 'string') {
+              try { parsed.features = JSON.parse(parsed.features); } catch(e) {}
+            }
+            return parsed;
+          });
+          hospitals = parsedHospitals;
+      } else {
+          const fallbackHospitals = [
+            {
+              id: "1",
+              slug: "apollo-health-city",
+              name: "Apollo Health City",
+              city: "Hyderabad, Telangana",
+              country: "India",
+              accreditations: ["JCI", "NABH"],
+              image_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuAhS8wv2mp2q20ScsT9B3h8Re5YosDUpM2tIXUrV7uL7Qbdf2YW3WasMawumIuMYycUQPQsaiO5b-ZD538kBkzzCSuWFcWMNcDlm6TAwxQGrqP0eaCpqfMHpDmxB9P2UxFEe-qrgGzJ5Mgvr904FTF0fGx2V05a2olQp-eYWuOTcwvx6UfYx98rjF8cUPQ7akx58ZTpz0xG3VNGnxCHUrhgs2Taodvb_ESb_TkkZt1Jc-beZ_0fPMc5d3oz41wMS6H_XNp1KGmb8_c",
+              features: ["International Patient Wing", "24/7 Virtual Support"],
+              doctor_count: "200+ Specialists"
+            },
+            {
+              id: "2",
+              slug: "fortis-memorial-research-institute",
+              name: "Fortis Memorial Research Institute",
+              city: "Gurgaon, Delhi NCR",
+              country: "India",
+              accreditations: ["JCI", "NABH"],
+              image_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRP9T0WEEMHFoN1jKmyvG2UI3BP0FZWA4B9ApTAFt7UzOU4wKMawG8LyTvngvRciqTFwluL6DnYBPBiDTs4CCyQbn3xp8N_5Lizbzuq2OeSOvJp0PQS4V8LMk3uTA_e0pqyvgxH9l4QRQCtGNDAMKPhcSE8I-x82kz8H6bsYsENk9B66lruJq2N3vT0uDwGYNBosV5ZDVTbp2kQ_32vvBpUXe5hYvK1FYgh812dY6055Kt5JNmVd6rOKdTmaJzxj_jo8rELV9Jlmk",
+              features: ["Advanced Robotic Center", "Concierge Travel Desk"],
+              doctor_count: "150+ Specialists"
+            },
+            {
+              id: "3",
+              slug: "medanta-the-medicity",
+              name: "Medanta - The Medicity",
+              city: "Gurugram, Haryana",
+              country: "India",
+              accreditations: ["NABH"],
+              image_url: "https://lh3.googleusercontent.com/aida-public/AB6AXuAFWOdU9YR-5Qy2OQgu66Tfkz9PKOKFDsh0b5i0KPjAx0HDYQBEP0285Va_aYwjVVtMbTYwkMZjWwgLx6riRm08BU06CxVQTpKHVfonH99rydaX7JqHaZ8SXvpbb8wK0TXe1Q0h1_At_4qgTFh5Bg7GCyHW1hrdoI2vGTAD9DH1sTmt-dcfRDRLBSwIobc1XaomevEgp9enDT331oe8JZJg_FwT6iDMO3dzUq4G3Ldoqq0hljZAMcvjVDp1KIZ-xBzJ9HZ5LX1yQ7I",
+              features: ["Integrated Wellness Suites", "Multilingual Translation Support"],
+              doctor_count: "300+ Specialists"
+            }
+          ];
+          
+          hospitals = fallbackHospitals.filter(h => h.country === finalDest?.country_name);
       }
     }
-    loadData();
-  }, [destinationId, isPreview]);
-
-  if (loading) {
-    return <main className="pt-36 px-8 text-center min-h-screen">Loading destination...</main>;
+  } catch (err) {
+    console.error("Error loading destination data:", err);
   }
 
   if (!destination) {
     return (
       <main className="pt-36 px-8 text-center space-y-4 min-h-screen">
         <p className="text-on-surface-variant">Destination not found.</p>
-        <Link href="/destinations" className="text-primary font-bold hover:underline">
+        <Link href={`/${params.locale}/destinations`} className="text-primary font-bold hover:underline">
           Back to destinations
         </Link>
       </main>
@@ -191,7 +160,7 @@ export default function DestinationDetailsPage() {
     <main className="bg-surface text-on-surface">
       {/* Back link */}
       <div className="absolute z-20 top-24 left-8">
-        <Link href="/destinations" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white font-bold hover:bg-white/30 transition-colors shadow-sm">
+        <Link href={`/${params.locale}/destinations`} className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white font-bold hover:bg-white/30 transition-colors shadow-sm">
           <span className="material-symbols-outlined text-[18px]">arrow_back</span>
           Back to destinations
         </Link>
@@ -219,10 +188,10 @@ export default function DestinationDetailsPage() {
               {destination.description || fallbackDestination.description}
             </p>
             <div className="mt-8 flex items-center gap-4">
-              <Link href="/quote" className="bg-white text-primary px-8 py-3 rounded-full font-bold shadow-lg hover:bg-slate-50 transition-all inline-block text-center">
+              <Link href={`/${params.locale}/quote`} className="bg-white text-primary px-8 py-3 rounded-full font-bold shadow-lg hover:bg-slate-50 transition-all inline-block text-center">
                 Book Consultation
               </Link>
-              <Link href="/treatments" className="text-white border border-white/40 px-8 py-3 rounded-full font-bold hover:bg-white/10 transition-all inline-block text-center">
+              <Link href={`/${params.locale}/treatments`} className="text-white border border-white/40 px-8 py-3 rounded-full font-bold hover:bg-white/10 transition-all inline-block text-center">
                 Explore Treatments
               </Link>
             </div>
@@ -274,7 +243,7 @@ export default function DestinationDetailsPage() {
                         </>
                       )}
                     </ul>
-                    <Link href={`/hospitals/${hosp.slug || hosp.id}`} className="mt-auto w-full py-3 rounded-xl border border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors text-center inline-block">
+                    <Link href={`/${params.locale}/hospitals/${hosp.slug || hosp.id}`} className="mt-auto w-full py-3 rounded-xl border border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors text-center inline-block">
                       Request Details
                     </Link>
                   </div>
@@ -284,7 +253,7 @@ export default function DestinationDetailsPage() {
           ) : (
             <div className="p-8 text-center border-2 border-dashed border-outline-variant/30 rounded-xl">
                <p className="text-on-surface-variant text-lg">No designated hospitals found for this region yet.</p>
-               <Link href="/hospitals" className="mt-4 inline-block text-primary font-bold hover:underline">View all hospitals</Link>
+               <Link href={`/${params.locale}/hospitals`} className="mt-4 inline-block text-primary font-bold hover:underline">View all hospitals</Link>
             </div>
           )}
         </div>
@@ -345,7 +314,7 @@ export default function DestinationDetailsPage() {
               <h2 className="text-4xl font-bold tracking-tight text-on-surface">Popular Treatments</h2>
               <p className="text-on-surface-variant mt-2">Specialized procedures with the highest clinical outcomes.</p>
             </div>
-            <Link href="/treatments" className="text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all">
+            <Link href={`/${params.locale}/treatments`} className="text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all">
               View All <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
           </div>
