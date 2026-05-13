@@ -6,6 +6,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import { useLocale } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
+import { getValidIcon } from "@/utils/iconMapper";
 
 interface Procedure {
   name: string;
@@ -164,31 +165,31 @@ export default function TreatmentDetailsPage() {
         </div>
         <div className="relative z-10 max-w-screen-2xl mx-auto px-8 w-full">
           <div className="max-w-4xl space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-fixed text-on-primary-fixed rounded-full text-sm font-semibold tracking-wide uppercase">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-fixed text-on-primary-fixed rounded-full text-xs md:text-sm font-semibold tracking-wide uppercase">
               <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
-                {treatment.icon_name || 'medical_services'}
+                {getValidIcon(treatment.icon_name)}
               </span>
               Excellence in {getLocalizedField(treatment, 'name', locale)} Care
             </div>
-            <h1 className="text-6xl lg:text-8xl font-extrabold tracking-tighter text-primary leading-[1.1]">
+            <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold tracking-tighter text-primary leading-[1.1]">
               Advanced {getLocalizedField(treatment, 'name', locale)}
             </h1>
-            <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-on-surface">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-on-surface">
               {getLocalizedField(treatment, 'overview_title', locale) || "Specialized Surgery & Global Care"}
             </h2>
             <p className="text-xl text-on-surface-variant max-w-2xl leading-relaxed">
               {getLocalizedField(treatment, 'short_description', locale) || "Access world-class specialists and JCI-accredited centers with significant cost savings. Comprehensive care from diagnosis to recovery."}
             </p>
-            <div className="flex flex-wrap gap-6 pt-4">
-              <div className="flex items-center gap-2 text-secondary font-semibold">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 pt-4">
+              <div className="flex items-center gap-2 text-secondary font-semibold text-sm sm:text-base">
                 <span className="material-symbols-outlined">verified</span>
                 JCI Accredited Centers
               </div>
-              <div className="flex items-center gap-2 text-secondary font-semibold">
+              <div className="flex items-center gap-2 text-secondary font-semibold text-sm sm:text-base">
                 <span className="material-symbols-outlined">payments</span>
                 Transparent Pricing
               </div>
-              <Link href="/quote" className="bg-[#005da7] text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 active:scale-95 duration-200 transition-all shadow-lg">
+              <Link href="/quote" className="w-full sm:w-auto text-center bg-[#005da7] text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 active:scale-95 duration-200 transition-all shadow-lg mt-2 sm:mt-0">
                 Get Your Treatment Plan
               </Link>
             </div>
@@ -212,18 +213,18 @@ export default function TreatmentDetailsPage() {
               <h2 className="text-4xl font-bold tracking-tight text-on-surface">Global Excellence in Destination {getLocalizedField(treatment, 'name', locale)}</h2>
               <div className="text-lg text-on-surface-variant leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: getLocalizedField(treatment, 'overview_description', locale) || fallbackTreatment.overview_description }} />
               
-              <div className="flex gap-8 pt-4">
+              <div className="grid grid-cols-3 gap-2 md:gap-8 pt-4">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">{treatment.success_rate || "15k+"}</div>
-                  <div className="text-sm text-on-surface-variant">Successful Surgeries</div>
+                  <div className="text-xl md:text-3xl font-bold text-primary">{treatment.success_rate || "15k+"}</div>
+                  <div className="text-xs md:text-sm text-on-surface-variant">Successful Surgeries</div>
                 </div>
-                <div className="text-center border-x border-outline-variant/30 px-8">
-                  <div className="text-3xl font-bold text-primary">{treatment.quick_response_time || "24h"}</div>
-                  <div className="text-sm text-on-surface-variant">Quick Response</div>
+                <div className="text-center border-x border-outline-variant/30 px-2 md:px-8">
+                  <div className="text-xl md:text-3xl font-bold text-primary">{treatment.quick_response_time || "24h"}</div>
+                  <div className="text-xs md:text-sm text-on-surface-variant">Quick Response</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">{treatment.cost_saving || "80%"}</div>
-                  <div className="text-sm text-on-surface-variant">Cost Saving</div>
+                  <div className="text-xl md:text-3xl font-bold text-primary">{treatment.cost_saving || "80%"}</div>
+                  <div className="text-xs md:text-sm text-on-surface-variant">Cost Saving</div>
                 </div>
               </div>
             </div>
@@ -250,7 +251,7 @@ export default function TreatmentDetailsPage() {
               proceduresToRender.map((proc, idx) => (
                 <div key={idx} className="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group border border-transparent hover:border-primary/10 flex flex-col items-start">
                   <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                    <span className="material-symbols-outlined">{proc.icon || 'medical_services'}</span>
+                    <span className="material-symbols-outlined">{getValidIcon(proc.icon)}</span>
                   </div>
                   <h3 className="text-xl font-bold mb-3 text-on-surface">{proc.name}</h3>
                   <p className="text-on-surface-variant mb-6 text-sm leading-relaxed flex-1">{proc.description}</p>

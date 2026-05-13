@@ -9,6 +9,7 @@ import { supabase } from "@/utils/supabaseClient";
 import { useCurrency } from "@/components/CurrencyProvider";
 import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
+import { getValidIcon } from "@/utils/iconMapper";
 
 // Mock data (This will later come from Supabase)
 const PACKAGES = [
@@ -485,7 +486,7 @@ function HomeContent() {
       {treatments.map((trt, idx) => (
         <div key={trt.id || idx} className="bg-surface-container-lowest p-8 rounded-2xl no-line-card shadow-sm cursor-pointer hover:border-primary border border-transparent transition-all" onClick={() => router.push(`/treatments/${trt.slug || trt.id}`)}>
           <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
-            <span className="material-symbols-outlined">{trt.icon_name || 'medical_services'}</span>
+            <span className="material-symbols-outlined">{getValidIcon(trt.icon_name)}</span>
           </div>
           <h3 className="text-xl font-bold text-primary mb-2">{getLocalizedField(trt, 'name', locale)}</h3>
           <p className="text-sm text-on-surface-variant mb-6">{getLocalizedField(trt, 'short_description', locale)}</p>

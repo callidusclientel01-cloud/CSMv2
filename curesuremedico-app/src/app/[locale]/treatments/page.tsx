@@ -9,6 +9,7 @@ import { useCurrency } from "@/components/CurrencyProvider";
 import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
 import Pagination from "@/components/Pagination";
+import { getValidIcon } from "@/utils/iconMapper";
 
 interface Treatment {
   id: string;
@@ -345,7 +346,7 @@ function TreatmentsContent() {
                 <div key={treatment.id} className="group bg-surface-container-low rounded-xl p-8 hover:bg-primary hover:text-on-primary transition-all duration-300 shadow-sm border border-outline-variant/10 hover:shadow-xl">
                   <div className="w-14 h-14 rounded-lg bg-surface-container-lowest flex items-center justify-center mb-6 shadow-sm group-hover:bg-white/20">
                     <span className="material-symbols-outlined text-primary text-3xl group-hover:text-white" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      {treatment.icon_name || "medical_services"}
+                      {getValidIcon(treatment.icon_name)}
                     </span>
                   </div>
                   <h3 className="text-2xl font-bold mb-3">{getLocalizedField(treatment, 'name', locale)}</h3>
