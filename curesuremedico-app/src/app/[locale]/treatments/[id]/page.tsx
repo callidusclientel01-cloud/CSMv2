@@ -145,16 +145,8 @@ export default function TreatmentDetailsPage() {
 
   return (
     <main className="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
-      {/* Back link */}
-      <div className="absolute z-20 top-24 left-8">
-        <Link href="/treatments" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white font-bold hover:bg-white/30 transition-colors">
-          <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-          Back to treatments
-        </Link>
-      </div>
-
       {/* Hero Section */}
-      <section className="relative min-h-[800px] flex items-center overflow-hidden">
+      <section className="relative min-h-[600px] md:min-h-[800px] flex items-center overflow-hidden pt-36 pb-16">
         <div className="absolute inset-0 z-0">
           <img 
             className="w-full h-full object-cover object-center" 
@@ -163,8 +155,15 @@ export default function TreatmentDetailsPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-surface via-surface/90 to-transparent"></div>
         </div>
-        <div className="relative z-10 max-w-screen-2xl mx-auto px-8 w-full">
-          <div className="max-w-4xl space-y-8">
+        <div className="relative z-10 max-w-screen-2xl mx-auto px-4 md:px-8 w-full">
+          <div className="max-w-4xl space-y-6 md:space-y-8">
+            {/* Back link */}
+            <div className="mb-4 md:mb-8">
+              <Link href="/treatments" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-on-surface font-bold hover:bg-white/30 transition-colors shadow-sm border border-outline-variant/20">
+                <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                Back to treatments
+              </Link>
+            </div>
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-fixed text-on-primary-fixed rounded-full text-xs md:text-sm font-semibold tracking-wide uppercase">
               <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
                 {getValidIcon(treatment.icon_name)}
