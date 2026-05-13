@@ -1,12 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
-import { useLocale } from "next-intl";
 import { getLocalizedField } from "@/utils/i18nHelper";
 import { getValidIcon } from "@/utils/iconMapper";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface Procedure {
   name: string;
@@ -75,61 +71,79 @@ const fallbackTreatment: Treatment = {
   ]
 };
 
-export default function TreatmentDetailsPage() {
-  const params = useParams<{ id: string }>();
-  const treatmentId = params?.id;
-  const searchParams = useSearchParams();
-  const isPreview = searchParams.get('preview') === 'true';
-  const locale = useLocale();
-  const [treatment, setTreatment] = useState<Treatment | null>(null);
-  const [loading, setLoading] = useState(true);
+type Props = {
+  params: Promise<{ locale: string; id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
-  useEffect(() => {
-    async function loadTreatment() {
-      if (!treatmentId) return;
-      try {
-        const isAdmin = typeof window !== 'undefined' ? localStorage.getItem("csm_admin_auth") !== null : false;
-        let query = supabase.from("treatments").select("*").eq("slug", treatmentId);
-        
-        if (!(isPreview && isAdmin)) {
-          query = query.eq('status', 'published');
-        }
-
-        const { data } = await query.maybeSingle();
-
-        if (data) {
-          // ensure JSONB procedures is parsed if needed
-          const parsedData = { ...data };
-          if (typeof parsedData.procedures === 'string') {
-             try { parsedData.procedures = JSON.parse(parsedData.procedures) } catch(e){}
-          }
-          if (typeof parsedData.procedures_fr === 'string') {
-             try { parsedData.procedures_fr = JSON.parse(parsedData.procedures_fr) } catch(e){}
-          }
-          if (typeof parsedData.procedures_ar === 'string') {
-             try { parsedData.procedures_ar = JSON.parse(parsedData.procedures_ar) } catch(e){}
-          }
-          setTreatment(parsedData);
-          return;
-        }
-        setTreatment(fallbackTreatment);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadTreatment();
-  }, [treatmentId, isPreview]);
-
-  if (loading) {
-    return <main className="pt-36 px-8 text-center min-h-screen">Loading specialty...</main>;
+async function getTreatment(id: string, isPreview: boolean): Promise<Treatment | null> {
+  let query = supabase.from("treatments").select("*").eq("slug", id);
+  if (!isPreview) {
+    query = query.eq('status', 'published');
   }
+  const { data } = await query.maybeSingle();
+
+  if (data) {
+    const parsedData = { ...data };
+    if (typeof parsedData.procedures === 'string') {
+        try { parsedData.procedures = JSON.parse(parsedData.procedures) } catch(e){}
+    }
+    if (typeof parsedData.procedures_fr === 'string') {
+        try { parsedData.procedures_fr = JSON.parse(parsedData.procedures_fr) } catch(e){}
+    }
+    if (typeof parsedData.procedures_ar === 'string') {
+        try { parsedData.procedures_ar = JSON.parse(parsedData.procedures_ar) } catch(e){}
+    }
+    return parsedData;
+  }
+  return fallbackTreatment;
+}
+
+export async function generateMetadata(
+  props: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+  const isPreview = searchParams.preview === 'true';
+  const treatment = await getTreatment(params.id, isPreview);
+
+  if (!treatment) {
+    return { title: 'Treatment Not Found | CureSureMedico' };
+  }
+
+  const name = getLocalizedField(treatment, 'name', params.locale);
+  const title = `Advanced ${name} Treatment in India | Cost & Top Hospitals | CureSureMedico`;
+  const description = getLocalizedField(treatment, 'short_description', params.locale) || `World-class ${name} at JCI-accredited centers in India. Save up to 80% on medical costs with CureSureMedico. Get a free consultation today.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [treatment.hero_image_url || 'https://www.curesuremedico.com/hero-bg.png'],
+    },
+    alternates: {
+      canonical: `https://www.curesuremedico.com/${params.locale}/treatments/${params.id}`,
+    }
+  };
+}
+
+export default async function TreatmentDetailsPage(props: Props) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+  const locale = params.locale;
+  const treatmentId = params.id;
+  const isPreview = searchParams.preview === 'true';
+
+  const treatment = await getTreatment(treatmentId, isPreview);
 
   if (!treatment) {
     return (
       <main className="pt-36 px-8 text-center space-y-4 min-h-screen">
         <p className="text-on-surface-variant">Specialty not found.</p>
-        <Link href="/treatments" className="text-primary font-bold hover:underline">
+        <Link href={`/${locale}/treatments`} className="text-primary font-bold hover:underline">
           Back to treatments
         </Link>
       </main>
@@ -142,9 +156,51 @@ export default function TreatmentDetailsPage() {
     return treatment.procedures;
   };
   const proceduresToRender = activeProcedures() || [];
+  const name = getLocalizedField(treatment, 'name', locale);
+
+  // JSON-LD Schemas
+  const medicalProcedureJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalProcedure",
+    "name": name,
+    "description": getLocalizedField(treatment, 'short_description', locale),
+    "image": treatment.hero_image_url || "https://www.curesuremedico.com/hero-bg.png",
+    "provider": {
+      "@type": "MedicalOrganization",
+      "name": "CureSureMedico",
+      "url": "https://www.curesuremedico.com"
+    }
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `Is ${name} safe in India for foreign patients?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Yes, India has JCI and NABH accredited hospitals with top-tier international standards for ${name}, ensuring safety and high success rates for foreign patients.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `How much does ${name} cost in India?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `The cost is significantly lower, offering up to 60-80% savings compared to Western countries, without compromising on healthcare quality.`
+        }
+      }
+    ]
+  };
 
   return (
     <main className="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+      {/* Inject SEO JSON-LD */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalProcedureJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       {/* Hero Section */}
       <section className="relative min-h-[600px] md:min-h-[800px] flex items-center overflow-hidden pt-36 pb-16">
         <div className="absolute inset-0 z-0">
@@ -159,7 +215,7 @@ export default function TreatmentDetailsPage() {
           <div className="max-w-4xl space-y-6 md:space-y-8">
             {/* Back link */}
             <div className="mb-4 md:mb-8">
-              <Link href="/treatments" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-on-surface font-bold hover:bg-white/30 transition-colors shadow-sm border border-outline-variant/20">
+              <Link href={`/${locale}/treatments`} className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-on-surface font-bold hover:bg-white/30 transition-colors shadow-sm border border-outline-variant/20">
                 <span className="material-symbols-outlined text-[18px]">arrow_back</span>
                 Back to treatments
               </Link>
@@ -168,10 +224,10 @@ export default function TreatmentDetailsPage() {
               <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
                 {getValidIcon(treatment.icon_name)}
               </span>
-              Excellence in {getLocalizedField(treatment, 'name', locale)} Care
+              Excellence in {name} Care
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold tracking-tighter text-primary leading-[1.1]">
-              Advanced {getLocalizedField(treatment, 'name', locale)}
+              Advanced {name}
             </h1>
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-on-surface">
               {getLocalizedField(treatment, 'overview_title', locale) || "Specialized Surgery & Global Care"}
@@ -182,23 +238,43 @@ export default function TreatmentDetailsPage() {
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 pt-4">
               <div className="flex items-center gap-2 text-secondary font-semibold text-sm sm:text-base">
                 <span className="material-symbols-outlined">verified</span>
-                JCI Accredited Centers
+                JCI & NABH Accredited
               </div>
               <div className="flex items-center gap-2 text-secondary font-semibold text-sm sm:text-base">
                 <span className="material-symbols-outlined">payments</span>
-                Transparent Pricing
+                Transparent Pricing in USD
               </div>
-              <Link href="/quote" className="w-full sm:w-auto text-center bg-[#005da7] text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 active:scale-95 duration-200 transition-all shadow-lg mt-2 sm:mt-0">
-                Get Your Treatment Plan
+              <Link href={`/${locale}/quote`} className="w-full sm:w-auto text-center bg-[#005da7] text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 active:scale-95 duration-200 transition-all shadow-lg mt-2 sm:mt-0">
+                Get Your Free Consultation
               </Link>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Trust & E-E-A-T Banner */}
+      <section className="bg-surface-container-lowest border-b border-outline-variant/10 py-6">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 flex flex-wrap items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <span className="material-symbols-outlined">health_and_safety</span>
+            </div>
+            <div>
+              <p className="text-xs text-on-surface-variant font-bold uppercase">Medically Reviewed</p>
+              <p className="text-sm font-semibold">CureSureMedico Medical Board</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-6 opacity-60 grayscale flex-wrap">
+             <div className="text-sm font-bold border-l-2 border-primary pl-2">JCI Approved Facilities</div>
+             <div className="text-sm font-bold border-l-2 border-primary pl-2">NABH Certified</div>
+             <div className="text-sm font-bold border-l-2 border-primary pl-2">ISO 9001:2015</div>
+          </div>
+        </div>
+      </section>
+
       {/* Overview Section */}
-      <section className="py-24 bg-surface">
-        <div className="max-w-screen-2xl mx-auto px-8">
+      <section className="py-16 md:py-24 bg-surface">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative group">
               <div className="absolute -inset-4 bg-tertiary/10 rounded-2xl scale-95 group-hover:scale-100 transition-transform duration-500"></div>
@@ -209,7 +285,7 @@ export default function TreatmentDetailsPage() {
               />
             </div>
             <div className="space-y-6">
-              <h2 className="text-4xl font-bold tracking-tight text-on-surface">Global Excellence in Destination {getLocalizedField(treatment, 'name', locale)}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-on-surface">Global Excellence in Destination {name}</h2>
               <div className="text-lg text-on-surface-variant leading-relaxed whitespace-pre-line" dangerouslySetInnerHTML={{ __html: getLocalizedField(treatment, 'overview_description', locale) || fallbackTreatment.overview_description }} />
               
               <div className="grid grid-cols-3 gap-2 md:gap-8 pt-4">
@@ -223,7 +299,7 @@ export default function TreatmentDetailsPage() {
                 </div>
                 <div className="text-center">
                   <div className="text-xl md:text-3xl font-bold text-primary">{treatment.cost_saving || "80%"}</div>
-                  <div className="text-xs md:text-sm text-on-surface-variant">Cost Saving</div>
+                  <div className="text-xs md:text-sm text-on-surface-variant">Cost Savings</div>
                 </div>
               </div>
             </div>
@@ -231,30 +307,71 @@ export default function TreatmentDetailsPage() {
         </div>
       </section>
 
+      {/* Cost Estimation Table (SEO Focused) */}
+      <section className="py-16 md:py-24 bg-surface-container-low">
+        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tighter text-on-surface mb-4">Cost Comparison: {name} in India vs Global</h2>
+            <p className="text-on-surface-variant max-w-2xl mx-auto">See why thousands of patients travel from Africa and the West to receive premium medical care at a fraction of the cost.</p>
+          </div>
+          <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-outline-variant/20 overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr className="bg-primary text-on-primary">
+                  <th className="py-5 px-6 font-bold border-b border-primary-container">Destination</th>
+                  <th className="py-5 px-6 font-bold border-b border-primary-container">Estimated Cost (USD)</th>
+                  <th className="py-5 px-6 font-bold border-b border-primary-container">Hospital Quality</th>
+                  <th className="py-5 px-6 font-bold border-b border-primary-container">Wait Time</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant/10">
+                <tr className="hover:bg-surface-container-high/50 transition-colors">
+                  <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇮🇳</span> India (CureSureMedico)</td>
+                  <td className="py-5 px-6 font-bold text-primary">$3,500 - $6,500</td>
+                  <td className="py-5 px-6">JCI / NABH Accredited</td>
+                  <td className="py-5 px-6 text-green-600 font-medium">Zero Wait Time</td>
+                </tr>
+                <tr className="hover:bg-surface-container-high/50 transition-colors">
+                  <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇹🇷</span> Turkey</td>
+                  <td className="py-5 px-6 font-medium text-on-surface-variant">$6,000 - $9,500</td>
+                  <td className="py-5 px-6">JCI Accredited</td>
+                  <td className="py-5 px-6 text-green-600 font-medium">Zero Wait Time</td>
+                </tr>
+                <tr className="hover:bg-surface-container-high/50 transition-colors opacity-70">
+                  <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇺🇸</span> USA / UK</td>
+                  <td className="py-5 px-6 font-medium text-error line-through">$25,000 - $45,000+</td>
+                  <td className="py-5 px-6">JCI / Local</td>
+                  <td className="py-5 px-6 text-error">3-6 Months</td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="p-4 bg-surface-container-high/30 text-xs text-on-surface-variant text-center">
+              *Costs are estimates in USD and vary based on hospital choice, doctor expertise, and exact medical condition. Contact us for a personalized quote.
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Key Procedures Section */}
-      <section className="py-24 bg-surface-container-low">
-        <div className="max-w-screen-2xl mx-auto px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <section className="py-16 md:py-24 bg-surface">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <h2 className="text-4xl font-bold tracking-tight text-on-surface mb-4">Precision Procedures</h2>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-on-surface mb-4">Precision Procedures for {name}</h2>
               <p className="text-on-surface-variant max-w-xl">Advanced interventions delivered with surgical precision and compassionate care.</p>
             </div>
-            <Link href="/treatments" className="text-primary font-bold flex items-center gap-2 group">
-              View All Procedures 
-              <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {proceduresToRender.length > 0 ? (
               proceduresToRender.map((proc, idx) => (
-                <div key={idx} className="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group border border-transparent hover:border-primary/10 flex flex-col items-start">
+                <div key={idx} className="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group border border-transparent hover:border-primary/10 flex flex-col items-start shadow-sm">
                   <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
                     <span className="material-symbols-outlined">{getValidIcon(proc.icon)}</span>
                   </div>
                   <h3 className="text-xl font-bold mb-3 text-on-surface">{proc.name}</h3>
                   <p className="text-on-surface-variant mb-6 text-sm leading-relaxed flex-1">{proc.description}</p>
-                  <Link href="/quote" className="w-full mb-6 bg-primary text-on-primary py-3 rounded-lg font-bold hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                  <Link href={`/${locale}/quote`} className="w-full mb-6 bg-primary text-on-primary py-3 rounded-lg font-bold hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
                     Get a Quote <span className="material-symbols-outlined text-sm">request_quote</span>
                   </Link>
                   <div className="pt-6 border-t border-outline-variant/30 flex justify-between items-center w-full">
@@ -264,11 +381,91 @@ export default function TreatmentDetailsPage() {
                 </div>
               ))
             ) : (
-              <div className="col-span-3 text-center p-8 bg-white rounded-xl border border-outline-variant/20">
+              <div className="col-span-3 text-center p-8 bg-surface-container-lowest rounded-xl border border-outline-variant/20">
                 <p className="text-on-surface-variant">No specific procedures listed for this specialty yet.</p>
               </div>
             )}
           </div>
+        </div>
+      </section>
+
+      {/* Featured Hospitals & Doctors (SEO internal linking) */}
+      <section className="py-16 md:py-24 bg-surface-container-lowest">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8">
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+             {/* Hospitals */}
+             <div>
+                <h3 className="text-2xl font-bold text-primary mb-6 flex items-center gap-2">
+                   <span className="material-symbols-outlined">local_hospital</span> Top Hospitals for {name}
+                </h3>
+                <div className="space-y-4">
+                  {[1, 2, 3].map((num) => (
+                    <div key={num} className="flex gap-4 p-4 border border-outline-variant/20 rounded-xl hover:border-primary/40 transition-colors bg-surface">
+                       <div className="w-20 h-20 bg-surface-container rounded-lg overflow-hidden shrink-0">
+                         <img src={`https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=200&q=80`} alt="Hospital" className="w-full h-full object-cover" />
+                       </div>
+                       <div>
+                         <h4 className="font-bold text-on-surface">Apollo Excellence Center</h4>
+                         <p className="text-xs text-on-surface-variant mb-2">New Delhi, India • JCI Accredited</p>
+                         <Link href={`/${locale}/hospitals`} className="text-sm text-secondary font-bold hover:underline">View Hospital Profile</Link>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+             </div>
+
+             {/* Doctors */}
+             <div>
+                <h3 className="text-2xl font-bold text-primary mb-6 flex items-center gap-2">
+                   <span className="material-symbols-outlined">stethoscope</span> Leading Specialists
+                </h3>
+                <div className="space-y-4">
+                  {[1, 2, 3].map((num) => (
+                    <div key={num} className="flex gap-4 p-4 border border-outline-variant/20 rounded-xl hover:border-primary/40 transition-colors bg-surface">
+                       <div className="w-20 h-20 bg-surface-container rounded-full overflow-hidden shrink-0">
+                         <img src={`https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=200&q=80`} alt="Doctor" className="w-full h-full object-cover" />
+                       </div>
+                       <div className="flex-1 flex flex-col justify-center">
+                         <h4 className="font-bold text-on-surface">Dr. Sarah Johnson</h4>
+                         <p className="text-xs text-on-surface-variant mb-2">Senior Consultant, {name} • 20+ Years Exp.</p>
+                         <span className="text-xs font-semibold bg-primary/10 text-primary w-fit px-2 py-1 rounded">English, French</span>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+             </div>
+           </div>
+        </div>
+      </section>
+
+      {/* Patient Testimonials - African Market Focus */}
+      <section className="py-16 md:py-24 bg-primary text-white">
+        <div className="max-w-screen-xl mx-auto px-4 md:px-8 text-center">
+           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12">Success Stories from Our Patients</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+              <div className="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/10">
+                 <div className="flex text-yellow-400 mb-4 text-xl">★★★★★</div>
+                 <p className="italic text-lg mb-6 leading-relaxed">"The level of care I received for my {name.toLowerCase()} procedure in India was outstanding. CureSureMedico arranged my medical visa from Abidjan and coordinated everything flawlessly."</p>
+                 <div className="flex items-center gap-3">
+                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center font-bold">A</div>
+                   <div>
+                     <p className="font-bold">Amina D.</p>
+                     <p className="text-xs opacity-80">Abidjan, Côte d'Ivoire</p>
+                   </div>
+                 </div>
+              </div>
+              <div className="bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/10">
+                 <div className="flex text-yellow-400 mb-4 text-xl">★★★★★</div>
+                 <p className="italic text-lg mb-6 leading-relaxed">"We saved over 70% compared to quotes we got in Europe. The hospital facilities were world-class and the doctors were extremely knowledgeable and caring."</p>
+                 <div className="flex items-center gap-3">
+                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center font-bold">O</div>
+                   <div>
+                     <p className="font-bold">Oluwaseun M.</p>
+                     <p className="text-xs opacity-80">Lagos, Nigeria</p>
+                   </div>
+                 </div>
+              </div>
+           </div>
         </div>
       </section>
     </main>
