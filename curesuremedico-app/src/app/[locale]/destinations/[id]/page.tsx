@@ -184,9 +184,10 @@ export default async function DestinationDetailsPage(props: Props) {
             <h1 className="text-6xl md:text-7xl font-extrabold text-white tracking-tighter mb-6 leading-[1.1]">
               Medical Excellence in {destination.country_name}
             </h1>
-            <p className="text-xl text-white/90 font-medium max-w-lg leading-relaxed">
-              {destination.description || fallbackDestination.description}
-            </p>
+            <div 
+              className="text-xl text-white/90 font-medium max-w-lg leading-relaxed [&>p]:mb-0"
+              dangerouslySetInnerHTML={{ __html: destination.description || fallbackDestination.description }}
+            />
             <div className="mt-8 flex items-center gap-4">
               <Link href={`/${params.locale}/quote`} className="bg-white text-primary px-8 py-3 rounded-full font-bold shadow-lg hover:bg-slate-50 transition-all inline-block text-center">
                 Book Consultation

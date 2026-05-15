@@ -11,6 +11,40 @@ interface Procedure {
   icon: string;
 }
 
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface CostComparison {
+  destination: string;
+  flag: string;
+  cost: string;
+  quality: string;
+  wait_time: string;
+  highlight?: boolean;
+  strikethrough?: boolean;
+}
+
+interface FeaturedDoctor {
+  name: string;
+  specialty: string;
+  experience: string;
+  languages: string[];
+  image: string;
+}
+
+interface Hospital {
+  id: number;
+  name: string;
+  slug: string;
+  city: string;
+  country: string;
+  image_url: string;
+  accreditations: string[] | string;
+  specialties?: string | string[];
+}
+
 interface Treatment {
   id: string;
   slug?: string;
@@ -35,6 +69,11 @@ interface Treatment {
   procedures: Procedure[];
   procedures_fr?: Procedure[];
   procedures_ar?: Procedure[];
+  faqs?: FAQ[];
+  faqs_fr?: FAQ[];
+  faqs_ar?: FAQ[];
+  cost_comparison?: CostComparison[];
+  featured_doctors?: FeaturedDoctor[];
 }
 
 const fallbackTreatment: Treatment = {
@@ -93,6 +132,21 @@ async function getTreatment(id: string, isPreview: boolean): Promise<Treatment |
     }
     if (typeof parsedData.procedures_ar === 'string') {
         try { parsedData.procedures_ar = JSON.parse(parsedData.procedures_ar) } catch(e){}
+    }
+    if (typeof parsedData.faqs === 'string') {
+        try { parsedData.faqs = JSON.parse(parsedData.faqs) } catch(e){}
+    }
+    if (typeof parsedData.faqs_fr === 'string') {
+        try { parsedData.faqs_fr = JSON.parse(parsedData.faqs_fr) } catch(e){}
+    }
+    if (typeof parsedData.faqs_ar === 'string') {
+        try { parsedData.faqs_ar = JSON.parse(parsedData.faqs_ar) } catch(e){}
+    }
+    if (typeof parsedData.cost_comparison === 'string') {
+        try { parsedData.cost_comparison = JSON.parse(parsedData.cost_comparison) } catch(e){}
+    }
+    if (typeof parsedData.featured_doctors === 'string') {
+        try { parsedData.featured_doctors = JSON.parse(parsedData.featured_doctors) } catch(e){}
     }
     return parsedData;
   }
@@ -156,7 +210,25 @@ export default async function TreatmentDetailsPage(props: Props) {
     return treatment.procedures;
   };
   const proceduresToRender = activeProcedures() || [];
+
+  const activeFaqs = () => {
+    if (locale === 'fr' && treatment.faqs_fr && treatment.faqs_fr.length > 0) return treatment.faqs_fr;
+    if (locale === 'ar' && treatment.faqs_ar && treatment.faqs_ar.length > 0) return treatment.faqs_ar;
+    return treatment.faqs;
+  };
+  const faqsToRender = activeFaqs() || [];
+
   const name = getLocalizedField(treatment, 'name', locale);
+
+  // Fetch Hospitals related to this treatment
+  let featuredHospitals: Hospital[] = [];
+  const { data: hospitalsData } = await supabase.from('hospitals').select('id, name, slug, city, country, image_url, accreditations, specialties');
+  if (hospitalsData) {
+    featuredHospitals = hospitalsData.filter(h => {
+      // Basic check if hospital specialties string/array contains the treatment name
+      return JSON.stringify(h.specialties || '').toLowerCase().includes(treatment.name.toLowerCase());
+    }).slice(0, 3);
+  }
 
   // JSON-LD Schemas
   const medicalProcedureJsonLd = {
@@ -172,34 +244,50 @@ export default async function TreatmentDetailsPage(props: Props) {
     }
   };
 
-  const faqJsonLd = {
+  const faqJsonLd = faqsToRender.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": `Is ${name} safe in India for foreign patients?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `Yes, India has JCI and NABH accredited hospitals with top-tier international standards for ${name}, ensuring safety and high success rates for foreign patients.`
-        }
-      },
-      {
-        "@type": "Question",
-        "name": `How much does ${name} cost in India?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `The cost is significantly lower, offering up to 60-80% savings compared to Western countries, without compromising on healthcare quality.`
-        }
+    "mainEntity": faqsToRender.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
       }
-    ]
-  };
+    }))
+  } : null;
+
+  const hospitalJsonLd = featuredHospitals.map(h => ({
+    "@context": "https://schema.org",
+    "@type": "Hospital",
+    "name": h.name,
+    "image": h.image_url,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": h.city,
+      "addressCountry": h.country
+    }
+  }));
+
+  const physicianJsonLd = (treatment.featured_doctors || []).map(doc => ({
+    "@context": "https://schema.org",
+    "@type": "Physician",
+    "name": doc.name,
+    "medicalSpecialty": doc.specialty,
+    "image": doc.image
+  }));
 
   return (
     <main className="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
       {/* Inject SEO JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalProcedureJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
+      {hospitalJsonLd.map((h, i) => (
+        <script key={`h-${i}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(h) }} />
+      ))}
+      {physicianJsonLd.map((d, i) => (
+        <script key={`d-${i}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(d) }} />
+      ))}
 
       {/* Hero Section */}
       <section className="relative min-h-[600px] md:min-h-[800px] flex items-center overflow-hidden pt-36 pb-16">
@@ -325,24 +413,41 @@ export default async function TreatmentDetailsPage(props: Props) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/10">
-                <tr className="hover:bg-surface-container-high/50 transition-colors">
-                  <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇮🇳</span> India (CureSureMedico)</td>
-                  <td className="py-5 px-6 font-bold text-primary">$3,500 - $6,500</td>
-                  <td className="py-5 px-6">JCI / NABH Accredited</td>
-                  <td className="py-5 px-6 text-green-600 font-medium">Zero Wait Time</td>
-                </tr>
-                <tr className="hover:bg-surface-container-high/50 transition-colors">
-                  <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇹🇷</span> Turkey</td>
-                  <td className="py-5 px-6 font-medium text-on-surface-variant">$6,000 - $9,500</td>
-                  <td className="py-5 px-6">JCI Accredited</td>
-                  <td className="py-5 px-6 text-green-600 font-medium">Zero Wait Time</td>
-                </tr>
-                <tr className="hover:bg-surface-container-high/50 transition-colors opacity-70">
-                  <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇺🇸</span> USA / UK</td>
-                  <td className="py-5 px-6 font-medium text-error line-through">$25,000 - $45,000+</td>
-                  <td className="py-5 px-6">JCI / Local</td>
-                  <td className="py-5 px-6 text-error">3-6 Months</td>
-                </tr>
+                {treatment.cost_comparison && treatment.cost_comparison.length > 0 ? (
+                  treatment.cost_comparison.map((cost, idx) => (
+                    <tr key={idx} className={`hover:bg-surface-container-high/50 transition-colors ${cost.strikethrough ? 'opacity-70' : ''}`}>
+                      <td className="py-5 px-6 font-semibold flex items-center gap-2">
+                        <span className="text-2xl">{cost.flag}</span> {cost.destination}
+                      </td>
+                      <td className={`py-5 px-6 ${cost.highlight ? 'font-bold text-primary' : 'font-medium text-on-surface-variant'} ${cost.strikethrough ? 'text-error line-through' : ''}`}>
+                        {cost.cost}
+                      </td>
+                      <td className="py-5 px-6">{cost.quality}</td>
+                      <td className={`py-5 px-6 font-medium ${cost.strikethrough ? 'text-error' : 'text-green-600'}`}>{cost.wait_time}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <>
+                    <tr className="hover:bg-surface-container-high/50 transition-colors">
+                      <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇮🇳</span> India (CureSureMedico)</td>
+                      <td className="py-5 px-6 font-bold text-primary">$3,500 - $6,500</td>
+                      <td className="py-5 px-6">JCI / NABH Accredited</td>
+                      <td className="py-5 px-6 text-green-600 font-medium">Zero Wait Time</td>
+                    </tr>
+                    <tr className="hover:bg-surface-container-high/50 transition-colors">
+                      <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇹🇷</span> Turkey</td>
+                      <td className="py-5 px-6 font-medium text-on-surface-variant">$6,000 - $9,500</td>
+                      <td className="py-5 px-6">JCI Accredited</td>
+                      <td className="py-5 px-6 text-green-600 font-medium">Zero Wait Time</td>
+                    </tr>
+                    <tr className="hover:bg-surface-container-high/50 transition-colors opacity-70">
+                      <td className="py-5 px-6 font-semibold flex items-center gap-2"><span className="text-2xl">🇺🇸</span> USA / UK</td>
+                      <td className="py-5 px-6 font-medium text-error line-through">$25,000 - $45,000+</td>
+                      <td className="py-5 px-6">JCI / Local</td>
+                      <td className="py-5 px-6 text-error">3-6 Months</td>
+                    </tr>
+                  </>
+                )}
               </tbody>
             </table>
             <div className="p-4 bg-surface-container-high/30 text-xs text-on-surface-variant text-center">
@@ -399,18 +504,26 @@ export default async function TreatmentDetailsPage(props: Props) {
                    <span className="material-symbols-outlined">local_hospital</span> Top Hospitals for {name}
                 </h3>
                 <div className="space-y-4">
-                  {[1, 2, 3].map((num) => (
-                    <div key={num} className="flex gap-4 p-4 border border-outline-variant/20 rounded-xl hover:border-primary/40 transition-colors bg-surface">
+                  {featuredHospitals.length > 0 ? featuredHospitals.map((h, idx) => {
+                    let accreditations = h.accreditations;
+                    if (typeof accreditations === 'string') {
+                      try { accreditations = JSON.parse(accreditations); } catch(e){}
+                    }
+                    const accString = Array.isArray(accreditations) ? accreditations.join(' • ') : 'JCI Accredited';
+                    return (
+                    <div key={idx} className="flex gap-4 p-4 border border-outline-variant/20 rounded-xl hover:border-primary/40 transition-colors bg-surface">
                        <div className="w-20 h-20 bg-surface-container rounded-lg overflow-hidden shrink-0">
-                         <img src={`https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=200&q=80`} alt="Hospital" className="w-full h-full object-cover" />
+                         <img src={h.image_url || `https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=200&q=80`} alt={h.name} className="w-full h-full object-cover" />
                        </div>
                        <div>
-                         <h4 className="font-bold text-on-surface">Apollo Excellence Center</h4>
-                         <p className="text-xs text-on-surface-variant mb-2">New Delhi, India • JCI Accredited</p>
-                         <Link href={`/${locale}/hospitals`} className="text-sm text-secondary font-bold hover:underline">View Hospital Profile</Link>
+                         <h4 className="font-bold text-on-surface">{h.name}</h4>
+                         <p className="text-xs text-on-surface-variant mb-2">{h.city}, {h.country} • {accString}</p>
+                         <Link href={`/${locale}/hospitals/${h.slug}`} className="text-sm text-secondary font-bold hover:underline">View Hospital Profile</Link>
                        </div>
                     </div>
-                  ))}
+                  )}) : (
+                    <p className="text-sm text-on-surface-variant p-4 border border-outline-variant/20 rounded-xl">No specific hospitals listed for this specialty yet.</p>
+                  )}
                 </div>
              </div>
 
@@ -420,23 +533,52 @@ export default async function TreatmentDetailsPage(props: Props) {
                    <span className="material-symbols-outlined">stethoscope</span> Leading Specialists
                 </h3>
                 <div className="space-y-4">
-                  {[1, 2, 3].map((num) => (
-                    <div key={num} className="flex gap-4 p-4 border border-outline-variant/20 rounded-xl hover:border-primary/40 transition-colors bg-surface">
+                  {treatment.featured_doctors && treatment.featured_doctors.length > 0 ? treatment.featured_doctors.map((doc, idx) => (
+                    <div key={idx} className="flex gap-4 p-4 border border-outline-variant/20 rounded-xl hover:border-primary/40 transition-colors bg-surface">
                        <div className="w-20 h-20 bg-surface-container rounded-full overflow-hidden shrink-0">
-                         <img src={`https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=200&q=80`} alt="Doctor" className="w-full h-full object-cover" />
+                         <img src={doc.image || `https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=200&q=80`} alt={doc.name} className="w-full h-full object-cover" />
                        </div>
                        <div className="flex-1 flex flex-col justify-center">
-                         <h4 className="font-bold text-on-surface">Dr. Sarah Johnson</h4>
-                         <p className="text-xs text-on-surface-variant mb-2">Senior Consultant, {name} • 20+ Years Exp.</p>
-                         <span className="text-xs font-semibold bg-primary/10 text-primary w-fit px-2 py-1 rounded">English, French</span>
+                         <h4 className="font-bold text-on-surface">{doc.name}</h4>
+                         <p className="text-xs text-on-surface-variant mb-2">{doc.specialty} • {doc.experience}</p>
+                         {doc.languages && doc.languages.length > 0 && (
+                           <span className="text-xs font-semibold bg-primary/10 text-primary w-fit px-2 py-1 rounded">{doc.languages.join(', ')}</span>
+                         )}
                        </div>
                     </div>
-                  ))}
+                  )) : (
+                    <p className="text-sm text-on-surface-variant p-4 border border-outline-variant/20 rounded-xl">No specific specialists listed yet.</p>
+                  )}
                 </div>
              </div>
            </div>
         </div>
       </section>
+
+      {/* Frequently Asked Questions */}
+      {faqsToRender.length > 0 && (
+        <section className="py-16 md:py-24 bg-surface">
+          <div className="max-w-screen-md mx-auto px-4 md:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-on-surface mb-4">Frequently Asked Questions</h2>
+              <p className="text-on-surface-variant">Common questions about {name} treatments in India.</p>
+            </div>
+            <div className="space-y-4">
+              {faqsToRender.map((faq, idx) => (
+                <details key={idx} className="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
+                  <summary className="flex items-center justify-between p-6 cursor-pointer font-bold text-lg select-none">
+                    {faq.question}
+                    <span className="material-symbols-outlined transition-transform duration-300 group-open:-rotate-180 text-primary">expand_more</span>
+                  </summary>
+                  <div className="px-6 pb-6 text-on-surface-variant leading-relaxed border-t border-outline-variant/10 pt-4">
+                    {faq.answer}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Patient Testimonials - African Market Focus */}
       <section className="py-16 md:py-24 bg-primary text-white">
