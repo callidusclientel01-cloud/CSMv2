@@ -88,7 +88,7 @@ export default function HospitalProfilePage() {
               </div>
             </div>
             <h1 className="text-5xl lg:text-7xl font-extrabold text-on-surface tracking-tight mb-4 leading-[1.1]">
-              {getLocalizedField(hospital, 'name', locale)}, <br/><span className="text-primary">{hospital.short_location || "Medical Center"}</span>
+              {getLocalizedField(hospital, 'name', locale)} <br/><span className="text-primary">{hospital.short_location || "Medical Center"}</span>
             </h1>
             <div className="flex items-center gap-2 text-on-surface-variant mb-8 text-lg">
               <span className="material-symbols-outlined text-primary">location_on</span>
