@@ -134,8 +134,8 @@ export default function AdminDestinations() {
                       <div className="text-sm font-medium text-slate-900">{destination.tagline}</div>
                     </td>
                     <td className="p-4">
-                      <div className="text-sm text-slate-600 max-w-xs truncate" title={destination.description?.replace(/<[^>]*>?/gm, '')}>
-                        {destination.description?.replace(/<[^>]*>?/gm, '') || ''}
+                      <div className="text-sm text-slate-600 max-w-xs truncate" title={destination.description?.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"')}>
+                        {destination.description?.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"') || ''}
                       </div>
                     </td>
                     <td className="p-4">
