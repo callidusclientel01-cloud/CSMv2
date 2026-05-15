@@ -281,9 +281,11 @@ function DestinationsContent() {
                     <div className="p-6 flex-1 flex flex-col">
                       <h5 className="text-2xl font-bold mb-2 text-on-surface">{dest.country_name}</h5>
                       <div 
-                        className="text-on-surface-variant text-sm mb-4 line-clamp-3 h-[60px] [&>p]:inline"
-                        dangerouslySetInnerHTML={{ __html: dest.description || "" }}
-                      />
+                        className="text-on-surface-variant text-sm mb-4 line-clamp-3 h-[60px]"
+                        title={dest.description?.replace(/<[^>]*>?/gm, '')}
+                      >
+                        {dest.description?.replace(/<[^>]*>?/gm, '') || ""}
+                      </div>
                       
                       {/* Specialists tags if any */}
                       {dest.key_specialists && dest.key_specialists.length > 0 && (
