@@ -53,7 +53,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm">
+    <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
       {/* Top Utility Bar */}
       <div className="bg-primary px-4 md:px-8 border-b border-primary-container">
         <div className="max-w-screen-2xl mx-auto h-10 flex justify-between items-center text-xs font-semibold text-white/90">
@@ -139,10 +139,10 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <img src="/logo.png" alt="CureSureMedico Logo" className="h-8 md:h-10 object-contain" />
-          <div className="text-xl md:text-2xl font-bold tracking-tighter text-blue-800 dark:text-blue-300 hidden sm:block">
-            <span className="text-blue-800 dark:text-blue-400">Cure</span>
-            <span className="text-emerald-600 dark:text-emerald-400">Sure</span>
-            <span className="text-blue-800 dark:text-blue-400">Medico</span>
+          <div className="text-xl md:text-2xl font-bold tracking-tighter text-blue-800 hidden sm:block">
+            <span className="text-blue-800">Cure</span>
+            <span className="text-emerald-600">Sure</span>
+            <span className="text-blue-800">Medico</span>
           </div>
         </Link>
 
@@ -200,16 +200,16 @@ export default function Navbar() {
             </button>
 
             {isProfileOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-outline-variant/20 py-2 z-50 transform opacity-100 scale-100 transition-all origin-top-right">
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-outline-variant/20 py-2 z-50 transform opacity-100 scale-100 transition-all origin-top-right">
                 {user ? (
                   <>
                     <Link 
                       href="/dashboard" 
                       onClick={() => setIsProfileOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest transition-colors"
                     >
                       <span className="material-symbols-outlined text-[18px]">dashboard</span> 
-                      <span className="font-medium">Tableau de bord</span>
+                      <span className="font-medium">{t("dashboard")}</span>
                     </Link>
                     <button 
                       onClick={async () => {
@@ -217,10 +217,10 @@ export default function Navbar() {
                         await supabase.auth.signOut();
                         setIsProfileOpen(false);
                       }}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-left w-full text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-left w-full text-on-surface hover:bg-surface-container-lowest transition-colors"
                     >
                       <span className="material-symbols-outlined text-[18px]">logout</span> 
-                      <span className="font-medium">Déconnexion</span>
+                      <span className="font-medium">{t("logout")}</span>
                     </button>
                   </>
                 ) : (
@@ -228,18 +228,18 @@ export default function Navbar() {
                     <Link 
                       href="/login" 
                       onClick={() => setIsProfileOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest transition-colors"
                     >
                       <span className="material-symbols-outlined text-[18px]">login</span> 
-                      <span className="font-medium">Se connecter</span>
+                      <span className="font-medium">{t("login")}</span>
                     </Link>
                     <Link 
                       href="/login" 
                       onClick={() => setIsProfileOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest dark:hover:bg-slate-700 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface hover:bg-surface-container-lowest transition-colors"
                     >
                       <span className="material-symbols-outlined text-[18px]">person_add</span> 
-                      <span className="font-medium">Créer compte</span>
+                      <span className="font-medium">{t("register")}</span>
                     </Link>
                   </>
                 )}
@@ -259,7 +259,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-[120px] left-0 w-full min-h-screen bg-white dark:bg-slate-900 border-t border-outline-variant/20 flex flex-col p-6 flex-1 shadow-2xl">
+        <div className="lg:hidden absolute top-[120px] left-0 w-full min-h-screen bg-white border-t border-outline-variant/20 flex flex-col p-6 flex-1 shadow-2xl">
           <div className="flex flex-col space-y-2">
             {links.map((link) => {
               const isActive = pathname === link.href || (pathname.startsWith(link.href) && link.href !== '/');
@@ -281,7 +281,7 @@ export default function Navbar() {
           </div>
           
           <div className="mt-8 pt-8 border-t border-outline-variant/20">
-            <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">Besoin d&apos;assistance ?</p>
+            <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">{t("needAssistance")}</p>
             <a href="tel:+919148297106" className="flex items-center gap-3 p-4 bg-secondary-container text-on-secondary-container rounded-xl font-bold">
               <span className="material-symbols-outlined">call</span>
               +91 91482 97106

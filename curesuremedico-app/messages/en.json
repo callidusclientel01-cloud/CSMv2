@@ -9,7 +9,12 @@
     "blog": "Blog",
     "about": "About Us",
     "quote": "Get a Quote",
-    "contact": "Talk to Medical Expert"
+    "contact": "Talk to Medical Expert",
+    "dashboard": "Dashboard",
+    "logout": "Log Out",
+    "login": "Log In",
+    "register": "Create Account",
+    "needAssistance": "Need Assistance?"
   },
   "Home": {
     "hero": {

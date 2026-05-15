@@ -134,7 +134,9 @@ export default function AdminDestinations() {
                       <div className="text-sm font-medium text-slate-900">{destination.tagline}</div>
                     </td>
                     <td className="p-4">
-                      <div className="text-sm text-slate-600 max-w-xs truncate">{destination.description}</div>
+                      <div className="text-sm text-slate-600 max-w-xs truncate" title={destination.description?.replace(/<[^>]*>?/gm, '')}>
+                        {destination.description?.replace(/<[^>]*>?/gm, '') || ''}
+                      </div>
                     </td>
                     <td className="p-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
