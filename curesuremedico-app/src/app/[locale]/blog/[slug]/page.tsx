@@ -175,7 +175,7 @@ export default function BlogArticlePage() {
           )}
 
           {post.content ? (
-            <div className="prose prose-lg max-w-none prose-headings:text-on-surface prose-p:text-on-surface-variant prose-a:text-primary" dangerouslySetInnerHTML={{ __html: post.content }} />
+            <div className="prose prose-lg max-w-none prose-headings:text-on-surface prose-p:text-on-surface-variant prose-a:text-primary" dangerouslySetInnerHTML={{ __html: post.content.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ') }} />
           ) : (
             <>
               <p className="text-xl font-medium text-primary mb-8 leading-relaxed">
