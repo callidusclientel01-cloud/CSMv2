@@ -108,18 +108,18 @@ export default function BlogArticlePage() {
     <main className="pt-24 pb-20 bg-surface text-on-surface">
       {/* Article Header */}
       <div className="max-w-screen-xl mx-auto px-6">
-        <div className="relative rounded-2xl overflow-hidden mb-12 h-[500px] group">
+        <div className="relative rounded-2xl overflow-hidden mb-12 min-h-[500px] flex flex-col justify-end group">
           <img 
             alt={post.title} 
-            className="w-full h-full object-cover" 
+            className="absolute inset-0 w-full h-full object-cover" 
             src={post.image_url || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000"} 
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-          <div className="absolute bottom-0 left-0 p-10 text-white w-full">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          <div className="relative z-10 p-8 md:p-10 text-white w-full pt-32">
             <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-sm font-bold tracking-wide mb-4">
               {post.category || "General"}
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tighter mb-6 max-w-4xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-6 max-w-4xl leading-tight">
               {post.title}
             </h1>
             <div className="flex items-center gap-4">
@@ -175,7 +175,7 @@ export default function BlogArticlePage() {
           )}
 
           {post.content ? (
-            <div className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: post.content }} />
+            <div className="prose prose-lg max-w-none break-words prose-headings:text-on-surface prose-p:text-on-surface-variant prose-a:text-primary" dangerouslySetInnerHTML={{ __html: post.content }} />
           ) : (
             <>
               <p className="text-xl font-medium text-primary mb-8 leading-relaxed">
