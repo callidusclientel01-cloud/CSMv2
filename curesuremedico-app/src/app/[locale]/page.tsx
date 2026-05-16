@@ -172,7 +172,7 @@ function HomeContent() {
       }
 
       // 5. Treatments
-      let trtQuery = supabase.from('treatments').select('*').limit(4);
+      let trtQuery = supabase.from('treatments').select('*').limit(3);
       if (!showDrafts) trtQuery = trtQuery.eq('status', 'published');
       const { data: trts } = await trtQuery;
       if (trts && trts.length > 0) {
@@ -182,8 +182,7 @@ function HomeContent() {
         setTreatments([
           { id: 't1', name: 'Cardiology', icon_name: 'cardiology', short_description: 'Advanced heart surgeries and minimally invasive procedures.', starting_price: '$3,500' },
           { id: 't2', name: 'Orthopedics', icon_name: 'orthopedics', short_description: 'Joint replacements and spine surgeries using robotic precision.', starting_price: '$4,200' },
-          { id: 't3', name: 'Oncology', icon_name: 'oncology', short_description: 'Comprehensive cancer care with latest immunotherapy protocols.', starting_price: '$5,000' },
-          { id: 't4', name: 'Neurology', icon_name: 'neurology', short_description: 'Expert treatment for complex brain and spinal cord disorders.', starting_price: '$4,800' }
+          { id: 't3', name: 'Oncology', icon_name: 'oncology', short_description: 'Comprehensive cancer care with latest immunotherapy protocols.', starting_price: '$5,000' }
         ]);
       }
     }
