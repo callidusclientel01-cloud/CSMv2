@@ -289,23 +289,23 @@ export default async function TreatmentDetailsPage(props: Props) {
         <script key={`d-${i}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(d) }} />
       ))}
 
-      {/* Hero Section */}
-      <section className="relative min-h-[600px] md:min-h-[800px] flex items-center overflow-hidden pt-36 pb-16">
+      {/* Hero Section - Responsive */}
+      <section className="relative min-h-[400px] xs:min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center overflow-hidden pt-20 xs:pt-24 sm:pt-32 md:pt-36 pb-12 sm:pb-16">
         <div className="absolute inset-0 z-0">
           <img 
             className="w-full h-full object-cover object-center" 
             alt={treatment.name} 
-            src={treatment.hero_image_url || "https://lh3.googleusercontent.com/aida-public/AB6AXuCeea0EfBbDmganpqH8RHuVbEVZusOsGw9NN5St2B3x39fLu396UapPEs5FK25iuqJdnkZa5LyyBtzTtF8KSfSF8VRrlLao4g8IwvLXM7bRxucbpRZjwh7Amh0aK2WatMvjhbgTqutbAOQrc1ZAz3B46k42P5X1mxjsNF0Jn4km-LbHidY2_i-o9e4fb-IskGtFNQnWuOY0ywyizDicgAFQHj27DJfg4nxl2dwjgFyjf1ijkMeb4FYjIpn6zL_nGNAYRjgW2KU9qLQ"} 
+            src={treatment.hero_image_url || "https://lh3.googleusercontent.com/..."} 
           />
           <div className="absolute inset-0 bg-gradient-to-r from-surface via-surface/90 to-transparent"></div>
         </div>
-        <div className="relative z-10 max-w-screen-2xl mx-auto px-4 md:px-8 w-full">
-          <div className="max-w-4xl space-y-6 md:space-y-8">
+        <div className="relative z-10 max-w-screen-2xl mx-auto px-4 xs:px-6 sm:px-8 w-full">
+          <div className="max-w-3xl space-y-4 xs:space-y-6 sm:space-y-8">
             {/* Back link */}
-            <div className="mb-4 md:mb-8">
-              <Link href={`/${locale}/treatments`} className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-on-surface font-bold hover:bg-white/30 transition-colors shadow-sm border border-outline-variant/20">
+            <div className="mb-4 xs:mb-6 sm:mb-8">
+              <Link href={`/${locale}/treatments`} className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 xs:px-4 py-2 rounded-full text-on-surface font-bold text-xs xs:text-sm hover:bg-white/30 transition-colors shadow-sm border border-outline-variant/20">
                 <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-                Back to treatments
+                <span className="hidden xs:inline">Back to treatments</span>
               </Link>
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-fixed text-on-primary-fixed rounded-full text-xs md:text-sm font-semibold tracking-wide uppercase">
@@ -396,14 +396,14 @@ export default async function TreatmentDetailsPage(props: Props) {
       </section>
 
       {/* Cost Estimation Table (SEO Focused) */}
-      <section className="py-16 md:py-24 bg-surface-container-low">
-        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tighter text-on-surface mb-4">Cost Comparison: {name} in India vs Global</h2>
-            <p className="text-on-surface-variant max-w-2xl mx-auto">See why thousands of patients travel from Africa and the West to receive premium medical care at a fraction of the cost.</p>
+      <section className="py-12 xs:py-16 sm:py-24 bg-surface-container-low">
+        <div className="max-w-screen-xl mx-auto px-4 xs:px-6 sm:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl xs:text-3xl sm:text-4xl font-bold tracking-tighter text-on-surface mb-3 xs:mb-4">Cost Comparison: {name} in India vs Global</h2>
+            <p className="text-xs xs:text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto">See why thousands of patients travel from Africa and the West to receive premium medical care at a fraction of the cost.</p>
           </div>
           <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-outline-variant/20 overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[600px]">
+            <table className="w-full text-left border-collapse min-w-[500px] xs:min-w-[600px]">
               <thead>
                 <tr className="bg-primary text-on-primary">
                   <th className="py-5 px-6 font-bold border-b border-primary-container">Destination</th>

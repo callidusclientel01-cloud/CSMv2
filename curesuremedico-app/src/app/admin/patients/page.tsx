@@ -266,48 +266,52 @@ export default function AdminPatients() {
 
       {/* Manage 360 Modal */}
       {selectedPatient && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-10 bg-slate-900/60 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-h-[90vh] sm:max-h-[85vh] max-w-5xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-end xs:items-center justify-center p-2 xs:p-4 sm:p-6 md:p-10 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white rounded-t-3xl xs:rounded-2xl shadow-2xl w-full max-h-[95vh] xs:max-h-[90vh] sm:max-h-[85vh] max-w-5xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             
-            {/* Modal Header - Responsive */}
-            <div className="bg-slate-900 text-white px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-start sm:items-center shrink-0 gap-4">
-              <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-lg shrink-0 uppercase">
+            {/* Modal Header */}
+            <div className="bg-slate-900 text-white px-4 xs:px-6 py-3 xs:py-4 flex justify-between items-start xs:items-center shrink-0 gap-3 xs:gap-4">
+              <div className="flex items-center gap-2 xs:gap-3 min-w-0 flex-1">
+                <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-lg shrink-0 uppercase">
                   {selectedPatient.full_name ? selectedPatient.full_name.charAt(0) : '?'}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-lg sm:text-xl font-bold truncate">{selectedPatient.full_name}</h2>
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center text-slate-300 text-xs sm:text-sm gap-2 sm:gap-3">
-                    <span className="flex items-center"><span className="material-symbols-outlined text-xs mr-1">mail</span> <span className="truncate">{selectedPatient.email}</span></span>
-                    <span className="flex items-center"><span className="material-symbols-outlined text-xs mr-1">phone</span> {selectedPatient.phone || 'N/A'}</span>
+                  <h2 className="text-base xs:text-lg sm:text-xl font-bold truncate">{selectedPatient.full_name}</h2>
+                  <div className="flex flex-col xs:flex-row items-start xs:items-center text-slate-300 text-[10px] xs:text-xs sm:text-sm gap-1 xs:gap-2 sm:gap-3">
+                    <span className="flex items-center truncate"><span className="material-symbols-outlined text-xs mr-1">mail</span> <span className="truncate">{selectedPatient.email}</span></span>
+                    <span className="flex items-center flex-shrink-0"><span className="material-symbols-outlined text-xs mr-1">phone</span> {selectedPatient.phone || 'N/A'}</span>
                   </div>
                 </div>
               </div>
-              <button onClick={() => setSelectedPatient(null)} className="p-2 text-slate-300 hover:bg-slate-800 rounded-full transition-colors shrink-0">
+              <button onClick={() => setSelectedPatient(null)} className="p-2 text-slate-300 hover:bg-slate-800 rounded-full transition-colors shrink-0 focus:outline-none focus:ring-2 focus:ring-slate-400">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
-            {/* Navigation Tabs - Scrollable on mobile */}
-            <div className="flex border-b border-slate-200 bg-slate-50 px-2 sm:px-6 shrink-0 overflow-x-auto hide-scrollbar">
-              {(['overview', 'enquiries', 'records', 'shared'] as TabType[]).map(tab => (
-                <button 
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-3 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-1 sm:gap-2 ${activeTab === tab ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
-                >
-                  <span className="material-symbols-outlined text-base">
-                    {tab === 'overview' ? 'dashboard' : tab === 'enquiries' ? 'forum' : tab === 'records' ? 'radiology' : 'folder_shared'}
-                  </span>
-                  <span className="hidden sm:inline">{tab.charAt(0).toUpperCase() + tab.slice(1)}</span>
-                  {tab === 'enquiries' && enquiries.length > 0 && <span className="bg-slate-200 text-slate-700 text-[10px] px-1.5 py-0.5 rounded-full">{enquiries.length}</span>}
-                  {tab === 'records' && medicalRecords.length > 0 && <span className="bg-slate-200 text-slate-700 text-[10px] px-1.5 py-0.5 rounded-full">{medicalRecords.length}</span>}
-                </button>
-              ))}
+            {/* Navigation Tabs */}
+            <div className="flex border-b border-slate-200 bg-slate-50 px-2 xs:px-6 shrink-0 overflow-x-auto scrollbar-hide">
+              <button onClick={() => setActiveTab('overview')} className={`px-2 xs:px-4 py-3 text-xs xs:text-sm font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-1 xs:gap-2 ${activeTab === 'overview' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-700'}`}>
+                <span className="material-symbols-outlined text-base">dashboard</span>
+                <span className="hidden xs:inline">Overview</span>
+              </button>
+              <button onClick={() => setActiveTab('enquiries')} className={`px-2 xs:px-4 py-3 text-xs xs:text-sm font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-1 xs:gap-2 ${activeTab === 'enquiries' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-700'}`}>
+                <span className="material-symbols-outlined text-base">forum</span>
+                <span className="hidden xs:inline">Enquiries</span>
+                {enquiries.length > 0 && <span className="bg-slate-200 text-slate-700 text-[10px] px-1.5 py-0.5 rounded-full">{enquiries.length}</span>}
+              </button>
+              <button onClick={() => setActiveTab('records')} className={`px-2 xs:px-4 py-3 text-xs xs:text-sm font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-1 xs:gap-2 ${activeTab === 'records' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-700'}`}>
+                <span className="material-symbols-outlined text-base">radiology</span>
+                <span className="hidden xs:inline">Medical Records</span>
+                {medicalRecords.length > 0 && <span className="bg-slate-200 text-slate-700 text-[10px] px-1.5 py-0.5 rounded-full">{medicalRecords.length}</span>}
+              </button>
+              <button onClick={() => setActiveTab('shared')} className={`px-2 xs:px-4 py-3 text-xs xs:text-sm font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-1 xs:gap-2 ${activeTab === 'shared' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-700'}`}>
+                <span className="material-symbols-outlined text-base">folder_shared</span>
+                <span className="hidden xs:inline">Shared Files</span>
+              </button>
             </div>
             
-            {/* Tab Content - Scrollable */}
-            <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-white">
+            {/* Tab Content */}
+            <div className="p-4 xs:p-6 overflow-y-auto flex-1 bg-white">
               
               {/* TAB 1: OVERVIEW */}
               {activeTab === 'overview' && (

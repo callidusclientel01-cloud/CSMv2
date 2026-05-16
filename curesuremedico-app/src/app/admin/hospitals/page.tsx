@@ -84,13 +84,13 @@ export default function AdminHospitals() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-8 gap-4">
+    <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Hospitals</h1>
-          <p className="text-slate-600 text-sm">Manage your partner hospitals and clinics.</p>
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-slate-900 mb-1">Hospitals</h1>
+          <p className="text-xs xs:text-sm sm:text-base text-slate-600">Manage your partner hospitals and clinics.</p>
         </div>
-        <div className="flex flex-wrap gap-2 sm:gap-4">
+        <div className="flex flex-wrap gap-2 xs:gap-3 sm:gap-4">
           <input 
             type="file" 
             accept=".csv" 
@@ -98,42 +98,42 @@ export default function AdminHospitals() {
             onChange={handleImportCSV} 
             className="hidden" 
           />
-          <button onClick={handleDownloadCSV} className="bg-white text-slate-700 px-6 py-3 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-colors flex items-center shadow-sm">
-            <span className="material-symbols-outlined mr-2">download</span>
-            Export CSV
+          <button onClick={handleDownloadCSV} className="flex-1 xs:flex-none bg-white text-slate-700 px-3 xs:px-4 sm:px-6 py-2.5 xs:py-3 sm:py-3 rounded-xl font-semibold text-xs xs:text-sm border border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center xs:justify-start gap-2 shadow-sm">
+            <span className="material-symbols-outlined text-base">download</span>
+            <span className="hidden xs:inline">Export CSV</span>
           </button>
-          <button onClick={() => fileInputRef.current?.click()} className="bg-white text-slate-700 px-6 py-3 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-colors flex items-center shadow-sm">
-            <span className="material-symbols-outlined mr-2">upload_file</span>
-            Import CSV
+          <button onClick={() => fileInputRef.current?.click()} className="flex-1 xs:flex-none bg-white text-slate-700 px-3 xs:px-4 sm:px-6 py-2.5 xs:py-3 sm:py-3 rounded-xl font-semibold text-xs xs:text-sm border border-slate-200 hover:bg-slate-50 transition-colors flex items-center justify-center xs:justify-start gap-2 shadow-sm">
+            <span className="material-symbols-outlined text-base">upload_file</span>
+            <span className="hidden xs:inline">Import CSV</span>
           </button>
-          <Link href="/admin/hospitals/new" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center shadow-sm">
-            <span className="material-symbols-outlined mr-2">add</span>
-            Add Hospital
+          <Link href="/admin/hospitals/new" className="flex-1 xs:flex-none bg-blue-600 hover:bg-blue-700 text-white px-3 xs:px-4 sm:px-6 py-2.5 xs:py-3 sm:py-3 rounded-xl font-semibold text-xs xs:text-sm transition-colors flex items-center justify-center xs:justify-start gap-2 shadow-sm">
+            <span className="material-symbols-outlined text-base">add</span>
+            <span className="hidden xs:inline">Add Hospital</span>
           </Link>
         </div>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-slate-500">Loading hospitals...</div>
+          <div className="p-6 sm:p-8 text-center text-slate-500 text-sm xs:text-base">Loading hospitals...</div>
         ) : (
-          <div className="overflow-x-auto -mx-4 sm:mx-0">
-            <table className="w-full text-left border-collapse min-w-[600px]">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 text-xs sm:text-sm font-semibold uppercase tracking-wider">
-                  <th className="p-3 sm:p-4">Hospital Name</th>
-                  <th className="p-3 sm:p-4">Location</th>
-                  <th className="p-3 sm:p-4">Rating</th>
-                  <th className="p-3 sm:p-4 whitespace-nowrap">Status</th>
-                  <th className="p-3 sm:p-4 text-right">Actions</th>
+                  <th className="p-3 xs:p-4 sm:p-4">Hospital Name</th>
+                  <th className="p-3 xs:p-4 sm:p-4">Location</th>
+                  <th className="p-3 xs:p-4 sm:p-4">Rating</th>
+                  <th className="p-3 xs:p-4 sm:p-4 whitespace-nowrap">Status</th>
+                  <th className="p-3 xs:p-4 sm:p-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {hospitals.map((hospital) => (
                   <tr key={hospital.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3 sm:p-4">
-                      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg overflow-hidden bg-slate-200 shrink-0">
+                    <td className="p-3 xs:p-4 sm:p-4">
+                      <div className="flex items-center gap-2 xs:gap-3 min-w-0">
+                        <div className="w-8 h-8 xs:w-10 xs:h-10 rounded-lg overflow-hidden bg-slate-200 shrink-0">
                           {hospital.image_url ? (
                             <img src={hospital.image_url} alt={hospital.name} className="w-full h-full object-cover" />
                           ) : (
@@ -141,23 +141,23 @@ export default function AdminHospitals() {
                           )}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="font-bold text-slate-900 text-sm truncate">{hospital.name}</div>
+                          <div className="font-semibold text-slate-900 text-xs xs:text-sm truncate">{hospital.name}</div>
                           <div className="text-xs text-slate-500 truncate">{Array.isArray(hospital.accreditations) ? hospital.accreditations.join(', ') : (hospital.accreditations || '')}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="p-3 sm:p-4">
-                      <div className="text-xs sm:text-sm font-medium text-slate-900 truncate">{hospital.city}</div>
+                    <td className="p-3 xs:p-4 sm:p-4">
+                      <div className="text-xs xs:text-sm font-medium text-slate-900 truncate">{hospital.city}</div>
                       <div className="text-xs text-slate-500 truncate">{hospital.country}</div>
                     </td>
-                    <td className="p-3 sm:p-4">
-                      <div className="flex items-center text-amber-500 text-xs sm:text-sm font-bold whitespace-nowrap">
-                        <span className="material-symbols-outlined text-xs sm:text-sm mr-1">star</span>
-                        {hospital.rating} <span className="text-slate-400 text-[10px] sm:text-xs ml-1 font-normal">({hospital.reviews_count})</span>
+                    <td className="p-3 xs:p-4 sm:p-4">
+                      <div className="flex items-center text-amber-500 text-xs xs:text-sm font-bold whitespace-nowrap">
+                        <span className="material-symbols-outlined text-xs">star</span>
+                        {hospital.rating} <span className="text-slate-400 text-[10px] xs:text-xs ml-0.5 font-normal">({hospital.reviews_count})</span>
                       </div>
                     </td>
-                    <td className="p-3 sm:p-4">
-                      <span className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium capitalize whitespace-nowrap ${
+                    <td className="p-3 xs:p-4 sm:p-4">
+                      <span className={`inline-flex items-center px-2 xs:px-2.5 py-0.5 rounded-full text-[10px] xs:text-xs font-medium capitalize whitespace-nowrap ${
                         hospital.status === 'published' ? 'bg-green-100 text-green-800' : 
                         hospital.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
                         'bg-slate-100 text-slate-800'
@@ -165,13 +165,13 @@ export default function AdminHospitals() {
                         {hospital.status || 'draft'}
                       </span>
                     </td>
-                    <td className="p-3 sm:p-4 text-right">
-                      <div className="flex justify-end gap-1 sm:gap-2 flex-wrap">
-                        <Link href={`/admin/hospitals/${hospital.id}`} className="p-1.5 sm:p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                          <span className="material-symbols-outlined text-lg sm:text-xl">edit</span>
+                    <td className="p-3 xs:p-4 sm:p-4 text-right">
+                      <div className="flex justify-end gap-1 xs:gap-2 flex-wrap">
+                        <Link href={`/admin/hospitals/${hospital.id}`} className="inline-flex items-center justify-center w-9 h-9 xs:w-10 xs:h-10 p-1.5 xs:p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300">
+                          <span className="material-symbols-outlined text-base xs:text-lg">edit</span>
                         </Link>
-                        <button onClick={() => handleDelete(hospital.id)} className="p-1.5 sm:p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
-                          <span className="material-symbols-outlined text-lg sm:text-xl">delete</span>
+                        <button onClick={() => handleDelete(hospital.id)} className="inline-flex items-center justify-center w-9 h-9 xs:w-10 xs:h-10 p-1.5 xs:p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-rose-300">
+                          <span className="material-symbols-outlined text-base xs:text-lg">delete</span>
                         </button>
                       </div>
                     </td>

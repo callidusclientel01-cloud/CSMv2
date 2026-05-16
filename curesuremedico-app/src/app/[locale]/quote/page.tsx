@@ -122,48 +122,42 @@ export default function QuotePage() {
   };
 
   return (
-    <main className="min-h-screen pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6">
+    <main className="min-h-screen pt-20 xs:pt-24 sm:pt-32 pb-12 xs:pb-16 sm:pb-20 px-4 xs:px-6 sm:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Hero Section - Responsive */}
-        <header className="mb-8 sm:mb-12 text-center sm:text-left">
-          <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold mb-3 sm:mb-4">
+        {/* Hero Section */}
+        <header className="mb-8 xs:mb-10 sm:mb-12 text-center sm:text-left">
+          <span className="inline-block px-3 xs:px-4 py-1 xs:py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold mb-3 xs:mb-4">
             {t("personalizedCare")}
           </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-on-surface tracking-tighter mb-4 sm:mb-6 leading-tight">
-            {t("heroTitle1")} <br className="hidden sm:block" /> {t("heroTitle2")} <span className="text-primary">{t("heroTitleHighlight")}</span>.
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-on-surface tracking-tighter mb-4 xs:mb-6 leading-tight">
+            {t("heroTitle1")} <br className="hidden xs:block" /> {t("heroTitle2")} <span className="text-primary">{t("heroTitleHighlight")}</span>.
           </h1>
-          <p className="text-on-surface-variant max-w-2xl text-base sm:text-lg leading-relaxed mx-auto sm:mx-0">
+          <p className="text-on-surface-variant max-w-2xl text-xs xs:text-sm sm:text-base md:text-lg leading-relaxed mx-auto sm:mx-0">
             {t("heroSubtitle")}
           </p>
         </header>
 
-        {/* Main Grid - Responsive */}
+        {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
-          {/* Left Side Form */}
+          {/* Form */}
           <section className="lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden border border-outline-variant/10">
-            <div className={`p-6 sm:p-8 md:p-12 ${success ? 'opacity-0' : 'opacity-100'} transition-opacity`}>
-              {error && (
-                <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6 text-xs sm:text-sm font-medium border border-red-200">
-                  {error}
-                </div>
-              )}
-              
-              <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-                {/* Section: Personal Info */}
-                <div className="space-y-4 sm:space-y-6">
-                  <h2 className="text-lg sm:text-xl font-bold flex items-center gap-2">
-                    <span className="material-symbols-outlined">person</span>
+            <div className={`p-6 xs:p-8 sm:p-10 md:p-12 ${success ? 'opacity-0' : 'opacity-100'} transition-opacity`}>
+              <form onSubmit={handleSubmit} className="space-y-6 xs:space-y-7 sm:space-y-8">
+                {/* Personal Info */}
+                <div className="space-y-4 xs:space-y-5 sm:space-y-6">
+                  <h2 className="text-base xs:text-lg sm:text-xl font-bold flex items-center gap-2">
+                    <span className="material-symbols-outlined text-lg xs:text-xl">person</span>
                     {t("personalInfo")}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xs:gap-5 sm:gap-6">
                     <div className="space-y-2">
-                      <label className="text-xs sm:text-sm font-medium text-on-surface-variant px-1">Full Name *</label>
+                      <label className="text-xs xs:text-sm font-medium text-on-surface-variant px-1">Full Name *</label>
                       <input 
                         required
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 py-2.5 sm:py-3 px-3 sm:px-4 transition-all text-sm" 
+                        className="w-full bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/40 py-2.5 xs:py-3 px-3 xs:px-4 transition-all text-sm" 
                         placeholder="e.g. John Doe" 
                         type="text" 
                       />
@@ -299,23 +293,23 @@ export default function QuotePage() {
                   </div>
                 </div>
 
-                {/* Action Buttons - Responsive */}
-                <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                {/* Action Buttons */}
+                <div className="pt-4 flex flex-col xs:flex-row gap-3 xs:gap-4">
                   <button 
                     disabled={isSubmitting}
-                    className={`flex-1 sm:flex-none bg-primary text-on-primary text-base sm:text-lg font-bold px-6 sm:px-12 py-3 sm:py-4 rounded-full transition-all flex items-center justify-center gap-3 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-xl active:scale-95'}`} 
+                    className={`w-full xs:w-auto bg-primary text-on-primary text-sm xs:text-base font-bold px-8 xs:px-12 py-3 xs:py-4 rounded-full transition-all flex items-center justify-center gap-3 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-xl active:scale-95'}`} 
                     type="submit"
                   >
                     {isSubmitting ? 'Sending...' : t("getTreatmentPlan")}
-                    {!isSubmitting && <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>}
+                    {!isSubmitting && <span className="material-symbols-outlined">arrow_forward</span>}
                   </button>
                 </div>
               </form>
             </div>
           </section>
 
-          {/* Right Sidebar - Responsive */}
-          <aside className="lg:col-span-4 space-y-6 sm:space-y-8">
+          {/* Sidebar */}
+          <aside className="lg:col-span-4 space-y-6 xs:space-y-7 sm:space-y-8">
             {/* ...existing code... */}
           </aside>
         </div>

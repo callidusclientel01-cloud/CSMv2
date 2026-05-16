@@ -157,65 +157,65 @@ export default function MedicalRecordsPage() {
       </header>
 
       {/* Bento Grid - Folder System */}
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+      <section className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 xs:gap-4 mb-10 xs:mb-12 sm:mb-16">
         {/* Folder Card: Reports */}
         <div 
           onClick={() => setActiveCategory(activeCategory === 'Laboratory Reports' ? 'All' : 'Laboratory Reports')}
-          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Laboratory Reports' ? 'border-primary ring-2 ring-primary/20' : 'border-outline-variant/10'}`}
+          className={`bg-surface-container-lowest p-4 xs:p-5 sm:p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Laboratory Reports' ? 'border-primary ring-2 ring-primary/20' : 'border-outline-variant/10'}`}
         >
-          <div className="flex justify-between items-start mb-4">
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Laboratory Reports' ? 'bg-primary text-white' : 'bg-blue-50 text-primary'}`}>
-              <span className="material-symbols-outlined text-3xl">description</span>
+          <div className="flex justify-between items-start mb-3 xs:mb-4">
+            <div className={`w-10 h-10 xs:w-12 xs:h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Laboratory Reports' ? 'bg-primary text-white' : 'bg-blue-50 text-primary'}`}>
+              <span className="material-symbols-outlined text-2xl xs:text-3xl">description</span>
             </div>
-            <span className="text-xs font-bold bg-blue-100 text-blue-700 px-2 py-1 rounded">Lab</span>
+            <span className="text-[10px] xs:text-xs font-bold px-2 py-1 rounded bg-blue-100 text-blue-700">Lab</span>
           </div>
-          <h3 className="font-bold text-lg mb-1">Laboratory Reports</h3>
-          <p className="text-xs text-on-surface-variant">Blood work, biopsies, urinalysis</p>
+          <h3 className="font-bold text-xs xs:text-sm sm:text-base mb-0.5 xs:mb-1">Laboratory Reports</h3>
+          <p className="text-[10px] xs:text-xs text-on-surface-variant">View & organize</p>
         </div>
         
         {/* Folder Card: Prescriptions */}
         <div 
           onClick={() => setActiveCategory(activeCategory === 'Prescriptions' ? 'All' : 'Prescriptions')}
-          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Prescriptions' ? 'border-secondary ring-2 ring-secondary/20 border-l-4' : 'border-outline-variant/10 border-l-4 border-l-secondary'}`}
+          className={`bg-surface-container-lowest p-4 xs:p-5 sm:p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Prescriptions' ? 'border-secondary ring-2 ring-secondary/20 border-l-4' : 'border-outline-variant/10 border-l-4 border-l-secondary'}`}
         >
-          <div className="flex justify-between items-start mb-4">
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Prescriptions' ? 'bg-secondary text-white' : 'bg-green-50 text-secondary'}`}>
-              <span className="material-symbols-outlined text-3xl">prescriptions</span>
+          <div className="flex justify-between items-start mb-3 xs:mb-4">
+            <div className={`w-10 h-10 xs:w-12 xs:h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Prescriptions' ? 'bg-secondary text-white' : 'bg-green-50 text-secondary'}`}>
+              <span className="material-symbols-outlined text-2xl xs:text-3xl">prescriptions</span>
             </div>
-            <span className="text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded">Meds</span>
+            <span className="text-[10px] xs:text-xs font-bold px-2 py-1 rounded bg-green-100 text-green-700">Meds</span>
           </div>
-          <h3 className="font-bold text-lg mb-1">Prescriptions</h3>
-          <p className="text-xs text-on-surface-variant">Medication history, dosage guides</p>
+          <h3 className="font-bold text-xs xs:text-sm sm:text-base mb-0.5 xs:mb-1">Prescriptions</h3>
+          <p className="text-[10px] xs:text-xs text-on-surface-variant">View & organize</p>
         </div>
 
         {/* Folder Card: Imaging */}
         <div 
           onClick={() => setActiveCategory(activeCategory === 'Diagnostic Imaging' ? 'All' : 'Diagnostic Imaging')}
-          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Diagnostic Imaging' ? 'border-purple-600 ring-2 ring-purple-600/20' : 'border-outline-variant/10'}`}
+          className={`bg-surface-container-lowest p-4 xs:p-5 sm:p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Diagnostic Imaging' ? 'border-purple-600 ring-2 ring-purple-600/20' : 'border-outline-variant/10'}`}
         >
-          <div className="flex justify-between items-start mb-4">
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Diagnostic Imaging' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-600'}`}>
-              <span className="material-symbols-outlined text-3xl">radiology</span>
+          <div className="flex justify-between items-start mb-3 xs:mb-4">
+            <div className={`w-10 h-10 xs:w-12 xs:h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Diagnostic Imaging' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-600'}`}>
+              <span className="material-symbols-outlined text-2xl xs:text-3xl">radiology</span>
             </div>
-            <span className="text-xs font-bold bg-purple-100 text-purple-700 px-2 py-1 rounded">Scans</span>
+            <span className="text-[10px] xs:text-xs font-bold px-2 py-1 rounded bg-purple-100 text-purple-700">Scans</span>
           </div>
-          <h3 className="font-bold text-lg mb-1">Diagnostic Imaging</h3>
-          <p className="text-xs text-on-surface-variant">MRI, CT Scans, X-Rays, Ultrasound</p>
+          <h3 className="font-bold text-xs xs:text-sm sm:text-base mb-0.5 xs:mb-1">Diagnostic Imaging</h3>
+          <p className="text-[10px] xs:text-xs text-on-surface-variant">View & organize</p>
         </div>
 
         {/* Folder Card: Visa Docs */}
         <div 
           onClick={() => setActiveCategory(activeCategory === 'Visa Documents' ? 'All' : 'Visa Documents')}
-          className={`bg-surface-container-lowest p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Visa Documents' ? 'border-orange-600 ring-2 ring-orange-600/20' : 'border-outline-variant/10'}`}
+          className={`bg-surface-container-lowest p-4 xs:p-5 sm:p-6 rounded-xl border shadow-sm hover:shadow-md transition-all group cursor-pointer ${activeCategory === 'Visa Documents' ? 'border-orange-600 ring-2 ring-orange-600/20' : 'border-outline-variant/10'}`}
         >
-          <div className="flex justify-between items-start mb-4">
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Visa Documents' ? 'bg-orange-600 text-white' : 'bg-orange-50 text-orange-600'}`}>
-              <span className="material-symbols-outlined text-3xl">id_card</span>
+          <div className="flex justify-between items-start mb-3 xs:mb-4">
+            <div className={`w-10 h-10 xs:w-12 xs:h-12 rounded-lg flex items-center justify-center transition-colors ${activeCategory === 'Visa Documents' ? 'bg-orange-600 text-white' : 'bg-orange-50 text-orange-600'}`}>
+              <span className="material-symbols-outlined text-2xl xs:text-3xl">id_card</span>
             </div>
-            <span className="text-xs font-bold bg-orange-100 text-orange-700 px-2 py-1 rounded">Travel</span>
+            <span className="text-[10px] xs:text-xs font-bold px-2 py-1 rounded bg-orange-100 text-orange-700">Travel</span>
           </div>
-          <h3 className="font-bold text-lg mb-1">Visa Documents</h3>
-          <p className="text-xs text-on-surface-variant">Medical certificates, travel clearances</p>
+          <h3 className="font-bold text-xs xs:text-sm sm:text-base mb-0.5 xs:mb-1">Visa Documents</h3>
+          <p className="text-[10px] xs:text-xs text-on-surface-variant">View & organize</p>
         </div>
       </section>
 
@@ -234,7 +234,7 @@ export default function MedicalRecordsPage() {
 
       {/* List View Table */}
       <div className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10 overflow-x-auto">
-        <table className="w-full text-left border-collapse min-w-[600px]">
+        <table className="w-full text-left border-collapse min-w-[500px] xs:min-w-[600px]">
           <thead>
             <tr className="bg-surface-container-low border-b border-outline-variant/20">
               <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">File Name</th>
