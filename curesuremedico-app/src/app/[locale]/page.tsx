@@ -253,7 +253,7 @@ function HomeContent() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-36 pb-20 overflow-hidden bg-surface">
+      <section className="relative pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-20 overflow-hidden bg-surface">
         {/* Beautiful Background Image Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -266,29 +266,28 @@ function HomeContent() {
           <div className="absolute inset-0 bg-primary/5 mix-blend-multiply"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 md:gap-12 items-center relative z-10">
           <div className="lg:col-span-7 z-10">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest mb-6">{t('hero.badge')}</span>
-            <h1 className="font-headline text-5xl md:text-6xl font-extrabold text-primary leading-[1.1] tracking-tight mb-8">
+            <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">
+              {t('hero.badge')}
+            </span>
+            <h1 className="font-headline text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary leading-[1.1] tracking-tight mb-6 sm:mb-8">
               {t('hero.title1')} <span className="text-secondary">{t('hero.title2')}</span>
             </h1>
-            <p className="text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-on-surface-variant mb-8 sm:mb-10 md:mb-12 max-w-xl leading-relaxed">
               {t('hero.subtitle')}
             </p>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-12 z-10 relative">
-              <button onClick={() => router.push('/quote')} className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-2xl font-bold shadow-lg flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
-                {t('hero.btnPlan')} <span className="material-symbols-outlined text-base">arrow_forward</span>
-              </button>
-              <button onClick={() => window.open('https://wa.me/919148297106', '_blank')} className="w-full sm:w-auto px-8 py-4 bg-surface-container-low text-primary rounded-2xl font-bold hover:bg-surface-container-high transition-colors flex justify-center items-center">
-                {t('hero.btnExpert')}
+            <div className="flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4 mb-12 z-10 relative">
+              <button onClick={() => router.push('/quote')} className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary to-primary-container text-white rounded-2xl font-bold shadow-lg flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
+                {t('hero.btnPlan')} <span className="material-symbols-outlined text-base sm:text-lg">arrow_forward</span>
               </button>
             </div>
           </div>
+
           <div className="lg:col-span-5 relative">
-            <div className="absolute -top-12 -right-12 w-64 h-64 bg-secondary-container/30 rounded-full blur-3xl"></div>
-            <div className="relative bg-surface-container-lowest p-6 md:p-8 rounded-2xl shadow-xl border border-outline-variant/10">
-              <h3 className="text-xl font-bold text-primary mb-6">{t('form.title')}</h3>
-              <form onSubmit={handleLeadSubmit} className="space-y-4">
+            <div className="bg-surface-container-lowest p-6 sm:p-8 rounded-2xl shadow-xl border border-outline-variant/10">
+              <h3 className="text-lg sm:text-xl font-bold text-primary mb-6">{t('form.title')}</h3>
+              <form onSubmit={handleLeadSubmit} className="space-y-4 sm:space-y-5">
                 {submitSuccess && (
                   <div className="bg-green-100 text-green-800 p-3 rounded-xl text-sm font-medium">
                     {t('form.successMsg')}
@@ -345,26 +344,25 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* Global Search & Filter Bar */}
-      <section className="bg-surface py-8 md:py-12 -mt-10 relative z-20 px-4 md:px-8">
-        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full overflow-hidden shadow-lg border border-outline-variant/10 p-4 shrink-0 2xl:p-3 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-2">
-          <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto border-b md:border-b-0 md:border-r border-outline-variant/20 pb-4 md:pb-0">
+      {/* Global Search Bar */}
+      <section className="bg-surface py-6 sm:py-8 md:py-10 -mt-8 sm:-mt-10 relative z-20 px-4 sm:px-6 md:px-8">
+        <div className="max-w-screen-xl mx-auto bg-surface-container-lowest rounded-3xl md:rounded-full overflow-hidden shadow-lg border border-outline-variant/10 p-4 flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-2">
+          <div className="flex-1 flex items-center px-4 md:px-6 border-b md:border-b-0 md:border-r border-outline-variant/20 pb-3 md:pb-0">
             <span className="material-symbols-outlined text-primary mr-3">stethoscope</span>
             <input 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0 py-1" 
+              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium px-0 py-1 text-sm sm:text-base" 
               placeholder={t('search.placeholder')} 
               type="text" 
             />
           </div>
-          <div className="flex-1 flex items-center px-4 md:px-6 w-full md:w-auto pb-2 md:pb-0">
+          <div className="flex-1 flex items-center px-4 md:px-6">
             <span className="material-symbols-outlined text-tertiary mr-3">public</span>
             <select 
               value={selectedDest}
               onChange={(e) => setSelectedDest(e.target.value)}
-              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer px-0 py-1"
+              className="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium cursor-pointer text-sm sm:text-base"
             >
               <option value="">{t('search.filterDest')}</option>
               <option value="India">India</option>
@@ -372,64 +370,59 @@ function HomeContent() {
               <option value="Turkey">Turkey</option>
             </select>
           </div>
-          <button onClick={handleSearch} className="bg-secondary text-on-secondary px-8 py-3.5 rounded-2xl md:rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer flex-shrink-0">
+          <button onClick={handleSearch} className="bg-secondary text-on-secondary px-6 sm:px-8 py-3 rounded-2xl md:rounded-full font-bold hover:opacity-90 transition-all w-full md:w-auto cursor-pointer flex-shrink-0 text-sm sm:text-base">
             {t('search.btnFind')}
           </button>
         </div>
       </section>
 
-      {/* Your Journey to Recovery Section */}
-      <section className="py-16 md:py-24 bg-surface px-4 md:px-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -ml-20 -mt-20 blur-3xl z-0"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-secondary font-bold uppercase text-xs tracking-widest">{t('howItWorks.badge')}</span>
-            <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">{t('howItWorks.title')}</h2>
-            <p className="text-on-surface-variant max-w-xl mx-auto mt-4 text-lg">
+      {/* How It Works */}
+      <section className="py-16 sm:py-20 md:py-24 bg-surface px-4 sm:px-6 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-headline font-extrabold text-primary mt-2">
+              {t('howItWorks.title')}
+            </h2>
+            <p className="text-on-surface-variant max-w-xl mx-auto mt-4 text-base sm:text-lg">
               {t('howItWorks.subtitle')}
             </p>
           </div>
 
-          <div className="relative">
-            {/* Horizontal connecting line (hidden on mobile) */}
-            <div className="hidden md:block absolute top-[50px] left-0 w-full h-1 bg-outline-variant/20 rounded-full z-0"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {/* Step 1 */}
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
+                <span className="material-symbols-outlined text-3xl sm:text-4xl">assignment</span>
+              </div>
+              <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step1Title')}</h3>
+              <p className="text-sm text-on-surface-variant">{t('howItWorks.step1Desc')}</p>
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
-              {/* Step 1 */}
-              <div className="flex flex-col items-center text-center group">
-                <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
-                  <span className="material-symbols-outlined text-4xl">assignment</span>
-                </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step1Title')}</h3>
-                <p className="text-sm text-on-surface-variant">{t('howItWorks.step1Desc')}</p>
+            {/* Step 2 */}
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
+                <span className="material-symbols-outlined text-3xl sm:text-4xl">travel_explore</span>
               </div>
-              
-              {/* Step 2 */}
-              <div className="flex flex-col items-center text-center group">
-                <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
-                  <span className="material-symbols-outlined text-4xl">travel_explore</span>
-                </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step2Title')}</h3>
-                <p className="text-sm text-on-surface-variant">{t('howItWorks.step2Desc')}</p>
-              </div>
+              <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step2Title')}</h3>
+              <p className="text-sm text-on-surface-variant">{t('howItWorks.step2Desc')}</p>
+            </div>
 
-              {/* Step 3 */}
-              <div className="flex flex-col items-center text-center group">
-                <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
-                  <span className="material-symbols-outlined text-4xl">health_and_safety</span>
-                </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step3Title')}</h3>
-                <p className="text-sm text-on-surface-variant">{t('howItWorks.step3Desc')}</p>
+            {/* Step 3 */}
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
+                <span className="material-symbols-outlined text-3xl sm:text-4xl">health_and_safety</span>
               </div>
+              <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step3Title')}</h3>
+              <p className="text-sm text-on-surface-variant">{t('howItWorks.step3Desc')}</p>
+            </div>
 
-              {/* Step 4 */}
-              <div className="flex flex-col items-center text-center group">
-                <div className="w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
-                  <span className="material-symbols-outlined text-4xl">volunteer_activism</span>
-                </div>
-                <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step4Title')}</h3>
-                <p className="text-sm text-on-surface-variant">{t('howItWorks.step4Desc')}</p>
+            {/* Step 4 */}
+            <div className="flex flex-col items-center text-center group">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-surface-container-lowest border border-outline-variant/20 shadow-md flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
+                <span className="material-symbols-outlined text-3xl sm:text-4xl">volunteer_activism</span>
               </div>
+              <h3 className="font-bold border-b-2 border-transparent group-hover:border-primary pb-1 transition-all mb-2">{t('howItWorks.step4Title')}</h3>
+              <p className="text-sm text-on-surface-variant">{t('howItWorks.step4Desc')}</p>
             </div>
           </div>
         </div>
@@ -482,7 +475,7 @@ function HomeContent() {
       <span className="text-secondary font-bold uppercase text-xs tracking-widest">{t('treatments.badge')}</span>
       <h2 className="text-4xl font-headline font-extrabold text-primary mt-2">{t('treatments.title')}</h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${treatments.length === 1 ? 'lg:grid-cols-1' : treatments.length === 2 ? 'lg:grid-cols-2' : treatments.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
       {treatments.map((trt, idx) => (
         <div key={trt.id || idx} className="bg-surface-container-lowest p-8 rounded-2xl no-line-card shadow-sm cursor-pointer hover:border-primary border border-transparent transition-all" onClick={() => router.push(`/treatments/${trt.slug || trt.id}`)}>
           <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center text-on-secondary-container mb-6">
@@ -674,11 +667,9 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center pt-36 pb-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    }>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+    </div>}>
       <HomeContent />
     </Suspense>
   );
